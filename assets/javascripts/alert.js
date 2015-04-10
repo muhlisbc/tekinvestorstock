@@ -42,6 +42,12 @@
     });
   } 
 
+  function addStockToUsersFavoriteStocks() {
+    Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=ork.ol", {
+      type: "GET",
+    });
+  } 
+
   function stockTimer(){
 
   if(!$('div.not-logged-in-avatar').length > 0) { loggedIn = true; } else { loggedIn = false;  }
@@ -151,6 +157,8 @@
         getUserAveragePrice(); // put avg price in input field
         getValues();
         getUsersFavoriteStocks();
+        addStockToUsersFavoriteStocks();
+
         last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
         //last_trade_price_only = stock.ask.toString().replace(".",",");
         //console.log(stock);

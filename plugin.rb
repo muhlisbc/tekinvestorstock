@@ -68,12 +68,19 @@ after_initialize do
 
       def add_stock_to_users_favorite_stocks
         increment_stocks_favorite_count(params[:ticker])
-        #current_user.custom_fields["favorite_stocks"] = ['funcom.ol', 'nas.ol'] #TODO
+        stocks_array = current_user.custom_fields["favorite_stocks"]
+
+        if !stocks_array.nil?
+          stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
+        else  
+          stocks_array = [params[:ticker]]
+        end
+
+        current_user.custom_fields["favorite_stocks"] = stocks_array
         current_user.save
       end
 
       def get_users_favorite_stocks
-        current_user.custom_fields["favorite_stocks"] = ['funcom.ol', 'nas.ol'] #TODO
         render json: current_user.custom_fields["favorite_stocks"]
       end
 
@@ -171,6 +178,7 @@ after_initialize do
     get '/set_user_stock' => 'stock#set_user_stock'
 
     get '/get_users_favorite_stocks' => 'stock#get_users_favorite_stocks'
+    get '/add_stock_to_users_favorite_stocks' => 'stock#add_stock_to_users_favorite_stocks'
 
     get '/user_average_price' => 'stock#get_user_average_price'
     get '/set_user_average_price' => 'stock#set_user_average_price'
