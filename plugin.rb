@@ -5,7 +5,6 @@
 
 register_asset "javascripts/alert.js"
 register_asset "javascripts/numberanimate.js"
-register_asset "javascripts/discourse/templates/modal/login.js.handlebars"
 
 load File.expand_path("../stock.rb", __FILE__)
 
