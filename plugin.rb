@@ -68,11 +68,12 @@ after_initialize do
 
       def add_stock_to_users_favorite_stocks
         increment_stocks_favorite_count(params[:ticker])
-        current_user.custom_fields["favorite_stocks"] = ['funcom.ol', 'nas.ol'] #TODO
+        #current_user.custom_fields["favorite_stocks"] = ['funcom.ol', 'nas.ol'] #TODO
         current_user.save
       end
 
       def get_users_favorite_stocks
+        current_user.custom_fields["favorite_stocks"] = ['funcom.ol', 'nas.ol'] #TODO
         render json: current_user.custom_fields["favorite_stocks"]
       end
 
