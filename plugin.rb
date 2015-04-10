@@ -28,7 +28,7 @@ after_initialize do
       # update stock price
       def stock_data
 
-        stock_last_updated = ::PluginStore.get("stock_funcom", 'stock_last_updated')
+        stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol" , Time.now.to_i)
         
         # if no data, update now
         if stock_last_updated.nil? || stock_last_updated == ''
@@ -46,7 +46,7 @@ after_initialize do
 
         # return stock object
     	  @stock_data = []
-        @stock_data = @stock_data << get_stock_data('stock_funcom', 'stock_data')
+        @stock_data = @stock_data << get_stock_data('stock_data_last_values', 'funcom.ol')
 
         render json: @stock_data
         return
@@ -55,9 +55,9 @@ after_initialize do
 
       def set_stock_data()
         stock = StockQuote::Stock.quote("funcom.ol").to_json
-        
-        ::PluginStore.set("stock_funcom", 'stock_data', stock)
-        ::PluginStore.set("stock_funcom", 'stock_last_updated', Time.now.to_i)
+      
+        ::PluginStore.set("stock_data_last_values", "funcom.ol", stock)
+        ::PluginStore.set("stock_data_last_values_last_updated", "funcom.ol" , Time.now.to_i)
 
       end
 
