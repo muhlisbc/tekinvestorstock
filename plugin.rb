@@ -29,7 +29,7 @@ after_initialize do
         
         if !params[:ticker].nil?
 
-          stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol")
+          stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", params[:ticker])
           
           # if no data, update now
           if stock_last_updated.nil? || stock_last_updated == ''
@@ -49,8 +49,10 @@ after_initialize do
           @stock_data = @stock_data << get_stock_data(params[:ticker])
 
           render json: @stock_data
-          return
+          
         end
+
+        return
 
       end
 
