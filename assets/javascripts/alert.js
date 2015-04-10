@@ -33,7 +33,14 @@
   }, 60000);
 
 
-
+  function getUsersFavoriteStocks() {
+    Discourse.ajax("/stock/get_users_favorite_stocks", {
+      type: "GET",
+    }).then(function(data) {
+      console.log('users fav stocks: ');
+      console.log(data);
+    });
+  } 
 
   function stockTimer(){
 
@@ -143,6 +150,7 @@
         getUserStock(); // put # of stocks in input field
         getUserAveragePrice(); // put avg price in input field
         getValues();
+        getUsersFavoriteStocks();
         last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
         //last_trade_price_only = stock.ask.toString().replace(".",",");
         //console.log(stock);
