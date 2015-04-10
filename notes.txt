@@ -1,0 +1,18 @@
+notes
+
+in stock.rb:
+
+- loop through all tagged stocks, find tickers
+- see if data for stock at yahoo
+- if so (or if changed since last check), save to field:
+
+::PluginStore.set("stock_data_last_value", "funcom.ol", params[:value])
+::PluginStore.set("stock_data_last_value_last_updated", "funcom.ol" , Time.now.to_i)
+
+::PluginStore.set("stock_data_historical", "funcom.ol", params[:value])
+::PluginStore.set("stock_data_historical_last_updated", "funcom.ol" , Time.now.to_i)
+
+
+
+todo:
+replace . with -- in ticker name

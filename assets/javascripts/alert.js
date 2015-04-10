@@ -1,10 +1,4 @@
 (function() {
-
-  setInterval(function(){
-    
-    $('.user-title:contains("Mesteren")').addClass('mesteren');
-
-  }, 3000);
   
   // start
   setTimeout(function(){
@@ -43,44 +37,9 @@
 
   function stockTimer(){
 
-    //alert($('.ember-view.title').text());
-    //$('.ember-view.title').text(@last_price);
+  if(!$('div.not-logged-in-avatar').length > 0) { loggedIn = true; } else { loggedIn = false;  }
 
-//alert();  
-  //var flickerAPI = "/stock/stock_data";
-  /*$.getJSON( flickerAPI, {
-  //  tags: "mount rainier",
-    //tagmode: "any",
-    format: "json"
-  })
-    .done(function( data ) {
-      //$.each( data.items, function( i, item ) {
-        
-        alert(data);
-        
-      })
-    .fail(function( jqxhr, textStatus, error ) {
-      var err = textStatus + ", " + error;
-      console.log( "Request Failed: " + err );
-    });
-    */
-    
-
-/*    Discourse.ajax("/stock/set_user_stock", {
-      type: "GET",
-      data: {value: 1236}
-    }).then(function(user_data) {
-      
-      //alert(user_data);
-
-    }.bind(this));
-  */  
-
-//  if(!$('div.not-logged-in-avatar').length) {    // if not logged in
-
-if(!$('div.not-logged-in-avatar').length > 0) { loggedIn = true; } else { loggedIn = false;  }
-
-    Discourse.ajax("/stock/stock_data", {
+    Discourse.ajax("/stock/stock_data?ticker=funcom.ol", {
       type: "GET",
       //data: {post_id: this.get('post.id'), option: option}
     }).then(function(stock_data) {

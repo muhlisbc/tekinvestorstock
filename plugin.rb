@@ -26,42 +26,51 @@ after_initialize do
 
       # update stock price
       def stock_data
-
-        stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol")
         
-        # if no data, update now
-        if stock_last_updated.nil? || stock_last_updated == ''
-          set_stock_data()  
-          stock_last_updated = Time.now.to_i
+        if !params[:ticker].nil?
+
+          stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol")
+          
+          # if no data, update now
+          if stock_last_updated.nil? || stock_last_updated == ''
+            set_stock_data()  
+            stock_last_updated = Time.now.to_i
+          end
+
+          # if data has not been updated in 1 minute, update
+          if Time.now.to_i - stock_last_updated > 60
+
+            set_stock_data()  
+
+          end
+
+          # return stock object
+      	  @stock_data = []
+          @stock_data = @stock_data << get_stock_data(params[:ticker])
+
+          render json: @stock_data
+          return
         end
-
-
-        # if data has not been updated in 1 minute, update
-        if Time.now.to_i - stock_last_updated > 60
-
-          set_stock_data()  
-
-        end
-
-        # return stock object
-    	  @stock_data = []
-        @stock_data = @stock_data << get_stock_data('stock_data_last_values', 'funcom.ol')
-
-        render json: @stock_data
-        return
 
       end
 
       def set_stock_data()
-        stock = StockQuote::Stock.quote("funcom.ol").to_json
-      
-        ::PluginStore.set("stock_data_last_values", "funcom.ol", stock)
-        ::PluginStore.set("stock_data_last_values_last_updated", "funcom.ol" , Time.now.to_i)
+
+        if !params[:ticker].nil? 
+
+          stock = StockQuote::Stock.quote(params[:ticker]).to_json
+        
+          ::PluginStore.set("stock_data_last_values", params[:ticker], stock)
+          ::PluginStore.set("stock_data_last_values_last_updated", params[:ticker], Time.now.to_i)
+
+        end
 
       end
 
-      def get_stock_data(stock, type)
-        ::PluginStore.get(stock, type)
+      def get_stock_data(ticker)
+        if !params[:ticker].nil? 
+          ::PluginStore.get('stock_data_last_values', params[:ticker])
+        end
       end
 
 
