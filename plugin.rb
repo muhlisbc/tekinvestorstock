@@ -27,7 +27,7 @@ after_initialize do
       # update stock price
       def stock_data
 
-        stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol" , Time.now.to_i)
+        stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", "funcom.ol")
         
         # if no data, update now
         if stock_last_updated.nil? || stock_last_updated == ''
