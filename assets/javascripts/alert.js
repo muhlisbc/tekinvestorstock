@@ -23,8 +23,9 @@
           console.log('users fav stocks: ');
           console.log(data);
           
-          console.log(data.length);
-          console.log(data[0].length);
+          console.log(data.stock.length);
+          console.log(data.stock);
+          //console.log(data[0].length);
 
           for (var i = data.length - 1; i >= 0; i--) {
             console.log(data[i].symbol);
