@@ -67,20 +67,22 @@ after_initialize do
       end
 
       def add_stock_to_users_favorite_stocks
-        increment_stocks_favorite_count(params[:ticker])
-        stocks_array = current_user.custom_fields["favorite_stocks"]
+        if !current_user.nil? 
+          increment_stocks_favorite_count(params[:ticker])
+          stocks_array = current_user.custom_fields["favorite_stocks"]
 
-        if !stocks_array.nil?
-          stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
-        else  
-          stocks_array = [params[:ticker]]
+          if !stocks_array.nil?
+            stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
+          else  
+            stocks_array = [params[:ticker]]
+          end
+
+          current_user.custom_fields["favorite_stocks"] = stocks_array
+          current_user.save
+          render json: { message: "OK" }
+        else
+          render json: { message: "not logged in" }
         end
-
-        current_user.custom_fields["favorite_stocks"] = stocks_array
-        current_user.save
-
-        render json: { message: "OK" }
-
       end
 
       def get_users_favorite_stocks

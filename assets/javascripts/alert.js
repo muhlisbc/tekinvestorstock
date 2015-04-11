@@ -50,7 +50,7 @@
 
   function stockTimer(){
 
-  if(!$('div.not-logged-in-avatar').length > 0) { loggedIn = true; } else { loggedIn = false;  }
+  if($('li.current-user').length > 0) { loggedIn = true; } else { loggedIn = false;  }
 
     Discourse.ajax("/stock/stock_data?ticker=funcom.ol", {
       type: "GET",
