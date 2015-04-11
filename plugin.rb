@@ -73,16 +73,16 @@ after_initialize do
           stocks_array = current_user.custom_fields["favorite_stocks"]
           
           if !stocks_array.nil?
-          #  stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
+            stocks_array = stocks_array.split(',')
+            stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
           else  
             stocks_array = [params[:ticker]]
           end
-          
-          render json: { message: stocks_array }
 
           current_user.custom_fields["favorite_stocks"] = stocks_array
           current_user.save
-          #render json: { message: "OK" }
+          render json: { message: stocks_array }
+          #render json: { message: "added OK" }
         else
           render json: { message: "not logged in" }
         end
