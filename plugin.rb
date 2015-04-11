@@ -155,7 +155,7 @@ after_initialize do
 
       def get_stock_data(ticker)
         if !params[:ticker].nil? 
-          ::PluginStore.get('stock_data_last_values', params[:ticker])
+          return ::PluginStore.get('stock_data_last_values', params[:ticker])
         end
       end
 
