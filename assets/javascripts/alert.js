@@ -77,176 +77,176 @@
         '<div id="stock_data"><div class="container"><span id="stock_data_inner"><span class="stock_last"><span class="label">Kurs:</span> <strong>' + 0 + '</strong></span> <span class="stock_change_percent">(<strong>' + 0 + '</strong>%)</span> <span class="stock_my_total_value"><span class="label">Min aksjeverdi:</span> <strong>' + 0 + '</strong></span> <span class="value_change_today"><span class="label">I dag:</span> <span class="sign">+</span><strong>' + 0 + '</strong></span></span> <span class="value_change"><span><span class="label">Gevinst/tap:</span></span> <span class="sign">+</span><strong>' + 0 + '</strong></span> <span class="value_change_percent">(<span class="sign">+</span><strong>' + 0 + '</strong>%)</span>' + form_html + '</div></div>' ;
 
         $('body').append(stock_html);
-        getUserStock(); // put # of stocks in input field
-        getUserAveragePrice(); // put avg price in input field
+      //   getUserStock(); // put # of stocks in input field
+      //   getUserAveragePrice(); // put avg price in input field
 
-        setTimeout(function(){
-          getValues();
+      //   setTimeout(function(){
+      //     getValues();
 
-          $('.stock_last strong').numberAnimate('init');
-          $('.stock_change_percent strong').numberAnimate('init');
-          $('.stock_my_total_value strong').numberAnimate('init');
-          $('.value_change strong').numberAnimate('init');
-          $('.value_change_percent strong').numberAnimate('init');
-          $('.value_change_today strong').numberAnimate('init');
+      //     $('.stock_last strong').numberAnimate('init');
+      //     $('.stock_change_percent strong').numberAnimate('init');
+      //     $('.stock_my_total_value strong').numberAnimate('init');
+      //     $('.value_change strong').numberAnimate('init');
+      //     $('.value_change_percent strong').numberAnimate('init');
+      //     $('.value_change_today strong').numberAnimate('init');
 
 
-          $('#num_stocks').on('input', function() {
+      //     $('#num_stocks').on('input', function() {
 
-              new_val = parseInt($(this).val());
-              if (new_val == "" || new_val == null) { new_val = 0; $(this).val(0); }
+      //         new_val = parseInt($(this).val());
+      //         if (new_val == "" || new_val == null) { new_val = 0; $(this).val(0); }
               
-              //$('#stock_data_inner').animate({opacity: 0.3}, 400);
+      //         //$('#stock_data_inner').animate({opacity: 0.3}, 400);
 
-              Discourse.ajax("/stock/set_user_stock", {
-                type: "GET",
-                data: {value: new_val}
-              }).then(function(user_data) {
+      //         Discourse.ajax("/stock/set_user_stock", {
+      //           type: "GET",
+      //           data: {value: new_val}
+      //         }).then(function(user_data) {
               
-              });
-              //stockTimer(); // refresh calcs
-          });
+      //         });
+      //         //stockTimer(); // refresh calcs
+      //     });
 
 
-          $('#average_price').on('input', function() {
+      //     $('#average_price').on('input', function() {
 
-              new_val = $(this).val();
-              if (new_val == "" || new_val == null) { new_val = 0; $(this).val(0); }
+      //         new_val = $(this).val();
+      //         if (new_val == "" || new_val == null) { new_val = 0; $(this).val(0); }
               
-              new_val = new_val.replace(",",'.');
+      //         new_val = new_val.replace(",",'.');
               
-              //$('#stock_data_inner').animate({opacity: 0.3}, 400);
+      //         //$('#stock_data_inner').animate({opacity: 0.3}, 400);
 
-              Discourse.ajax("/stock/set_user_average_price", {
-                type: "GET",
-                data: {value: new_val}
-              }).then(function(user_data) {
+      //         Discourse.ajax("/stock/set_user_average_price", {
+      //           type: "GET",
+      //           data: {value: new_val}
+      //         }).then(function(user_data) {
 
-              });
-              //stockTimer(); // refresh calcs
-          });
+      //         });
+      //         //stockTimer(); // refresh calcs
+      //     });
 
-          $('#stock_data a').on('click', function() {
+      //     $('#stock_data a').on('click', function() {
           
-            if(loggedIn){
+      //       if(loggedIn){
             
-              if( $('#stock_data a').text() != 'Lagre') {
+      //         if( $('#stock_data a').text() != 'Lagre') {
   
-                $('#stock_data a').text('Lagre');            
-                $('#my_stock').animate({opacity: 1}, 200);
-                //$('#my_stock input:first-child').focus();
+      //           $('#stock_data a').text('Lagre');            
+      //           $('#my_stock').animate({opacity: 1}, 200);
+      //           //$('#my_stock input:first-child').focus();
                   
-              } else { 
+      //         } else { 
   
-                $('#stock_data a').text('Rediger din portefølje');
-                $('#my_stock').animate({opacity: 0}, 0);
+      //           $('#stock_data a').text('Rediger din portefølje');
+      //           $('#my_stock').animate({opacity: 0}, 0);
   
-              }
+      //         }
             
-            } else { $('.btn-primary').trigger('click'); }
+      //       } else { $('.btn-primary').trigger('click'); }
 
-            return false;
+      //       return false;
             
             
-          });
+      //     });
 
 
 
-        },500);
-      }
+      //   },500);
+      // }
 
 
       setTimeout(function(){
       
-        getUserStock(); // put # of stocks in input field
-        getUserAveragePrice(); // put avg price in input field
-        getValues();
+        //getUserStock(); // put # of stocks in input field
+        //getUserAveragePrice(); // put avg price in input field
+        //getValues();
         getUsersFavoriteStocks();
         addStockToUsersFavoriteStocks();
 
-        last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
-        //last_trade_price_only = stock.ask.toString().replace(".",",");
-        //console.log(stock);
-        $('.stock_last strong').numberAnimate('set', last_trade_price_only);
+//         ////last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
+//         //last_trade_price_only = stock.ask.toString().replace(".",",");
+//         //console.log(stock);
+//         $('.stock_last strong').numberAnimate('set', last_trade_price_only);
         
-        percent_change = stock.percent_change.toString();
-        percent_change = percent_change.replace("%","");
-        percent_change = percent_change.replace(".",",");
+//         percent_change = stock.percent_change.toString();
+//         percent_change = percent_change.replace("%","");
+//         percent_change = percent_change.replace(".",",");
 
-//        console.log('animating');
-        $('.stock_change_percent strong').numberAnimate('set', percent_change);
+// //        console.log('animating');
+//         $('.stock_change_percent strong').numberAnimate('set', percent_change);
         
-        if(loggedIn){
+//         if(loggedIn){
           
-        if(stock_my_total_value != undefined) { $('.stock_my_total_value strong').numberAnimate('set', stock_my_total_value); }
-        if(value_change != undefined) { $('.value_change strong').numberAnimate('set', value_change.toFixed(0)); }
-        if(!isNaN(value_change_percent)) { $('.value_change_percent strong').numberAnimate('set', value_change_percent.toFixed(1)); }
+//         if(stock_my_total_value != undefined) { $('.stock_my_total_value strong').numberAnimate('set', stock_my_total_value); }
+//         if(value_change != undefined) { $('.value_change strong').numberAnimate('set', value_change.toFixed(0)); }
+//         if(!isNaN(value_change_percent)) { $('.value_change_percent strong').numberAnimate('set', value_change_percent.toFixed(1)); }
 
         
-        //stock.percent_change = '-90%';
+//         //stock.percent_change = '-90%';
         
-        // if negative:
+//         // if negative:
 
-        //percent_change = '-19.5%';
-        if(percent_change.indexOf("-")){
+//         //percent_change = '-19.5%';
+//         if(percent_change.indexOf("-")){
           
-          value_yesterday = stock_my_total_value * 100;
-          value_yesterday = value_yesterday / (100 - (stock.percent_change.replace("%","").replace("+","")) * -1);
-          console.log(value_yesterday);
-          console.log('diff:' + (stock_my_total_value - value_yesterday));
+//           value_yesterday = stock_my_total_value * 100;
+//           value_yesterday = value_yesterday / (100 - (stock.percent_change.replace("%","").replace("+","")) * -1);
+//           console.log(value_yesterday);
+//           console.log('diff:' + (stock_my_total_value - value_yesterday));
 
-          var value_change_today = stock_my_total_value - value_yesterday;
-          console.log(value_change_today);
+//           var value_change_today = stock_my_total_value - value_yesterday;
+//           console.log(value_change_today);
 
-        } else {
+//         } else {
           
-          value_yesterday = stock_my_total_value * 100;
-          value_yesterday = value_yesterday / (100 - (stock.percent_change.replace("%","").replace("+","")) * -1);
-          console.log(value_yesterday);
-          console.log('diff:' + (stock_my_total_value - value_yesterday));
+//           value_yesterday = stock_my_total_value * 100;
+//           value_yesterday = value_yesterday / (100 - (stock.percent_change.replace("%","").replace("+","")) * -1);
+//           console.log(value_yesterday);
+//           console.log('diff:' + (stock_my_total_value - value_yesterday));
 
-          var value_change_today = stock_my_total_value - value_yesterday;
-          console.log(value_change_today);
-      }
+//           var value_change_today = stock_my_total_value - value_yesterday;
+//           console.log(value_change_today);
+//       }
         
 
-        $('.value_change_today strong').numberAnimate('set', value_change_today.toFixed(0));
+//         $('.value_change_today strong').numberAnimate('set', value_change_today.toFixed(0));
 
-}
-        if(percent_change.indexOf("+") >= 0) {
-            $('.stock_change_percent').removeClass('red').addClass('green');
-        } else {
-            $('.stock_change_percent').removeClass('green').addClass('red');
-        }
+// }
+//         if(percent_change.indexOf("+") >= 0) {
+//             $('.stock_change_percent').removeClass('red').addClass('green');
+//         } else {
+//             $('.stock_change_percent').removeClass('green').addClass('red');
+//         }
 
-if(loggedIn){
+// if(loggedIn){
   
-        if(value_change > 0) {
-            $('.value_change .sign').html('+').addClass('green');
-            $('.value_change strong').removeClass('red').addClass('green');
-            $('.value_change_percent .sign').html('+').addClass('green');
-            $('.value_change_percent').removeClass('red').addClass('green');
-        }
-        if(value_change < 0) {
-            $('.value_change .sign').html('');
-            $('.value_change strong').removeClass('green').addClass('red');
-            $('.value_change_percent .sign').html('');
-            $('.value_change_percent').removeClass('green').addClass('red');
-        }
+//         if(value_change > 0) {
+//             $('.value_change .sign').html('+').addClass('green');
+//             $('.value_change strong').removeClass('red').addClass('green');
+//             $('.value_change_percent .sign').html('+').addClass('green');
+//             $('.value_change_percent').removeClass('red').addClass('green');
+//         }
+//         if(value_change < 0) {
+//             $('.value_change .sign').html('');
+//             $('.value_change strong').removeClass('green').addClass('red');
+//             $('.value_change_percent .sign').html('');
+//             $('.value_change_percent').removeClass('green').addClass('red');
+//         }
 
 
-        if(value_change_today > 0) {
-            $('.value_change_today .sign').html('+').removeClass('red').addClass('green');
-            $('.value_change_today strong').removeClass('red').addClass('green');
+//         if(value_change_today > 0) {
+//             $('.value_change_today .sign').html('+').removeClass('red').addClass('green');
+//             $('.value_change_today strong').removeClass('red').addClass('green');
             
-        }
-        if(value_change_today < 0) {
-            $('.value_change_today .sign').html('');
-            $('.value_change_today strong').removeClass('green').addClass('red');
+//         }
+//         if(value_change_today < 0) {
+//             $('.value_change_today .sign').html('');
+//             $('.value_change_today strong').removeClass('green').addClass('red');
             
-        }
+//         }
         
-      }
+//       }
       },600);
 
     }.bind(this));
