@@ -124,7 +124,7 @@ after_initialize do
           # if data has not been updated in 1 minute, update
           if Time.now.to_i - stock_last_updated > 60
 
-            set_stock_data()  
+            set_stock_data('funcom.ol')
 
           end
 
