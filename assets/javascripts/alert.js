@@ -22,12 +22,9 @@
         
           console.log('users fav stocks: ');
           console.log(data);
-        
-          stocks = getUsersFavoriteStocks();
-          console.log(stocks);
-
-          for (var i = stocks.length - 1; i >= 0; i--) {
-            console.log(stocks[i].symbol);
+      
+          for (var i = data.length - 1; i >= 0; i--) {
+            console.log(data[i].symbol);
           };
 
           form_html = "<a href=''>Rediger din portefølje</a><div id='my_stock'><span class='label'>Antall aksjer:</span> <input id='num_stocks' type='text' placeholder='1000' /><span class='label'>Snittpris:</span> <input id='average_price' type='text' placeholder='5,3' /> </div> ";
