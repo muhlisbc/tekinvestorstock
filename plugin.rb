@@ -90,7 +90,19 @@ after_initialize do
 
       def get_users_favorite_stocks
         if !current_user.nil? 
-          render json: current_user.custom_fields["favorite_stocks"]
+            
+          #loop through users favorite stocks
+          users_favorite_stocks = []
+
+          current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
+
+            # get stock data for each stock
+            stock_object = get_stock_data(ticker)
+            users_favorite_stocks = users_favorite_stocks.push(stock_object)
+
+          end
+          render json: users_favorite_stocks
+
         else 
           render json: { message: "not logged in" }
         end  
