@@ -78,6 +78,9 @@ after_initialize do
 
         current_user.custom_fields["favorite_stocks"] = stocks_array
         current_user.save
+
+        render json: { message: "OK" }
+
       end
 
       def get_users_favorite_stocks
