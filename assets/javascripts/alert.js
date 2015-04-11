@@ -2,6 +2,8 @@
   
   setTimeout(function(){
 
+      if($('li.current-user').length > 0) { loggedIn = true; } else { loggedIn = false;  }
+
       getUsersFavoriteStocks();
       addStockToUsersFavoriteStocks();
   
