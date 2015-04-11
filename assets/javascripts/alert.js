@@ -25,7 +25,8 @@
         '<div id="stock_data"><div class="container"><span id="stock_data_inner"><span class="stock_last"><span class="label">Kurs:</span> <strong>' + 0 + '</strong></span> <span class="stock_change_percent">(<strong>' + 0 + '</strong>%)</span> <span class="stock_my_total_value"><span class="label">Min aksjeverdi:</span> <strong>' + 0 + '</strong></span> <span class="value_change_today"><span class="label">I dag:</span> <span class="sign">+</span><strong>' + 0 + '</strong></span></span> <span class="value_change"><span><span class="label">Gevinst/tap:</span></span> <span class="sign">+</span><strong>' + 0 + '</strong></span> <span class="value_change_percent">(<span class="sign">+</span><strong>' + 0 + '</strong>%)</span>' + form_html + '</div></div>' ;
 
         $('body').append(stock_html);
-
+      }
+      
   }
 
   function getUsersFavoriteStocks() {
