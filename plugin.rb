@@ -156,22 +156,22 @@ after_initialize do
 
       end
 
-      def set_stock_data(ticker)
+      def set_stock_data (ticker)
 
-        if !params[:ticker].nil? 
+        if !ticker.nil? 
 
-          stock = StockQuote::Stock.quote(params[:ticker]).to_json
+          stock = StockQuote::Stock.quote(ticker).to_json
         
-          ::PluginStore.set("stock_data_last_values", params[:ticker], stock)
-          ::PluginStore.set("stock_data_last_values_last_updated", params[:ticker], Time.now.to_i)
+          ::PluginStore.set("stock_data_last_values", ticker, stock)
+          ::PluginStore.set("stock_data_last_values_last_updated", ticker, Time.now.to_i)
 
         end
 
       end
 
       def get_stock_data(ticker)
-        if !params[:ticker].nil? 
-          ::PluginStore.get('stock_data_last_values', params[:ticker])
+        if ticker.nil? 
+          ::PluginStore.get('stock_data_last_values', ticker)
         end
       end
 
