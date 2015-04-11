@@ -74,7 +74,7 @@ after_initialize do
           
           if !stocks_array.nil?
             stocks_array = stocks_array.split(',')
-            stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
+            stocks_array = stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
           else  
             stocks_array = [params[:ticker]]
           end
