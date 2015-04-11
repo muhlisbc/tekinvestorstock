@@ -117,7 +117,7 @@ after_initialize do
           
           # if no data, update now
           if stock_last_updated.nil? || stock_last_updated == ''
-            set_stock_data()  
+            set_stock_data('funcom.ol')  
             stock_last_updated = Time.now.to_i
           end
 
