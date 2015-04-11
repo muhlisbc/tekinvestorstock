@@ -79,9 +79,9 @@ after_initialize do
             stocks_array = [params[:ticker]]
           end
 
-          current_user.custom_fields["favorite_stocks"] = stocks_array
+          current_user.custom_fields["favorite_stocks"] = stocks_array.join(",")
           current_user.save
-          render json: { message: stocks_array }
+          render json: { message: stocks_array.join(",") }
           #render json: { message: "added OK" }
         else
           render json: { message: "not logged in" }
