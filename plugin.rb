@@ -84,7 +84,11 @@ after_initialize do
       end
 
       def get_users_favorite_stocks
-        render json: current_user.custom_fields["favorite_stocks"]
+        if !current_user.nil? 
+          render json: current_user.custom_fields["favorite_stocks"]
+        else 
+          render json: { message: "not logged in" }
+        end  
       end
 
       # update stock price
