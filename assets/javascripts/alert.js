@@ -5,6 +5,7 @@
       if($('li.current-user').length > 0) { loggedIn = true; } else { loggedIn = false;  }
 
       addStockToUsersFavoriteStocks();
+      displayUsersFavoriteStocks();
   
   }, 2000);
 
@@ -26,7 +27,7 @@
 
         $('body').append(stock_html);
       }
-      
+
   }
 
   function getUsersFavoriteStocks() {
