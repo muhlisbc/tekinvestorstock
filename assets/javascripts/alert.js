@@ -34,18 +34,22 @@
 
 
   function getUsersFavoriteStocks() {
-    Discourse.ajax("/stock/get_users_favorite_stocks", {
-      type: "GET",
-    }).then(function(data) {
-      console.log('users fav stocks: ');
-      console.log(data);
-    });
+    if(loggedIn){
+      Discourse.ajax("/stock/get_users_favorite_stocks", {
+        type: "GET",
+      }).then(function(data) {
+        console.log('users fav stocks: ');
+        console.log(data);
+      });
+    }
   } 
 
   function addStockToUsersFavoriteStocks() {
-    Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=ork.ol", {
-      type: "GET",
-    });
+    if(loggedIn){
+        Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=funcom.ol", {
+        type: "GET",
+      });
+    }
   } 
 
   function stockTimer(){
@@ -153,6 +157,7 @@
 
 
       setTimeout(function(){
+      
         getUserStock(); // put # of stocks in input field
         getUserAveragePrice(); // put avg price in input field
         getValues();
@@ -328,23 +333,4 @@ function addThousandsSeparator(input) {
 }
 
 
-  /*Discourse.AlertButton = Discourse.ButtonView.extend({
-    text: 'alert',
-    title: 'display the topic title in an alert',
-
-    click: function() {
-      alert(this.get("controller.content.title"));
-    },
-
-    renderIcon: function(buffer) {
-      buffer.push("<i class='icon icon-warning-sign'></i>");
-    }
-  });
-
-  Discourse.TopicFooterButtonsView.reopen({
-    addAlertButton: function() {
-      this.attachViewClass(Discourse.AlertButton);
-    }.on("additionalButtons")
-  });
-*/
 })();
