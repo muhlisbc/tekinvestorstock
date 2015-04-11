@@ -69,11 +69,11 @@ after_initialize do
       def add_stock_to_users_favorite_stocks
         if !current_user.nil? 
           increment_stocks_favorite_count(params[:ticker])
-          render json: { message: stocks_array }
-          stocks_array = current_user.custom_fields["favorite_stocks"]
 
+          stocks_array = current_user.custom_fields["favorite_stocks"]
+          render json: { message: stocks_array }
           if !stocks_array.nil?
-            stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
+          #  stocks_array.push(params[:ticker]) unless stocks_array.include?(params[:ticker])
           else  
             stocks_array = [params[:ticker]]
           end
