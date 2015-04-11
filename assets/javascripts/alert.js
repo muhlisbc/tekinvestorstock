@@ -19,13 +19,15 @@
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
-        
+          
+          data = JSON.parse(data);
           console.log('users fav stocks: ');
           console.log(data.stock);
 
           //console.log(data[0].length);
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
+            
             console.log(data.stock[i].symbol);
           };
 
