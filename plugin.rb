@@ -111,7 +111,9 @@ after_initialize do
 
             end
             
-            @stock_data = @stock_data << ticker
+            @stock = ::PluginStore.get("stock_data_last_values", ticker)
+            @stock = @stock.to_s
+            @stock_data = @stock_data << @stock
 
           end
           
