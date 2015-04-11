@@ -90,20 +90,32 @@ after_initialize do
 
       def get_users_favorite_stocks
         if !current_user.nil? 
-            
+          
           #loop through users favorite stocks
-          users_favorite_stocks = []
+          @stock_data = []
 
           current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
-            # get stock data for each stock
-            #users_favorite_stocks = users_favorite_stocks << get_stock_data('funcom.ol')
+            stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
+            
+            # if no data, update now
+            if stock_last_updated.nil? || stock_last_updated == ''
+              set_stock_data(ticker)  
+              stock_last_updated = Time.now.to_i
+            end
+
+            # if data has not been updated in 1 minute, update
+            if Time.now.to_i - stock_last_updated > 60
+
+              set_stock_data(ticker)
+
+            end
+            
+            @stock_data = @stock_data << get_stock_data(ticker)
 
           end
-          set_stock_data('funcom.ol')
-          @stock = get_stock_data('funcom.ol')
-          logger.debug "stock: #{@stock.inspect}"
-          render json: @stock.to_s
+          
+          render json: @stock_data
 
         else 
           render json: { message: "not logged in" }
