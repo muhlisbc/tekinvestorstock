@@ -97,7 +97,7 @@ after_initialize do
           current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
             # get stock data for each stock
-            users_favorite_stocks = @users_favorite_stocks << get_stock_data(ticker)
+            users_favorite_stocks = users_favorite_stocks << get_stock_data(ticker)
 
           end
           render json: users_favorite_stocks
