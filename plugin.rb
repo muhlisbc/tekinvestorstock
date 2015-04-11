@@ -100,8 +100,10 @@ after_initialize do
             #users_favorite_stocks = users_favorite_stocks << get_stock_data('funcom.ol')
 
           end
-          set_stock_data('funcom.ol')  
-          render json: get_stock_data('funcom.ol')
+          set_stock_data('funcom.ol')
+          @stock = get_stock_data('funcom.ol')
+          logger.debug "stock: #{@stock.inspect}"
+          render json: @stock.to_s
 
         else 
           render json: { message: "not logged in" }
