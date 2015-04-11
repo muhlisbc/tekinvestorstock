@@ -100,6 +100,7 @@ after_initialize do
             #users_favorite_stocks = users_favorite_stocks << get_stock_data('funcom.ol')
 
           end
+          set_stock_data('funcom.ol')  
           render json: get_stock_data('funcom.ol')
 
         else 
@@ -139,7 +140,7 @@ after_initialize do
 
       end
 
-      def set_stock_data()
+      def set_stock_data(ticker)
 
         if !params[:ticker].nil? 
 
