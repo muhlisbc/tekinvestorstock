@@ -111,7 +111,7 @@ after_initialize do
 
             end
             
-            @stock_data = @stock_data << get_stock_data(ticker)
+            @stock_data = @stock_data << ticker
 
           end
           
