@@ -97,8 +97,7 @@ after_initialize do
           current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
             # get stock data for each stock
-            stock_object = get_stock_data(ticker)
-            users_favorite_stocks = users_favorite_stocks.push(stock_object)
+            users_favorite_stocks = @users_favorite_stocks << get_stock_data(ticker)
 
           end
           render json: users_favorite_stocks
@@ -155,7 +154,7 @@ after_initialize do
 
       def get_stock_data(ticker)
         if !params[:ticker].nil? 
-          return ::PluginStore.get('stock_data_last_values', params[:ticker])
+          ::PluginStore.get('stock_data_last_values', params[:ticker])
         end
       end
 
