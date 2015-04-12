@@ -33,7 +33,7 @@
             console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             console.log('symbol:' + stock.symbol);
-            nameForUrl = stock.symbol.substring(0, s.indexOf('.')).toLowerCase();
+            nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.')).toLowerCase();
             
             last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
 
