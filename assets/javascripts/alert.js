@@ -33,6 +33,7 @@
             console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             console.log('symbol:' + stock.symbol);
+            nameForUrl = stock.symbol.substring(0, s.indexOf('.')).toLowerCase();
             
             last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
 
@@ -45,7 +46,7 @@
             if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } 
             if(percent_change.indexOf("+") != -1){ change_direction = 'positive'; }
 
-            template = template + '<a href="/tags/' + stock.symbol + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + stock.symbol + '</span><div class="stock_extra"><span class="stock_last">' + last_trade_price_only + '</span><span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></div></a>';
+            template = template + '<a href="/tags/' + nameForUrl + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + stock.symbol + '</span><div class="stock_extra"><span class="stock_last">' + last_trade_price_only + '</span><span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></div></a>';
 
           };
 
