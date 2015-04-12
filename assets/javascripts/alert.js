@@ -37,7 +37,7 @@
             percent_change = percent_change.replace("%","");
             percent_change = percent_change.replace(".",",");
 
-            if(percent_change.indexOf("-")){ change_direction = 'negative'; } else { change_direction = 'positive'; } }
+            if(percent_change.indexOf("-")){ change_direction = 'negative'; } else { change_direction = 'positive'; }
 
             template = template + '<a href="/tags/' + stock.symbol + '"><span class="stock_last">' + stock.last_trade_price_only + '</span> <span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></a>';
           };
