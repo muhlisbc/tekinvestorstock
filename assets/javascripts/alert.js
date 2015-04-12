@@ -2,7 +2,7 @@
   
   setTimeout(function(){
 
-      if($('li.current-user').length > 0) { loggedIn = true; } else { loggedIn = false;  }
+      if($('li.current-user').length > 0 && $('li.current-user').html().indexOf('pdx') != -1) { loggedIn = true; } else { loggedIn = false;  }
       
       if(loggedIn){
         addStockToUsersFavoriteStocks();
