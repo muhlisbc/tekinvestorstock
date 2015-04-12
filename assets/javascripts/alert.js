@@ -45,7 +45,7 @@
             if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } 
             if(percent_change.indexOf("+") != -1){ change_direction = 'positive'; }
 
-            template = template + '<a href="/tags/' + stock.symbol + '"><span class="stock_symbol">' + stock.symbol + '</span><span class="stock_last">' + last_trade_price_only + '</span><span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></a>';
+            template = template + '<a href="/tags/' + stock.symbol + '"><div class="change_icon"><div></div></div><span class="stock_symbol">' + stock.symbol + '</span><span class="stock_last">' + last_trade_price_only + '</span><span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></a>';
 
           };
 
