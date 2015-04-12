@@ -29,6 +29,8 @@
           for (var i = data.stock.length - 1; i >= 0; i--) {
             
             console.log(data.stock[i]);
+            stock = jQuery.parseJSON(data.stock[i]);
+            console.log('symbol:' + stock.symbol);
           };
 
           form_html = "<a href=''>Rediger din portefølje</a><div id='my_stock'><span class='label'>Antall aksjer:</span> <input id='num_stocks' type='text' placeholder='1000' /><span class='label'>Snittpris:</span> <input id='average_price' type='text' placeholder='5,3' /> </div> ";
