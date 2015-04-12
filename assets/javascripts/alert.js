@@ -41,8 +41,9 @@
             percent_change = percent_change.replace(".",",");
             
             change_direction = 'neutral';
-            if(percent_change.indexOf("-")){ change_direction = 'negative'; } 
-            if(percent_change.indexOf("+")){ change_direction = 'positive'; }
+            console.log(percent_change);
+            if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } 
+            if(percent_change.indexOf("+") != -1){ change_direction = 'positive'; }
 
             template = template + '<a href="/tags/' + stock.symbol + '"><span class="stock_last">' + last_trade_price_only + '</span> <span class="stock_change_percent ' + change_direction + '">' + percent_change + '%</span></a>';
 
