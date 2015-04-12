@@ -9,7 +9,7 @@
         displayUsersFavoriteStocks();
       }
 
-  }, 2000);
+  }, 500);
 
 
   function displayUsersFavoriteStocks() {
