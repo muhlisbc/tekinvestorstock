@@ -27,7 +27,7 @@
         }).then(function(data) {
           
           //data = JSON.parse(data);
-          console.log('users fav stocks: ');
+          //console.log('users fav stocks: ');
           //console.log(data.stock);
 
           //console.log(data[0].length);
@@ -54,8 +54,8 @@
 
             if($('#stock_data').length > 0) { // stock data has been loaded, update existing stock numbers
               console.log('updating data to: ' + last_trade_price_only + ', ' + percent_change);
-              if($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last')).numberAnimate('set', last_trade_price_only);
-              if($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent')).numberAnimate('set', percent_change);
+              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
+              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
 
             }
 
