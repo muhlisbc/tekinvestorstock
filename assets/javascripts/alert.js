@@ -45,7 +45,7 @@
 
 
             last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
-            
+
             percent_change = stock.percent_change.toString();
             percent_change = percent_change.replace("%","");
             percent_change = percent_change.replace(".",",");
@@ -57,8 +57,8 @@
 
             if($('#stock_data').length > 0) { // stock data has been loaded, update existing stock numbers
               console.log('updating data to: ' + last_trade_price_only + ', ' + percent_change);
-              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
-              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
+              //$('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
+              //$('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
 
             }
 
