@@ -59,7 +59,7 @@
               console.log('updating ' + nameForUrl + ' data to: ' + last_trade_price_only + ', ' + percent_change + ' ' + nameForUrl + ', ' + last_trade_price_only);
               //console.log($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last'));
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
-              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
+              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
 
             }
 
