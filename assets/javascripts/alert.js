@@ -56,10 +56,13 @@
             if(percent_change.indexOf("+") != -1){ change_direction = 'positive'; }
 
             if($('#stock_data').length > 0) { // stock data has been loaded, update existing stock numbers
+              // update data
               console.log('updating ' + nameForUrl + ' data to: ' + last_trade_price_only + ', ' + percent_change + ' ' + nameForUrl + ', ' + last_trade_price_only);
               //console.log($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last'));
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
+              // set up or down
+              $('#stock_data a .change_icon').removeClass('positive').removeClass('negative').addClass(change_direction);
 
             }
 
