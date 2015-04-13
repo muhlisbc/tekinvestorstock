@@ -36,12 +36,12 @@
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
             
-            console.log(data.stock[i]);
+            //console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
-            console.log('stock:' + stock);
-            console.log('symbol:' + stock.symbol);
+            //console.log('stock:' + stock);
+            //console.log('symbol:' + stock.symbol);
             nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
-            console.log(stock.last_trade_price_only);  
+            //console.log(stock.last_trade_price_only);  
 
 
             last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
@@ -51,20 +51,20 @@
             percent_change = percent_change.replace(".",",");
             
             change_direction = 'neutral';
-            console.log(percent_change);
+            //console.log(percent_change);
             if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; }
             if(percent_change.indexOf("+") != -1){ change_direction = 'positive'; }
 
             if($('#stock_data').length > 0) { // stock data has been loaded, update existing stock numbers
-              console.log('updating data to: ' + last_trade_price_only + ', ' + percent_change + ' ' + nameForUrl + ', ' + last_trade_price_only);
-              console.log($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last'));
+              console.log('updating ' + nameForUrl + ' data to: ' + last_trade_price_only + ', ' + percent_change + ' ' + nameForUrl + ', ' + last_trade_price_only);
+              //console.log($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last'));
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
-              //$('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
+              $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').numberAnimate('set', percent_change);
 
             }
 
             if($('#stock_data').length == 0) { // stock data has not already been loaded
-              template = template + '<a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + nameForUrl + '</span><div class="stock_extra"><span class="stock_last number-animate">' + last_trade_price_only + '</span><span class="stock_change_percent number-animate' + change_direction + '">' + percent_change + '%</span></div></a>';
+              template = template + '<a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + nameForUrl + '</span><div class="stock_extra"><span class="stock_last number-animate">' + last_trade_price_only + '</span><span class="stock_change_percent number-animate ' + change_direction + '">' + percent_change + '%</span></div></a>';
             }
 
           };
