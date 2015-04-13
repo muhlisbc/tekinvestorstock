@@ -38,6 +38,7 @@
             
             console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
+            console.log('stock:' + stock);
             console.log('symbol:' + stock.symbol);
             nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
             
