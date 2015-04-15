@@ -17,7 +17,7 @@
         displayUsersFavoriteStocks();
       }
 
-  }, 5000);
+  }, 60000);
 
 
   function displayUsersFavoriteStocks() {
@@ -62,7 +62,7 @@
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
               $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
               // set up or down
-              $('#stock_data a[data-symbol="' + nameForUrl + '"] .change_icon').removeClass('positive').removeClass('negative').addClass(change_direction);
+              $('#stock_data a[data-symbol="' + nameForUrl + '"] .change_icon, #stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').removeClass('positive').removeClass('negative').addClass(change_direction);
 
             }
 
