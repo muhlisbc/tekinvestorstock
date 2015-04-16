@@ -145,7 +145,7 @@ after_initialize do
           end
 
           # return stock object
-      	  @stock_data = []
+          @stock_data = []
           @stock_data = @stock_data << get_stock_data(params[:ticker])
 
           render json: @stock_data
