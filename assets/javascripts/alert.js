@@ -4,7 +4,7 @@
       
       if(loggedIn){
         addStockToUsersFavoriteStocks();
-        displayUsersFavoriteStocks();
+        displayUsersFavoriteStocks(false);
       }
 
   }, 500);
@@ -12,13 +12,13 @@
     setInterval(function(){
       
       if(loggedIn){
-        displayUsersFavoriteStocks();
+        displayUsersFavoriteStocks(false);
       }
 
   }, 60000);
 
 
-  function displayUsersFavoriteStocks(forceRefresh = false) {
+  function displayUsersFavoriteStocks(forceRefresh) {
 
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
