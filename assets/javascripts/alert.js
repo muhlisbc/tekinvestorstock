@@ -71,7 +71,11 @@
           };
 
           if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
-
+            
+            if(forceRefresh) {
+              $('#stock_data').remove();
+            }
+            
             stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
 
             $('body').append(stock_html);
