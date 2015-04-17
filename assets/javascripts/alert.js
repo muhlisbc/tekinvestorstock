@@ -32,15 +32,15 @@
 
           template = '';
 
-          for (var i = 0; i >= data.stock.length; i++) {
-            console.log('stock #' + i);
+          for (var i = data.stock.length - 1; i >= 0; i--) {
+                     console.log('stock #' + i);
             console.log(data.stock);
             console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             //console.log('stock:' + stock);
             //console.log('symbol:' + stock.symbol);
             nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
-            //console.log(stock.last_trade_price_only);  
+            console.log(stock.last_trade_price_only);  
 
             if(stock.last_trade_price_only != null) {
 
@@ -69,7 +69,6 @@
               if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
                 template = template + '<a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + nameForUrl + '</span><div class="stock_extra"><span class="stock_last number-animate">' + last_trade_price_only + '</span><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></div></a>';
               }
-
             }
 
           };
