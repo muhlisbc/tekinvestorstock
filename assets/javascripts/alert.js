@@ -33,8 +33,8 @@
           template = '';
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
-            
-            //console.log(data.stock[i]);
+            console.log('stock #' + i);
+            console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             //console.log('stock:' + stock);
             //console.log('symbol:' + stock.symbol);
