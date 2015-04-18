@@ -97,3 +97,14 @@
           displayUsersFavoriteStocks(true); // force refresh
       });
     }
+
+    function isStockUsersFavorite(ticker) {
+        Discourse.ajax("/stock/get_users_favorite_stocks", {
+          type: "GET",
+        }).then(function(data) {
+          data = data.toString;
+          
+          if(data.toLowerCase.indexOf(ticker.toLowerCase) > -1) { return true; } else { return false; }
+
+      });
+    }
