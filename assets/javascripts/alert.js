@@ -81,7 +81,7 @@
             }
 
             stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
-
+            console.log(stock_html);
             $('body').append(stock_html);
             $('.number-animate').numberAnimate('init');
           }
