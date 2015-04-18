@@ -19,6 +19,7 @@
 
   function displayUsersFavoriteStocks(forceRefresh) {
         console.log('displayUsersFavoriteStocks');
+        console.log('forceRefresh:' + forceRefresh);
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
@@ -32,7 +33,8 @@
           template = '';
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
-                     console.log('stock #' + i);
+            
+            console.log('stock #' + i);
             //console.log(data.stock);
             //console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
@@ -76,7 +78,7 @@
             
             if(forceRefresh) {
               $('#stock_data').remove();
-              console.log('forceRefresh');
+              console.log('removing stock data');
             }
 
             stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
