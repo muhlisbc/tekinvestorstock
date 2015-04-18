@@ -19,7 +19,7 @@
 
 
   function displayUsersFavoriteStocks(forceRefresh) {
-
+        console.log('displayUsersFavoriteStocks');
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
@@ -77,6 +77,7 @@
             
             if(forceRefresh) {
               $('#stock_data').remove();
+              console.log('forceRefresh');
             }
 
             stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
@@ -92,6 +93,15 @@
   function addStockToUsersFavoriteStocks(ticker) {
     
         Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=" + ticker, {
+        type: "GET"
+        }).then(function(data) {
+          displayUsersFavoriteStocks(true); // force refresh
+      });
+    }
+
+  function removeStockFromUsersFavoriteStocks(ticker) {
+    
+        Discourse.ajax("/stock/remove_stock_from_users_favorite_stocks?ticker=" + ticker, {
         type: "GET"
         }).then(function(data) {
           displayUsersFavoriteStocks(true); // force refresh
