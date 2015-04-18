@@ -102,14 +102,14 @@
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
-          //console.log(data.stock);
+            //console.log(data.stock);
           //data = data.toString;
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
             stock = jQuery.parseJSON(data.stock[i]);
-            if(ticker.toLowerCase == stock.symbol.toLowerCase) { return true; }
-          }  
-          
+            if(ticker.toLowerCase == stock.symbol.toLowerCase) { console.log(ticker + ' is a favorite stock'); return true; }
+          }
+          console.log(ticker + ' is not a favorite stock');
           return false;
 
       });
