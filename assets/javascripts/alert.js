@@ -34,7 +34,7 @@
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
             
-            console.log('stock #' + i);
+            //console.log('stock #' + i);
             //console.log(data.stock);
             //console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
@@ -78,19 +78,13 @@
             
             if(forceRefresh) {
               $('#stock_data').remove();
-              console.log('removing stock data');
+              //console.log('removing stock data');
             }
 
             stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
-            console.log(stock_html);
-            $('body').append(stock_html);
-
-            setTimeout(function() {
-              
-              $('.number-animate').numberAnimate('init');
-
-            }, 1000);
-            
+            //console.log(stock_html);
+            $('body').append(stock_html);              
+            $('.number-animate').numberAnimate('init');
           }
 
         });
