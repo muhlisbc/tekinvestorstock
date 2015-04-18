@@ -34,13 +34,13 @@
 
           for (var i = data.stock.length - 1; i >= 0; i--) {
                      console.log('stock #' + i);
-            console.log(data.stock);
-            console.log(data.stock[i]);
+            //console.log(data.stock);
+            //console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             //console.log('stock:' + stock);
             //console.log('symbol:' + stock.symbol);
             nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
-            console.log(stock.last_trade_price_only);  
+            //console.log(stock.last_trade_price_only);  
 
             if(stock.last_trade_price_only != null) {
 
@@ -102,9 +102,15 @@
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
-          data = data.toString;
+          //console.log(data.stock);
+          //data = data.toString;
+
+          for (var i = data.stock.length - 1; i >= 0; i--) {
+            stock = jQuery.parseJSON(data.stock[i]);
+            if(ticker.toLowerCase == stock.symbol.toLowerCase) { return true; }
+          }  
           
-          if(data.toLowerCase.indexOf(ticker.toLowerCase) > -1) { return true; } else { return false; }
+          return false;
 
       });
     }
