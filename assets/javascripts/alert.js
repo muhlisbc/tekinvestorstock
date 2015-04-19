@@ -31,15 +31,15 @@
           //console.log(data[0].length);
 
           template = '';
-
+          console.log(data.stock);
           for (var i = data.stock.length - 1; i >= 0; i--) {
             
             //console.log('stock #' + i);
-            //console.log(data.stock);
+            
             //console.log(data.stock[i]);
             stock = jQuery.parseJSON(data.stock[i]);
             //console.log('stock:' + stock);
-            //console.log('symbol:' + stock.symbol);
+            console.log('symbol:' + stock.symbol);
             nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
             //console.log(stock.last_trade_price_only);  
 
