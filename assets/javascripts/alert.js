@@ -1,28 +1,3 @@
-  var vupdated = false;
-    
-    if(window.jQuery && $){
-      $(window).load(function(){
-        function LoadIt(){
-          if( vupdated === true ){ return }
-          // Your code goes here
-          console.log('vupdated');
-          vupdated = true;
-        }
-    
-        Ember.View.reopen({
-          didInsertElement:function(){ // Here is where the magic happens, when the first element is inserted it will set the script to run whenever the body tag is ready.
-            this._super();
-            $('body').ready(LoadIt);
-            vupdated = true;
-          },
-          willDestroyElement:function(){ this._super(); vupdated = false; } // When an element is about to be removed our variable will be set to false thus allowing our function to run again.
-        });
-    
-        $('a,input[type="button"]').click(function(){ if( vupdated === false ){ LoadIt(); } }); // Run the script if a link or a button is pressed and a navigation happens.
-        Ember.Route.reopen({enter: function(router) { LoadIt(); }}); // Run the script when a Route is entered. This is ussually enough however this seems to only run when the Route is changed.
-      }
-    }
-
 
   setTimeout(function(){
 
