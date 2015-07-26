@@ -41,7 +41,7 @@
             stock = jQuery.parseJSON(data.stock[i]);
             //console.log('stock:' + stock);
             console.log('symbol:' + stock.symbol);
-            nameForUrl = stock.symbol.substring(0, stock.symbol.indexOf('.'));
+            nameForUrl = stock.symbol;//.substring(0, stock.symbol.indexOf('.'));
             //console.log(stock.last_trade_price_only);  
 
             if(stock.last_trade_price_only != null) {
