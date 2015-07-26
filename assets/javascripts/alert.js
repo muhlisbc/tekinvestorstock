@@ -69,7 +69,7 @@
               }
 
               if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
-                template = template + '<a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div><span class="stock_symbol">' + nameForUrl + '</span><div class="stock_extra"><div class="stock_last_container"><span class="stock_last number-animate">' + last_trade_price_only + '</span></div><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></div></a>';
+                template = template + '<tr><td class="td-ticker"><a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div></td><td><span class="stock_symbol">' + nameForUrl + '</span></td><td  class="td-last"><div class="stock_extra"><div class="stock_last_container"><span class="stock_last number-animate">' + last_trade_price_only + '</span></div></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></div></a></td></tr>';
               }
             }
 
@@ -82,7 +82,7 @@
               //console.log('removing stock data');
             }
 
-            stock_html = '<div id="stock_data"><div class="container"><div id="stock_data_inner">' + template + '</div></div></div>';
+            stock_html = '<div id="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
             //console.log(stock_html);
             $('#user-favorite-stocks').append(stock_html);              
             $('.number-animate').numberAnimate('init');
