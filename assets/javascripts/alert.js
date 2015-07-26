@@ -69,7 +69,7 @@
               }
 
               if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
-                template = template + '<tr><td class="td-ticker"><a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><div class="change_icon  ' + change_direction + '"><div></div></div></td><td><span class="stock_symbol">' + nameForUrl + '</span></td><td  class="td-last"><div class="stock_extra"><div class="stock_last_container"><span class="stock_last number-animate">' + last_trade_price_only + '</span></div></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></div></a></td></tr>';
+                template = template + '<tr><td class="td-ticker"><a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><span class="stock_symbol">' + nameForUrl + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + last_trade_price_only + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
               }
             }
 
