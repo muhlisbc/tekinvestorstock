@@ -96,7 +96,7 @@ after_initialize do
           
           if !stocks_array.nil?
             stocks_array = stocks_array.split(',')
-            stocks_array = stocks_array.delete(params[:ticker])
+            stocks_array.delete(params[:ticker])
           end
 
           current_user.custom_fields["favorite_stocks"] = stocks_array.join(",")
