@@ -87,6 +87,26 @@ after_initialize do
           render json: { message: "not logged in" }
         end
       end
+      
+    def remove_stock_from_users_favorite_stocks
+        if !current_user.nil? 
+          decrement_stocks_favorite_count(params[:ticker])
+
+          stocks_array = current_user.custom_fields["favorite_stocks"]
+          
+          if !stocks_array.nil?
+            stocks_array = stocks_array.split(',')
+            stocks_array = stocks_array.delete(params[:ticker])
+          end
+
+          current_user.custom_fields["favorite_stocks"] = stocks_array.join(",")
+          current_user.save
+          #render json: { message: stocks_array.join(",") }
+          render json: { message: "removed OK" }
+        else
+          render json: { message: "not logged in" }
+        end
+      end
 
       def get_users_favorite_stocks
         if !current_user.nil? 
@@ -219,6 +239,7 @@ after_initialize do
 
     get '/get_users_favorite_stocks' => 'stock#get_users_favorite_stocks'
     get '/add_stock_to_users_favorite_stocks' => 'stock#add_stock_to_users_favorite_stocks'
+    get '/remove_stock_from_users_favorite_stocks' => 'stock#remove_stock_from_users_favorite_stocks'
 
     get '/user_average_price' => 'stock#get_user_average_price'
     get '/set_user_average_price' => 'stock#set_user_average_price'
