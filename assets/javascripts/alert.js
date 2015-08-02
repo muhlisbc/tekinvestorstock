@@ -2,17 +2,20 @@
   setTimeout(function(){
 
       if($('li.current-user').length > 0 && $('li.current-user').html().indexOf('pdx') != -1) { loggedIn = true; } else { loggedIn = false;  }
+      if($('#home-page').length > 0 { homePage = true; } else { homePage = false; }
       
-      if(loggedIn){
+      if(loggedIn && homePage){
         displayUsersFavoriteStocks(false);
+        console.log('refreshing stocks');
       }
 
   }, 500);
 
     setInterval(function(){
       
-      if(loggedIn){
+      if(loggedIn && homePage){
         displayUsersFavoriteStocks(false);
+        console.log('refreshing stocks, interval');
       }
 
   }, 60000);
