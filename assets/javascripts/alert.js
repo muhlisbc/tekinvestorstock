@@ -18,7 +18,7 @@
         console.log('refreshing stocks, interval');
       }
 
-  }, 6000);
+  }, 60000);
 
 
   function displayUsersFavoriteStocks(forceRefresh) {
