@@ -64,15 +64,15 @@
                 // update data
                 console.log('updating ' + nameForUrl + ' data to: ' + last_trade_price_only + ', ' + percent_change + ' ' + nameForUrl + ', ' + last_trade_price_only);
                 //console.log($('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last'));
-                $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
-                $('#stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
+                $('#stock_data tr[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
+                $('#stock_data tr[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
                 // set up or down
-                $('#stock_data a[data-symbol="' + nameForUrl + '"] .change_icon, #stock_data a[data-symbol="' + nameForUrl + '"] .stock_change_percent').removeClass('positive').removeClass('negative').addClass(change_direction);
+                $('#stock_data tr[data-symbol="' + nameForUrl + '"] .change_icon, #stock_data tr[data-symbol="' + nameForUrl + '"] .stock_change_percent').removeClass('positive').removeClass('negative').addClass(change_direction);
 
               }
 
               if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
-                template = template + '<tr><td class="td-ticker"><a data-symbol="' + nameForUrl + '" href="/tags/' + nameForUrl.toLowerCase() + '"><span class="stock_symbol">' + nameForUrl + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + last_trade_price_only + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
+                template = template + '<tr data-symbol="' + nameForUrl + '"><td class="td-ticker"><a href="/tags/' + nameForUrl.toLowerCase() + '"><span class="stock_symbol">' + nameForUrl + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + last_trade_price_only + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
               }
             }
 
