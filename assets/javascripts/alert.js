@@ -8,6 +8,18 @@
         displayUsersFavoriteStocks(false);
         console.log('refreshing stocks');
       }
+      
+      // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
+      oldTopicsCount=$('.topic-list tr').length;
+      $(function() {
+          setInterval(function() {
+              if($('.topic-list tr').length!=oldTopicsCount) {
+                   displayUsersFavoriteStocks(true);
+                   console.log('page changed, updating stocks');
+                   oldTopicsCount=$('.topic-list tr').length;
+              } 
+          },500);
+      });
 
   }, 500);
 
