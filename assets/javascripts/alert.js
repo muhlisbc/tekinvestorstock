@@ -9,6 +9,8 @@
         console.log('refreshing stocks');
       }
       
+      add
+      
       // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
       oldTopicsCount=$('.topic-list tr').length;
       $(function() {
@@ -16,6 +18,13 @@
               if($('.topic-list tr').length!=oldTopicsCount) {
                    displayUsersFavoriteStocks(true);
                    console.log('page changed, updating stocks');
+                  
+                  // add notice in fav stocks box if not signed in       
+                  if(!loggedIn && homePage) {
+                    $('#user-favorite-stocks .spinner').hide();
+                    $('#user-favorite-stocks').append('<p class="user-favorite-stocks__not_logged_in"><a href="#" class="link_open_signup">Registrer deg</a> eller <a href="#" class="link_open_login">logg inn</a> for å følge aksjekursene på dine favorittaksjer.</p>');      
+                  }
+                   
                    oldTopicsCount=$('.topic-list tr').length;
               } 
           },500);
