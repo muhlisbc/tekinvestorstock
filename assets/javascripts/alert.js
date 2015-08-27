@@ -9,8 +9,6 @@
         console.log('refreshing stocks');
       }
       
-      add
-      
       // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
       oldTopicsCount=$('.topic-list tr').length;
       $(function() {
