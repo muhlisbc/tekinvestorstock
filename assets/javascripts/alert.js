@@ -20,7 +20,7 @@
                   // add notice in fav stocks box if not signed in       
                   if(!loggedIn && homePage) {
                     $('#user-favorite-stocks .spinner').hide();
-                    $('#user-favorite-stocks').append('<p class="user-favorite-stocks__not_logged_in"><a href="#" onClick="openSignupModal()" class="link_open_signup">Registrer deg</a> eller <a href="#"onClick="openLoginModal()" class="link_open_login">logg inn</a> for å følge aksjekursene på dine favorittaksjer.</p>');      
+                    $('#user-favorite-stocks').append('<p class="user-favorite-stocks__not_logged_in"><a href="#" onClick="openSignupModal()" class="link_open_signup">Registrer deg</a> eller <a href="#" onClick="openLoginModal()" class="link_open_login">logg inn</a> for å følge aksjekursene på dine favorittaksjer.</p>');      
                   }
                    
                    oldTopicsCount=$('.topic-list tr').length;
