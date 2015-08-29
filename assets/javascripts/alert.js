@@ -43,6 +43,7 @@
   function displayUsersFavoriteStocks(forceRefresh) {
         console.log('displayUsersFavoriteStocks');
         console.log('forceRefresh:' + forceRefresh);
+        $('#user-favorite-stocks .notice-not-logged-in').hide();
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
