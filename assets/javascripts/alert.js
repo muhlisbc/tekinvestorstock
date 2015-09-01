@@ -6,7 +6,7 @@
       
       if(loggedIn && homePage){
         displayUsersFavoriteStocks(false);
-        console.log('refreshing stocks');
+        console.log('refreshing stocks'); 
       }
       
       // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
