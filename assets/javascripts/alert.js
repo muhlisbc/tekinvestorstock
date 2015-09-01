@@ -163,8 +163,12 @@
     
     function openSignupModal() {
       $('.btn.sign-up-btn').trigger("click");
+      console.log('trigger');
+      return false;
     }
   
     function openLoginModal() {
       $('.btn.login-btn').trigger("click");
+      console.log('trigger');
+      return false;
     }
