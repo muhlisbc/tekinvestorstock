@@ -16,6 +16,7 @@
           setInterval(function() {
               if($('.topic-list tr').length!=oldTopicsCount) {
                    displayUsersFavoriteStocks(true);
+                   displayTekIndex(false);
                    console.log('page changed, updating stocks');
                   
                   // add notice in fav stocks box if not signed in       
