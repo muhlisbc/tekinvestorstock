@@ -144,6 +144,39 @@ after_initialize do
         end  
       end
 
+      def get_tekindex_stocks
+        
+          #loop through users favorite stocks
+          @stock_data = []
+          @tekindex = ["FUNCOM.OL", "STAR.ST", "THIN.OL", "NEL.OL", "OPERA.OL", "GOGL.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "BIRD.OL", "NEXT.OL"]
+
+          @tekindex.each do |ticker|
+
+            stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
+            
+            # if no data, update now
+            if stock_last_updated.nil? || stock_last_updated == ''
+              set_stock_data(ticker)  
+              stock_last_updated = Time.now.to_i
+            end
+
+            # if data has not been updated in 1 minute, update
+            if Time.now.to_i - stock_last_updated > 60
+
+              set_stock_data(ticker)
+
+            end
+            
+            @stock = ::PluginStore.get("stock_data_last_values", ticker)
+            @stock = @stock.to_s
+            @stock_data = @stock_data << @stock
+
+          end
+          
+          render json: @stock_data
+
+      end
+
       # update stock price
       def stock_data
         
@@ -240,6 +273,8 @@ after_initialize do
     get '/get_users_favorite_stocks' => 'stock#get_users_favorite_stocks'
     get '/add_stock_to_users_favorite_stocks' => 'stock#add_stock_to_users_favorite_stocks'
     get '/remove_stock_from_users_favorite_stocks' => 'stock#remove_stock_from_users_favorite_stocks'
+
+    get '/get_tekindex_stocks' => 'stock#get_tekindex_stocks'
 
     get '/user_average_price' => 'stock#get_user_average_price'
     get '/set_user_average_price' => 'stock#set_user_average_price'
