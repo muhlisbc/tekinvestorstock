@@ -150,7 +150,7 @@ after_initialize do
           @stock_data = []
           @tekindex = ["FUNCOM.OL", "STAR.ST", "THIN.OL", "NEL.OL", "OPERA.OL", "GOGL.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "BIRD.OL", "NEXT.OL"]
 
-          @tekindex.each do |ticker|
+          @tekindex.reverse.each do |ticker|
 
             stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
             
