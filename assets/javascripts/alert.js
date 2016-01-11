@@ -6,6 +6,7 @@
       
       if(loggedIn && homePage){
         displayUsersFavoriteStocks(false);
+        displayTekIndex(false);
         console.log('refreshing stocks'); 
       }
       
