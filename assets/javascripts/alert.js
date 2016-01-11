@@ -110,7 +110,7 @@
               //console.log('removing stock data');
             }
 
-            stock_html = '<div id="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
+            stock_html = '<div id="stock_data" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
             //console.log(stock_html);
             $('#user-favorite-stocks .spinner').hide();
             $('#user-favorite-stocks').append(stock_html);              
@@ -189,7 +189,7 @@
               //console.log('removing stock data');
             }
 
-            stock_html = '<div id="tekindex_stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
+            stock_html = '<div id="tekindex_stock_data" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
             //console.log(stock_html);
             $('#tekindex .spinner').hide();
             $('#tekindex').append(stock_html);              
