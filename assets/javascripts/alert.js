@@ -180,7 +180,7 @@
                 $('#tekindex_stock_data tr[data-symbol="' + nameForUrl + '"] .stock_last').numberAnimate('set', last_trade_price_only);
                 $('#tekindex_stock_data tr[data-symbol="' + nameForUrl + '"] .stock_change_percent .number-animate').numberAnimate('set', percent_change);
                 // set up or down
-                $('#tekindex_stock_data tr[data-symbol="' + nameForUrl + '"] .change_icon, #stock_data tr[data-symbol="' + nameForUrl + '"] .stock_change_percent').removeClass('positive').removeClass('negative').addClass(change_direction);
+                $('#tekindex_stock_data tr[data-symbol="' + nameForUrl + '"] .change_icon, #tekindex_stock_data tr[data-symbol="' + nameForUrl + '"] .stock_change_percent').removeClass('positive').removeClass('negative').addClass(change_direction);
 
               }
 
