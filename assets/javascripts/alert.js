@@ -9,6 +9,14 @@
         displayTekIndex(false);
         console.log('refreshing stocks'); 
       }
+
+      // add notice in fav stocks box if not signed in       
+      if(!loggedIn && homePage) {
+        $('#user-favorite-stocks .spinner').hide();
+        $('#user-favorite-stocks .notice-not-logged-in').show();
+        $('#tekindex .spinner').hide();
+        $('#tekindex .notice-not-logged-in').show();
+      }
       
       // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
       oldTopicsCount=$('.topic-list tr').length;
@@ -23,6 +31,8 @@
                   if(!loggedIn && homePage) {
                     $('#user-favorite-stocks .spinner').hide();
                     $('#user-favorite-stocks .notice-not-logged-in').show();
+                    $('#tekindex .spinner').hide();
+                    $('#tekindex .notice-not-logged-in').show();
                   }
                    
                    oldTopicsCount=$('.topic-list tr').length;
