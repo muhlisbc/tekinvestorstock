@@ -114,27 +114,32 @@ after_initialize do
           #loop through users favorite stocks
           @stock_data = []
 
-          current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
+          current_favorite_stocks_array = current_user.custom_fields["favorite_stocks"]
+          
+          if !current_favorite_stocks_array.nil?
 
-            stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
-            
-            # if no data, update now
-            if stock_last_updated.nil? || stock_last_updated == ''
-              set_stock_data(ticker)  
-              stock_last_updated = Time.now.to_i
+            current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
+
+              stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
+              
+              # if no data, update now
+              if stock_last_updated.nil? || stock_last_updated == ''
+                set_stock_data(ticker)  
+                stock_last_updated = Time.now.to_i
+              end
+
+              # if data has not been updated in 1 minute, update
+              if Time.now.to_i - stock_last_updated > 60
+
+                set_stock_data(ticker)
+
+              end
+              
+              @stock = ::PluginStore.get("stock_data_last_values", ticker)
+              @stock = @stock.to_s
+              @stock_data = @stock_data << @stock
+
             end
-
-            # if data has not been updated in 1 minute, update
-            if Time.now.to_i - stock_last_updated > 60
-
-              set_stock_data(ticker)
-
-            end
-            
-            @stock = ::PluginStore.get("stock_data_last_values", ticker)
-            @stock = @stock.to_s
-            @stock_data = @stock_data << @stock
-
           end
           
           render json: @stock_data
