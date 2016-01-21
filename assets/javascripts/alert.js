@@ -126,7 +126,7 @@
             stock_html = '<div id="stock_data" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
             //console.log(stock_html);
             $('#user-favorite-stocks .spinner').hide();
-            $('#user-favorite-stocks').append(stock_html);              
+            if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); }
             $('#user-favorite-stocks .number-animate').numberAnimate('init');
           }
 
