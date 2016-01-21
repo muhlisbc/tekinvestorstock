@@ -58,7 +58,7 @@
         console.log('displayUsersFavoriteStocks');
         console.log('forceRefresh:' + forceRefresh);
         $('#user-favorite-stocks .notice-not-logged-in').hide();
-        $('#user-favorite-stocks .notice-no-favorites').show();
+        $('#user-favorite-stocks .notice-no-favorites').hide();
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
@@ -110,8 +110,7 @@
               if($('#stock_data').length == 0 || forceRefresh) { // stock data has not already been loaded
                 template = template + '<tr data-symbol="' + nameForUrl + '"><td class="td-ticker"><a href="/tags/' + nameForUrl.toLowerCase() + '"><span class="stock_symbol">' + nameForUrl + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + last_trade_price_only + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
               }
-              
-              $('#user-favorite-stocks .notice-no-favorites').hide();
+               
             }
 
           };
@@ -126,7 +125,8 @@
             stock_html = '<div id="stock_data" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
             //console.log(stock_html);
             $('#user-favorite-stocks .spinner').hide();
-            if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); }
+            if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); } 
+              else { $('#user-favorite-stocks .notice-no-favorites').show(); }
             $('#user-favorite-stocks .number-animate').numberAnimate('init');
           }
 
