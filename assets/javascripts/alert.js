@@ -5,8 +5,8 @@
       if($('li.current-user').length > 0 ) { loggedIn = true; } else { loggedIn = false;  }
       if($('#home-page').length > 0 && $('#col-2').length > 0) { homePage = true; } else { homePage = false; }
       
-      if(loggedIn && homePage){
-        displayUsersFavoriteStocks(false);
+      if(homePage){
+        if(loggedIn){ displayUsersFavoriteStocks(false); }
         displayTekIndex(false);
         console.log('refreshing stocks'); 
       }
@@ -24,7 +24,7 @@
       $(function() {
           setInterval(function() {
               if($('.topic-list tr').length!=oldTopicsCount) {
-                   displayUsersFavoriteStocks(true);
+                   if(loggedIn){ displayUsersFavoriteStocks(true); } 
                    displayTekIndex(false);
                    console.log('page changed, updating stocks');
                   
@@ -45,14 +45,15 @@
 
     setInterval(function(){
       
-      if(loggedIn && homePage){
-        displayUsersFavoriteStocks(false);
+      if(homePage){
+        
+        if(loggedIn){ displayUsersFavoriteStocks(false); }
+
         displayTekIndex(false);
         console.log('refreshing stocks, interval');
       }
 
   }, 60000);
-
 
   function displayUsersFavoriteStocks(forceRefresh) {
         console.log('displayUsersFavoriteStocks');
