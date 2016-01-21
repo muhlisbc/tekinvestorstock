@@ -58,6 +58,7 @@
         console.log('displayUsersFavoriteStocks');
         console.log('forceRefresh:' + forceRefresh);
         $('#user-favorite-stocks .notice-not-logged-in').hide();
+        $('#user-favorite-stocks .notice-no-favorites').show();
         Discourse.ajax("/stock/get_users_favorite_stocks", {
           type: "GET",
         }).then(function(data) {
@@ -189,7 +190,6 @@
                 template = template + '<tr data-symbol="' + nameForUrl + '"><td class="td-ticker"><a href="/tags/' + nameForUrl.toLowerCase() + '"><span class="stock_symbol">' + nameForUrl + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + last_trade_price_only + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
               }
               
-              $('#tekindex .notice-no-favorites').hide();
             }
 
           };
