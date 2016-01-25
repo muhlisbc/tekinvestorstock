@@ -95,8 +95,8 @@ after_initialize do
           stocks_array = current_user.custom_fields["favorite_stocks"]
           
           if !stocks_array.nil?
-            stocks_array.map!(&:downcase)
             stocks_array = stocks_array.split(',')
+            stocks_array.map!(&:downcase)
             stocks_array.delete(params[:ticker])
           end
 
