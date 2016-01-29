@@ -4,6 +4,7 @@
       //if($('li.current-user').length > 0 && $('li.current-user').html().indexOf('pdx') != -1) { loggedIn = true; } else { loggedIn = false;  }
       if($('li.current-user').length > 0 ) { loggedIn = true; } else { loggedIn = false;  }
       if($('#home-page').length > 0 && $('#col-2').length > 0) { homePage = true; } else { homePage = false; }
+      if($('.stock-chart').length > 0 ) { stockPage = true; } else { stockPage = false; }
       
       if(homePage){
         if(loggedIn){ displayUsersFavoriteStocks(false); }
@@ -16,7 +17,6 @@
         $('#user-favorite-stocks .spinner').hide();
         $('#user-favorite-stocks .notice-not-logged-in').show();
         $('#tekindex .spinner').hide();
-        $('#tekindex .notice-not-logged-in').show();
       }
       
       // run check every X ms to see if page has changed, if page has changed and new page is home page, refresh stock list
@@ -35,7 +35,33 @@
                     $('#tekindex .spinner').hide();
                     $('#tekindex .notice-not-logged-in').show();
                   }
-                   
+
+                  // if on stock page, make chart
+                  if(stockPage) {
+                      TradingView.onready(function()
+                      {
+                        var widget = new TradingView.widget({
+                          fullscreen: true,
+                          symbol: 'FUNCOM.OL',
+                          interval: 'D',
+                          container_id: "tv_chart_container",
+                          //  BEWARE: no trailing slash is expected in feed URL
+                          //datafeed: new Datafeeds.UDFCompatibleDatafeed("http://demo_feed.tradingview.com"),
+                          datafeed: new Datafeeds.UDFCompatibleDatafeed("http://198.211.125.65"),
+                          library_path: "charting_library/",
+                          locale: "en",
+                          //  Regression Trend-related functionality is not implemented yet, so it's hidden for a while
+                          drawings_access: { type: 'black', tools: [ { name: "Regression Trend" } ] },
+                          disabled_features: ["use_localstorage_for_settings"],
+                          enabled_features: ["study_templates"],
+                          charts_storage_url: 'http://saveload.tradingview.com',
+                                    charts_storage_api_version: "1.1",
+                          client_id: 'tradingview.com',
+                          user_id: 'public_user_id'
+                        });
+                      });  
+                   }
+                       
                    oldTopicsCount=$('.topic-list tr').length;
               } 
           },500);
