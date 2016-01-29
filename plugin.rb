@@ -5,8 +5,8 @@
 
 register_asset "javascripts/tekinvestor.js"
 register_asset "javascripts/numberanimate.js"
-register_asset "javascripts/datafeed.js"
-register_asset "javascripts/charting-library.min.js"
+register_asset "javascripts/charting_library/datafeed/udf/datafeed.js"
+register_asset "javascripts/charting_library/charting_library.min.js"
 
 load File.expand_path("../stock.rb", __FILE__)
 
