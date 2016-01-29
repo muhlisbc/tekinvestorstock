@@ -3,8 +3,10 @@
 # version: 0.1
 # authors: JT
 
-register_asset "javascripts/alert.js"
+register_asset "javascripts/tekinvestor.js"
 register_asset "javascripts/numberanimate.js"
+register_asset "javascripts/datafeed.js"
+register_asset "javascripts/charting-library.min.js"
 
 load File.expand_path("../stock.rb", __FILE__)
 
