@@ -111,14 +111,14 @@
             //console.log(stock.last_trade_price_only);  
 
             if(stock.last_trade_price_only != null) {
-
-              console.log('last: ');
-              console.log(formatNumber(stock.last_trade_price_only));
+              
+              last_trade_price_only = formatNumber(stock.last_trade_price_only);
 
               last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
 
               percent_change = stock.percent_change.toString();
               percent_change = percent_change.replace("%","");
+              percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
@@ -194,10 +194,12 @@
 
             if(stock.last_trade_price_only != null) {
 
+              last_trade_price_only = formatNumber(stock.last_trade_price_only);
               last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
 
               percent_change = stock.percent_change.toString();
               percent_change = percent_change.replace("%","");
+              percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
