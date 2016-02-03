@@ -122,7 +122,7 @@
 
               console.log('percent_change');
               console.log(percent_change);
-              percent_change = formatNumber(percent_change);
+              //percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
@@ -203,7 +203,7 @@
               percent_change = stock.percent_change.toString();
               percent_change = percent_change.replace("%","");
               percent_change = percent_change.replace("+","");
-              percent_change = formatNumber(percent_change);
+              //percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
