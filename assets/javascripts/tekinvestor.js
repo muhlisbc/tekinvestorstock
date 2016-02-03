@@ -112,6 +112,9 @@
 
             if(stock.last_trade_price_only != null) {
 
+              console.log('last: ');
+              console.log(formatNumber(stock.last_trade_price_only));
+
               last_trade_price_only = stock.last_trade_price_only.toString().replace(".",",");
 
               percent_change = stock.percent_change.toString();
@@ -286,3 +289,17 @@
       console.log('trigger');
       return false;
     }
+
+    function formatNumber(number)
+    // formats 1 -> 1.00
+    {
+        var number = number.toFixed(2) + '';
+        var x = number.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+}
