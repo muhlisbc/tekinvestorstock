@@ -298,6 +298,7 @@
     function formatNumber(number)
     // formats 1 -> 1.00
     {
+        console.log('formatting number: ' + number);
         var number = number.toFixed(2) + '';
         var x = number.split('.');
         var x1 = x[0];
