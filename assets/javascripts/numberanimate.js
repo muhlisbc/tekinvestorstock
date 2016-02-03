@@ -197,7 +197,7 @@
                 var $this = $(this);
 
                 //get initial value and set it as data..
-                var valueStr = this.innerHTML.parseFloat(s.replace(",",".")).toFixed(2).replace(".",",");
+                var valueStr = parseFloat(this.innerHTML.replace(",",".")).toFixed(2).replace(".",",");
                 console.log("valueStr: " + valueStr);
                 if (!checkValue(valueStr)) return;
 
