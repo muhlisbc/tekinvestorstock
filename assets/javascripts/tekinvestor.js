@@ -118,6 +118,9 @@
 
               percent_change = stock.percent_change.toString();
               percent_change = percent_change.replace("%","");
+
+              console.log('percent_change');
+              console.log(percent_change);
               percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
