@@ -262,9 +262,11 @@
             if (!animationTimes)
                 animationTimes = $.parseJSON(this.attr('data-numberAnimate-animationTimes'));
 
+            newValue = parseFloat(newValue.replace(",",".")).toFixed(2).replace(".",",");
+
             //get the number value and update the stored value..
             if (!checkValue(newValue))  return;
-            this.attr("data-numberAnimate-value", parseFloat(newValue.replace(",",".")).toFixed(2).replace(".",","));
+            this.attr("data-numberAnimate-value", newValue);
 
             //if not animating just change the value..
             if (!animationSupported) {
