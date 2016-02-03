@@ -296,6 +296,6 @@
     function formatNumber(number)
     // formats 1 -> 1.00
     {
-        //console.log('formatting number: ' + number);
+        console.log('formatting number to: ' + parseFloat(number).toFixed(2));
         return parseFloat(number).toFixed(2);
     }
