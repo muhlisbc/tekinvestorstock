@@ -120,9 +120,7 @@
               percent_change = percent_change.replace("%","");
               percent_change = percent_change.replace("+","");
 
-              console.log('percent_change');
-              console.log(percent_change);
-              //percent_change = formatNumber(percent_change);
+              percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
@@ -203,7 +201,7 @@
               percent_change = stock.percent_change.toString();
               percent_change = percent_change.replace("%","");
               percent_change = percent_change.replace("+","");
-              //percent_change = formatNumber(percent_change);
+              percent_change = formatNumber(percent_change);
               percent_change = percent_change.replace(".",",");
               
               change_direction = 'neutral';
@@ -298,8 +296,9 @@
     function formatNumber(number)
     // formats 1 -> 1.00
     {
-        console.log('formatting number: ' + number);
-        var number = number.toFixed(2) + '';
+        //console.log('formatting number: ' + number);
+        var number = parseFloat(number);
+        number = number.toFixed(2) + '';
         var x = number.split('.');
         var x1 = x[0];
         var x2 = x.length > 1 ? '.' + x[1] : '';
