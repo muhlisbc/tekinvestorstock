@@ -197,11 +197,11 @@
                 var $this = $(this);
 
                 //get initial value and set it as data..
-                var valueStr = this.innerHTML;
+                var valueStr = this.innerHTML.parseFloat(s.replace(",",".")).toFixed(2).replace(".",",");
                 console.log("valueStr: " + valueStr);
                 if (!checkValue(valueStr)) return;
 
-                $this.attr("data-numberAnimate-value", parseFloat(valueStr).toFixed(2).replace(".",","));
+                $this.attr("data-numberAnimate-value", valueStr);
                 
                 if (!animationSupported) return; //do nothing..
 
@@ -249,7 +249,7 @@
          * Obtains the string value that is being animating for the first matched element.
          */
         val: function () {
-            return parseFloat(this.attr("data-numberAnimate-value")).toFixed(2).replace(".",",");
+            return this.attr("data-numberAnimate-value");
         },
 
         /**
@@ -264,7 +264,7 @@
 
             //get the number value and update the stored value..
             if (!checkValue(newValue))  return;
-            this.attr("data-numberAnimate-value", parseFloat(newValue).toFixed(2).replace(".",","));
+            this.attr("data-numberAnimate-value", parseFloat(newValue.replace(",",".")).toFixed(2).replace(".",","));
 
             //if not animating just change the value..
             if (!animationSupported) {
