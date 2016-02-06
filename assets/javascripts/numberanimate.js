@@ -198,7 +198,14 @@
 
                 //get initial value and set it as data..
                 var valueStr = parseFloat(this.innerHTML.replace(",",".")).toFixed(2).replace(".",",");
+
+
                 console.log("valueStr: " + valueStr);
+
+                if (!valueStr.indexOf("-") !=-1) {
+                    valueStr = "+" + valueStr;
+                }
+
                 if (!checkValue(valueStr)) return;
 
                 $this.attr("data-numberAnimate-value", valueStr);
@@ -263,6 +270,10 @@
                 animationTimes = $.parseJSON(this.attr('data-numberAnimate-animationTimes'));
 
             newValue = parseFloat(newValue.replace(",",".")).toFixed(2).replace(".",",");
+
+            if (!newValue.indexOf("-") !=-1) {
+                newValue = "+" + newValue;
+            }
 
             //get the number value and update the stored value..
             if (!checkValue(newValue))  return;
