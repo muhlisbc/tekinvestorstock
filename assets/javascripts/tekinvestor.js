@@ -125,7 +125,7 @@
               
               change_direction = 'neutral';
               //console.log(percent_change);
-              if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; percent_change = "+" + percent_change; }
+              if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; }
 
               if($('#stock_data').length > 0 && forceRefresh == false) { // stock data has been loaded, update existing stock numbers
                 // update data
@@ -207,7 +207,7 @@
               
               change_direction = 'neutral';
               //console.log(percent_change);
-              if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; percent_change = "+" + percent_change; }
+              if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; }
 
               if($('#tekindex_stock_data').length > 0 && forceRefresh == false) { // stock data has been loaded, update existing stock numbers
                 // update data
