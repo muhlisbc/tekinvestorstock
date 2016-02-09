@@ -16,12 +16,6 @@ gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for
 
 after_initialize do
 
-  # check if user is an insider
-  add_to_serializer(:current_user, :is_insider?) do
-    group = Group.find_by("lower(name) = ?", "insider")
-    return true if group && GroupUser.where(user_id: scope.user.id, group_id: group.id).exists?
-  end
-
   module StockPlugin
 
     class Engine < ::Rails::Engine
@@ -245,8 +239,13 @@ after_initialize do
       def is_user_insider
         if !current_user.nil? 
           
-          #render json: current_user.is_insider
-          render json: { message: "logged in" }
+          group = Group.find_by("lower(name) = ?", "insider")
+          
+          if group && GroupUser.where(user_id: current_user.id, group_id: group.id).exists? 
+            render json: { insider: true }
+          else
+            render json: { insider: false }
+          end
 
         else 
           render json: { message: "not logged in" }
