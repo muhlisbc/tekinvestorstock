@@ -91,9 +91,9 @@
       Discourse.ajax("/stock/is_user_insider", {
           type: "GET",
         }).then(function(data) {
-          
+
           console.log(data);
-          data = jQuery.parseJSON(data);
+          //data = jQuery.parseJSON(data);
           console.log(data);
           if(data.insider) {
             console.log('insider!');
