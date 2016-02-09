@@ -7,13 +7,14 @@
       if($('.stock-chart').length > 0 ) { stockPage = true; } else { stockPage = false; }
       
       if(homePage){
-        if(loggedIn){ displayUsersFavoriteStocks(false); }
+        if(loggedIn){ displayUsersFavoriteStocks(false); checkIfUserIsInsider(); }
         displayTekIndex(false);
         console.log('refreshing stocks'); 
       }
 
       // add notice in fav stocks box if not signed in       
       if(!loggedIn && homePage) {
+        $('#insider-cta').hide();
         $('#user-favorite-stocks .spinner').hide();
         $('#user-favorite-stocks .notice-not-logged-in').show();
         $('#tekindex .spinner').hide();
@@ -24,16 +25,19 @@
       $(function() {
           setInterval(function() {
               if($('.topic-list tr').length!=oldTopicsCount) {
-                   if(loggedIn){ displayUsersFavoriteStocks(true); } 
+                   if(loggedIn){ displayUsersFavoriteStocks(true); checkIfUserIsInsider(); } 
                    displayTekIndex(false);
                    console.log('page changed, updating stocks');
                   
                   // add notice in fav stocks box if not signed in       
                   if(!loggedIn && homePage) {
+                    $('#insider-cta').hide();
                     $('#user-favorite-stocks .spinner').hide();
                     $('#user-favorite-stocks .notice-not-logged-in').show();
                     $('#tekindex .spinner').hide();
                     $('#tekindex .notice-not-logged-in').show();
+                    
+
                   }
 
                   // if on stock page, make chart
@@ -80,6 +84,16 @@
       }
 
   }, 60000);
+
+  function checkIfUserIsInsider(){
+      console.log('checkIfUserIsInsider');
+      
+      Discourse.ajax("/stock/is_user_insider", {
+          type: "GET",
+        }).then(function(data) {
+          console.log(data);
+        });        
+  }
 
   function displayUsersFavoriteStocks(forceRefresh) {
         console.log('displayUsersFavoriteStocks');

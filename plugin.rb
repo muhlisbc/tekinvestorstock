@@ -16,6 +16,12 @@ gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for
 
 after_initialize do
 
+  # check if user is an insider
+  add_to_serializer(:current_user, :is_insider?) do
+    group = Group.find_by("lower(name) = ?", "insider")
+    return true if group && GroupUser.where(user_id: scope.user.id, group_id: group.id).exists?
+  end
+
   module StockPlugin
 
     class Engine < ::Rails::Engine
@@ -236,6 +242,16 @@ after_initialize do
         end
       end
 
+      def is_user_insider
+        if !current_user.nil? 
+          
+          render json: current_user.is_insider
+
+        else 
+          render json: { message: "not logged in" }
+        end  
+      end
+
 
       # user stock price
 
@@ -278,6 +294,7 @@ after_initialize do
     get '/user_stock' => 'stock#get_user_stock'
     get '/set_user_stock' => 'stock#set_user_stock'
 
+    get '/is_user_insider' => 'stock#is_user_insider'
     get '/get_users_favorite_stocks' => 'stock#get_users_favorite_stocks'
     get '/add_stock_to_users_favorite_stocks' => 'stock#add_stock_to_users_favorite_stocks'
     get '/remove_stock_from_users_favorite_stocks' => 'stock#remove_stock_from_users_favorite_stocks'
