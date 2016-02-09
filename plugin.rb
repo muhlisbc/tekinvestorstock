@@ -250,7 +250,9 @@ after_initialize do
 
         else 
           render json: { message: "not logged in" }
-        end  
+
+        end
+        return  
       end
 
 
