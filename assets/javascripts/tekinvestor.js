@@ -93,8 +93,6 @@
         }).then(function(data) {
 
           console.log(data);
-          //data = jQuery.parseJSON(data);
-          console.log(data);
           if(data.insider) {
             console.log('insider!');
             $('#insider-thanks').show();
