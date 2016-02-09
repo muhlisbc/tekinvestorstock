@@ -245,7 +245,8 @@ after_initialize do
       def is_user_insider
         if !current_user.nil? 
           
-          render json: current_user.is_insider
+          #render json: current_user.is_insider
+          render json: { message: "logged in" }
 
         else 
           render json: { message: "not logged in" }
