@@ -86,18 +86,19 @@
   }, 60000);
 
   function checkIfUserIsInsider(){
-      //console.log('checkIfUserIsInsider');
+      console.log('checkIfUserIsInsider');
       
       Discourse.ajax("/stock/is_user_insider", {
           type: "GET",
         }).then(function(data) {
-
           console.log(data);
           if(data.insider) {
-            console.log('insider!');
-            $('#insider-thanks').show();
+            console.log("insider:true");
+            $('.insider-thanks').show();
+            $('#insider-cta').hide();
           } else {
-            console.log('not insider!');
+            console.log("insider:false");
+            $('#insider-cta').show();
           }
           
 
