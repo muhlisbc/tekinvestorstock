@@ -240,14 +240,8 @@ after_initialize do
 
       def symbol_search(ticker)
         
-          @stocks =   '[ 
-                      {"name": "Afghanistan", "code": "AF"}, 
-                      {"name": "Aland Islands", "code": "AX"}, 
-                      {"name": "Albania", "code": "AL"}, 
-                      {"name": "Algeria", "code": "DZ"}, 
-                      {"name": "American Samoa", "code": "AS"}
-                     ]'
-          render json: @stocks.to_s
+          #@stocks = 
+          render json: { name: "funcom" }
         
       end
 
