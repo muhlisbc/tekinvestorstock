@@ -24,7 +24,11 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
           checkIfUserIsInsider(); 
 
           var options = {
-            data: ["blue", "green", "pink", "red", "yellow"]
+            url: function(phrase) {
+              return "d.yimg.com/aq/autoc?query=" + phrase + "&region=US&lang=en-US";
+            },
+
+            getValue: "name"
           };
 
           $("#stock-search").easyAutocomplete(options);
