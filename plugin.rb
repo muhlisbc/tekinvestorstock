@@ -247,7 +247,7 @@ after_initialize do
                       {"name": "Algeria", "code": "DZ"}, 
                       {"name": "American Samoa", "code": "AS"}
                      ]'
-          render json: { insider: true }
+          render json: @stocks.to_s
         
       end
 
