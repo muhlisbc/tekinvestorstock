@@ -7,7 +7,19 @@
       if($('.stock-chart').length > 0 ) { stockPage = true; } else { stockPage = false; }
       
       if(homePage){
-        if(loggedIn){ displayUsersFavoriteStocks(false); checkIfUserIsInsider(); }
+        
+        if(loggedIn){ 
+          displayUsersFavoriteStocks(false); 
+          checkIfUserIsInsider(); 
+
+          var options = {
+            data: ["blue", "green", "pink", "red", "yellow"]
+          };
+
+          $("#stock-search").easyAutocomplete(options);
+
+        }
+
         displayTekIndex(false);
         console.log('refreshing stocks'); 
       }
