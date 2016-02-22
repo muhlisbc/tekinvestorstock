@@ -5,8 +5,10 @@
 
 register_asset "javascripts/tekinvestor.js"
 register_asset "javascripts/numberanimate.js"
+register_asset "javascripts/jquery.easy-autocomplete.min.js"
 register_asset "javascripts/charting_library/datafeed/udf/datafeed.js"
 register_asset "javascripts/charting_library/charting_library.min.js"
+
 
 load File.expand_path("../stock.rb", __FILE__)
 
@@ -236,6 +238,19 @@ after_initialize do
         end
       end
 
+      def symbol_search(ticker)
+        
+          @stocks =   '[ 
+                      {"name": "Afghanistan", "code": "AF"}, 
+                      {"name": "Aland Islands", "code": "AX"}, 
+                      {"name": "Albania", "code": "AL"}, 
+                      {"name": "Algeria", "code": "DZ"}, 
+                      {"name": "American Samoa", "code": "AS"}
+                     ]'
+          render json: { insider: true }
+        
+      end
+
       def is_user_insider
         if !current_user.nil? 
           
@@ -302,6 +317,8 @@ after_initialize do
     get '/remove_stock_from_users_favorite_stocks' => 'stock#remove_stock_from_users_favorite_stocks'
 
     get '/get_tekindex_stocks' => 'stock#get_tekindex_stocks'
+
+    get '/symbol_search' => 'stock#symbol_search'
 
     get '/user_average_price' => 'stock#get_user_average_price'
     get '/set_user_average_price' => 'stock#set_user_average_price'
