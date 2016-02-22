@@ -25,7 +25,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
 
           var options = {
             url: function(phrase) {
-              return "d.yimg.com/aq/autoc?query=" + phrase + "&region=US&lang=en-US";
+              return "http://d.yimg.com/aq/autoc?query=" + phrase + "&region=US&lang=en-US";
             },
 
             getValue: "name"
