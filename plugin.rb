@@ -134,7 +134,7 @@ after_initialize do
               end
 
               # if data has not been updated in 1 minute, update
-              if Time.now.to_i - stock_last_updated > 60
+              if Time.now.to_i - stock_last_updated.to_i > 60
 
                 set_stock_data(ticker)
 
@@ -163,15 +163,18 @@ after_initialize do
           @tekindex.reverse.each do |ticker|
 
             stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
-            
+            logger.debug "stock_last_updated: #{stock_last_updated}"
+
             # if no data, update now
             if stock_last_updated.nil? || stock_last_updated == ''
               set_stock_data(ticker)  
               stock_last_updated = Time.now.to_i
             end
+            
+            logger.debug "stock_last_updated: #{stock_last_updated}"
 
             # if data has not been updated in 1 minute, update
-            if Time.now.to_i - stock_last_updated > 60
+            if Time.now.to_i - stock_last_updated.to_i > 60
 
               set_stock_data(ticker)
 
