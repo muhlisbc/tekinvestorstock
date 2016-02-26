@@ -134,7 +134,7 @@ after_initialize do
               end
 
               # if data has not been updated in 1 minute, update
-              if Time.now.to_i - stock_last_updated.to_i > 60
+              if Time.now.to_i - stock_last_updated.to_i > (60 * 20)
 
                 set_stock_data(ticker)
 
@@ -174,7 +174,7 @@ after_initialize do
             logger.debug "stock_last_updated: #{stock_last_updated}"
 
             # if data has not been updated in 1 minute, update
-            if Time.now.to_i - stock_last_updated.to_i > 60
+            if Time.now.to_i - stock_last_updated.to_i > (60 * 20)
 
               set_stock_data(ticker)
 
@@ -204,7 +204,7 @@ after_initialize do
           end
 
           # if data has not been updated in 1 minute, update
-          if Time.now.to_i - stock_last_updated > 60
+          if Time.now.to_i - stock_last_updated > (60 * 20)
 
             set_stock_data('funcom.ol')
 
