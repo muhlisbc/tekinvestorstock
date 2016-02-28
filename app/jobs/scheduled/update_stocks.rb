@@ -53,7 +53,7 @@ module Jobs
 
 		  	puts "-- Processing: #{stocks[index].symbol}"
 
-		  	::PluginStore.set("stock_data_last_values", stocks[index].symbol.downcase, stocks[index].to_json)
+		  	::PluginStore.set("stock_data_last_values", stocks[index].symbol, stocks[index].to_json)
      		::PluginStore.set("stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
 
         #puts "#{stocks[index].to_json}"
