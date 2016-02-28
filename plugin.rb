@@ -18,6 +18,9 @@ gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for
 
 after_initialize do
 
+  # load jobs
+  load File.expand_path("../app/jobs/scheduled/update_stocks.rb", __FILE__)
+
   module StockPlugin
 
     class Engine < ::Rails::Engine
