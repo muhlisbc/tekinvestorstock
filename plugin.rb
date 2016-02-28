@@ -42,30 +42,19 @@ after_initialize do
         end
       end
 
-      def increment_stocks_favorite_count(ticker)
+      def update_stocks_favorite_count(ticker)
+        
         if !params[:ticker].nil?
-          
-          stock_favorite_count = ::PluginStore.get("stock_favorite_count", params[:ticker])
+            
+        # TODO: rewrite below as sidekiq job
 
-          if stock_favorite_count.nil?
-            ::PluginStore.set("stock_favorite_count", params[:ticker], 0)
-          else 
-            ::PluginStore.set("stock_favorite_count", params[:ticker], stock_favorite_count.to_i + 1)
-          end
+        #  stock_favorite_count = ::PluginStore.get("stock_favorite_count", params[:ticker])
 
-        end
-      end
-
-      def decrement_stocks_favorite_count(ticker)
-        if !params[:ticker].nil?
-          
-          stock_favorite_count = ::PluginStore.get("stock_favorite_count", params[:ticker])
-
-          if stock_favorite_count.nil?
-            ::PluginStore.set("stock_favorite_count", params[:ticker], 0)
-          else 
-            ::PluginStore.set("stock_favorite_count", params[:ticker], stock_favorite_count.to_i - 1)
-          end
+         # if stock_favorite_count.nil?
+          #  ::PluginStore.set("stock_favorite_count", params[:ticker], 0)
+          #else 
+           # ::PluginStore.set("stock_favorite_count", params[:ticker], stock_favorite_count.to_i - 1)
+          #nd
           
         end
       end
@@ -94,7 +83,7 @@ after_initialize do
       
     def remove_stock_from_users_favorite_stocks
         if !current_user.nil? 
-          decrement_stocks_favorite_count(params[:ticker])
+          update_stocks_favorite_count(params[:ticker])
 
           stocks_array = current_user.custom_fields["favorite_stocks"]
           
@@ -129,15 +118,7 @@ after_initialize do
               
               # if no data, update now
               if stock_last_updated.nil? || stock_last_updated == ''
-                set_stock_data(ticker)  
-                stock_last_updated = Time.now.to_i
-              end
-
-              # if data has not been updated in 1 minute, update
-              if Time.now.to_i - stock_last_updated.to_i > (60 * 20)
-
-                set_stock_data(ticker)
-
+                set_stock_data(ticker) 
               end
               
               @stock = ::PluginStore.get("stock_data_last_values", ticker)
@@ -163,22 +144,6 @@ after_initialize do
           @tekindex.reverse.each do |ticker|
 
             stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
-            logger.debug "stock_last_updated: #{stock_last_updated}"
-
-            # if no data, update now
-            if stock_last_updated.nil? || stock_last_updated == ''
-              set_stock_data(ticker)  
-              stock_last_updated = Time.now.to_i
-            end
-            
-            logger.debug "stock_last_updated: #{stock_last_updated}"
-
-            # if data has not been updated in 1 minute, update
-            if Time.now.to_i - stock_last_updated.to_i > (60 * 20)
-
-              set_stock_data(ticker)
-
-            end
             
             @stock = ::PluginStore.get("stock_data_last_values", ticker)
             @stock = @stock.to_s
@@ -190,40 +155,9 @@ after_initialize do
 
       end
 
-      # update stock price
-      def stock_data
-        
-        if !params[:ticker].nil?
-
-          stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", params[:ticker])
-          
-          # if no data, update now
-          if stock_last_updated.nil? || stock_last_updated == ''
-            set_stock_data('funcom.ol')  
-            stock_last_updated = Time.now.to_i
-          end
-
-          # if data has not been updated in 1 minute, update
-          if Time.now.to_i - stock_last_updated > (60 * 20)
-
-            set_stock_data('funcom.ol')
-
-          end
-
-          # return stock object
-          @stock_data = []
-          @stock_data = @stock_data << get_stock_data(params[:ticker])
-
-          render json: @stock_data
-          
-        end
-
-        return
-
-      end
-
       def set_stock_data (ticker)
 
+        # TODO: rewrite as sidekiq job
         if !ticker.nil? 
 
           stock = StockQuote::Stock.quote(ticker).to_json
