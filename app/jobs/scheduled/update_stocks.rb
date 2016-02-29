@@ -9,7 +9,7 @@ module Jobs
       
     	  # find all stocks in tekindex
           
-          @tickers = ["FUNCOM.OL", "STAR-A.ST", "STAR-B.ST", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "GOGL.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "NOM.OL", "BIRD.OL", "NEXT.OL"]
+          @tickers = ["FUNCOM.OL", "STAR-A.ST", "STAR-B.ST", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "NOM.OL", "BIRD.OL", "NEXT.OL"]
 
           # find all favorited stocks
 		  puts "Finding all favorite stocks"
@@ -53,8 +53,8 @@ module Jobs
 
 		  	puts "-- Processing: #{stocks[index].symbol}"
 
-		  	::PluginStore.set("new_stock_data_last_values", stocks[index].symbol, stocks[index].to_json)
-     		::PluginStore.set("new_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
+		  	::PluginStore.set("final_stock_data_last_values", stocks[index].symbol, stocks[index].to_json)
+     		::PluginStore.set("final_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
 
         #puts "#{stocks[index].to_json}"
 
