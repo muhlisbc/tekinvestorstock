@@ -146,9 +146,9 @@ after_initialize do
 
           @tekindex.reverse.each do |ticker|
 
-            stock_last_updated = ::PluginStore.get("new_stock_data_last_values_last_updated", ticker)
+            stock_last_updated = ::PluginStore.get("new_stock_data_last_values_last_updated", ticker.downcase)
             
-            @stock = ::PluginStore.get("new_stock_data_last_values", ticker)
+            @stock = ::PluginStore.get("new_stock_data_last_values", ticker.downcase)
             @stock = @stock.to_s
             @stock_data = @stock_data << @stock
 
