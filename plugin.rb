@@ -121,11 +121,15 @@ after_initialize do
               # if no data, update now
               if stock_last_updated.nil? || stock_last_updated == ''
                 #set_stock_data(ticker) 
+                # todo: trigger sidekiq job to update one stock!
               end
               
               @stock = ::PluginStore.get("final2_stock_data_last_values", ticker)
-              @stock = @stock.to_s
-              @stock_data = @stock_data << @stock
+              
+              unless @stock.nil? || @stock == ''
+                @stock = @stock.to_s
+                @stock_data = @stock_data << @stock
+              end
 
             end
           end
