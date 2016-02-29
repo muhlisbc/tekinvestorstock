@@ -64,8 +64,7 @@ after_initialize do
 
       def add_stock_to_users_favorite_stocks
         if !current_user.nil? 
-          increment_stocks_favorite_count(params[:ticker])
-
+          update_stocks_favorite_count(params[:ticker])
           stocks_array = current_user.custom_fields["favorite_stocks"]
           
           if !stocks_array.nil?
