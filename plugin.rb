@@ -117,14 +117,14 @@ after_initialize do
 
             current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
-              stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
+              stock_last_updated = ::PluginStore.get("new_stock_data_last_values_last_updated", ticker)
               
               # if no data, update now
               if stock_last_updated.nil? || stock_last_updated == ''
                 set_stock_data(ticker) 
               end
               
-              @stock = ::PluginStore.get("stock_data_last_values", ticker)
+              @stock = ::PluginStore.get("new_stock_data_last_values", ticker)
               @stock = @stock.to_s
               @stock_data = @stock_data << @stock
 
@@ -146,9 +146,9 @@ after_initialize do
 
           @tekindex.reverse.each do |ticker|
 
-            stock_last_updated = ::PluginStore.get("stock_data_last_values_last_updated", ticker)
+            stock_last_updated = ::PluginStore.get("new_stock_data_last_values_last_updated", ticker)
             
-            @stock = ::PluginStore.get("stock_data_last_values", ticker)
+            @stock = ::PluginStore.get("new_stock_data_last_values", ticker)
             @stock = @stock.to_s
             @stock_data = @stock_data << @stock
 
@@ -165,8 +165,8 @@ after_initialize do
 
           stock = StockQuote::Stock.quote(ticker).to_json
         
-          ::PluginStore.set("stock_data_last_values", ticker, stock)
-          ::PluginStore.set("stock_data_last_values_last_updated", ticker, Time.now.to_i)
+          ::PluginStore.set("new_stock_data_last_values", ticker, stock)
+          ::PluginStore.set("new_stock_data_last_values_last_updated", ticker, Time.now.to_i)
 
         end
 
@@ -174,14 +174,28 @@ after_initialize do
 
       def get_stock_data(ticker)
         if ticker.nil? 
-          ::PluginStore.get('stock_data_last_values', ticker)
+          ::PluginStore.get('new_stock_data_last_values', ticker)
         end
       end
 
-      def symbol_search(ticker)
-        
+      def symbol_search
+          
+          puts params[:ticker]
           #@stocks = 
-          render json: { name: "funcom" }
+          # perform symbol search from yahoo 
+
+          # http://d.yimg.com/aq/autoc?query=" + phrase + "&region=US&lang=en-US;
+
+          # return name, symbol, equity or index, stock exchange
+          # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
+          
+          # todo, return results from yahoo in the below format (or else it won't work)
+
+          @results =   '[ 
+            {"name": "Funcom", "symbol": "FUNCOM.OL"}, 
+            {"name": "Tesla Motors", "symbol": "TSLA"}
+          ]'
+          render json: @results.to_s
         
       end
 
