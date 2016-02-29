@@ -117,14 +117,14 @@ after_initialize do
 
             current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
-              stock_last_updated = ::PluginStore.get("final_stock_data_last_values_last_updated", ticker)
+              stock_last_updated = ::PluginStore.get("final2_stock_data_last_values_last_updated", ticker)
               
               # if no data, update now
               if stock_last_updated.nil? || stock_last_updated == ''
-                set_stock_data(ticker) 
+                #set_stock_data(ticker) 
               end
               
-              @stock = ::PluginStore.get("final_stock_data_last_values", ticker)
+              @stock = ::PluginStore.get("final2_stock_data_last_values", ticker)
               @stock = @stock.to_s
               @stock_data = @stock_data << @stock
 
@@ -146,9 +146,9 @@ after_initialize do
 
           @tekindex.reverse.each do |ticker|
 
-            stock_last_updated = ::PluginStore.get("final_stock_data_last_values_last_updated", ticker.downcase)
+            stock_last_updated = ::PluginStore.get("final2_stock_data_last_values_last_updated", ticker.downcase)
             
-            @stock = ::PluginStore.get("final_stock_data_last_values", ticker.downcase)
+            @stock = ::PluginStore.get("final2_stock_data_last_values", ticker.downcase)
             @stock = @stock.to_s
             @stock_data = @stock_data << @stock
 
@@ -165,8 +165,8 @@ after_initialize do
 
           stock = StockQuote::Stock.quote(ticker).to_json
         
-          ::PluginStore.set("final_stock_data_last_values", ticker.downcase, stock)
-          ::PluginStore.set("final_stock_data_last_values_last_updated", ticker.downcase, Time.now.to_i)
+          ::PluginStore.set("final2_stock_data_last_values", ticker.downcase, stock)
+          ::PluginStore.set("final2_stock_data_last_values_last_updated", ticker.downcase, Time.now.to_i)
 
         end
 
@@ -174,7 +174,7 @@ after_initialize do
 
       def get_stock_data(ticker)
         if ticker.nil? 
-          ::PluginStore.get('final_stock_data_last_values', ticker)
+          ::PluginStore.get('final2_stock_data_last_values', ticker)
         end
       end
 
