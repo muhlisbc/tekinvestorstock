@@ -9,6 +9,7 @@ register_asset "javascripts/jquery.easy-autocomplete.min.js"
 register_asset "javascripts/charting_library/datafeed/udf/datafeed.js"
 register_asset "javascripts/charting_library/charting_library.min.js"
 
+require 'net/http'
 
 load File.expand_path("../stock.rb", __FILE__)
 
@@ -180,6 +181,7 @@ after_initialize do
 
       def symbol_search
           
+          puts "searching for symbol.."
           puts params[:ticker]
           #@stocks = 
           # perform symbol search from yahoo 
@@ -189,13 +191,23 @@ after_initialize do
           # return name, symbol, equity or index, stock exchange
           # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
           
+          
+          source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US'
+          resp = Net::HTTP.get_response(URI.parse(source))
+          data = resp.body
+          result = JSON.parse(data)
+
+          puts result["ResultSet"]["Result"]
+
           # todo, return results from yahoo in the below format (or else it won't work)
 
-          @results =   '[ 
-            {"name": "Funcom", "symbol": "FUNCOM.OL"}, 
-            {"name": "Tesla Motors", "symbol": "TSLA"}
-          ]'
-          render json: @results.to_s
+          #@results =   '[ 
+            #{"name": "Funcom", "symbol": "FUNCOM.OL"}, 
+            #{"name": "Tesla Motors", "symbol": "TSLA"}
+          #]'
+          results = result["ResultSet"]["Result"].to_s.gsub! '=>', ':'
+
+          render json: results
         
       end
 

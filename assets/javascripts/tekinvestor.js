@@ -25,10 +25,17 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
 
           var options = {
             url: function(phrase) {
-              return "symbol_search?ticker=" + phrase;
+              return "/stock/symbol_search?ticker=" + phrase;
             },
-
-            getValue: "name"
+            placeholder: "Legg til dine favoritter",
+            getValue: "name",
+            requestDelay: 100,
+            template: {
+              type: "custom",
+              method: function(value, item) {
+                return value + " (" + item.symbol + ")";
+              }
+            }
           };
 
           $("#stock-search").easyAutocomplete(options);
