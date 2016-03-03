@@ -16,12 +16,12 @@ module Jobs
 
           User.find_each do |user|
 		  	
-		  	#puts "finding favorites for user id: #{user.id}"
+		  	puts "finding favorites for user id: #{user.id}"
 		  	
 		  	unless user.custom_fields["favorite_stocks"].nil? || user.custom_fields["favorite_stocks"].empty?
 		  		
 		  		users_favorite_stocks = user.custom_fields["favorite_stocks"].split(',')
-				#puts users_favorite_stocks
+				puts users_favorite_stocks
 
 				# add to array
 				@tickers.concat users_favorite_stocks
@@ -46,22 +46,31 @@ module Jobs
 
   		# handles multiple stocks in one request
         if !tickers.nil? 
-		puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
-
+		      puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
+        
+          #tickers = ["FUNCOM.OL", "STAR-A.ST"]
           stocks = StockQuote::Stock.quote(tickers)
 
-	      for index in 0 ... stocks.size
+          puts "processing.."
+          puts stocks.size
+          puts "stocks"
 
-		  	puts "-- Processing: #{stocks[index].symbol}"
+  	      for index in 0 ... stocks.size
 
-		  	::PluginStore.set("final2_stock_data_last_values", stocks[index].symbol.downcase, stocks[index].to_json)
-     		::PluginStore.set("final2_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
+      		  puts "-- Processing: #{index}"
 
-        #puts "#{stocks[index].to_json}"
+            unless stocks[index].symbol.nil? || stocks[index].symbol == ""
 
-		  end
+      		  	::PluginStore.set("final2_stock_data_last_values", stocks[index].symbol.downcase, stocks[index].to_json)
+           		::PluginStore.set("final2_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
+              
+            end 
+            
+            #puts "#{stocks[index].to_json}"
 
-		  puts "Done!"
+  		    end
+
+  		    puts "Done!"
 
         end
 
