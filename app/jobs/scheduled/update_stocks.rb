@@ -63,6 +63,8 @@ module Jobs
 
             unless stocks[index].symbol.nil? || stocks[index].symbol == ""
 
+              puts "#{stocks[index].symbol} last: #{stocks[index].last_trade_price_only}"
+
       		  	::PluginStore.set("final2_stock_data_last_values", stocks[index].symbol.downcase, stocks[index].to_json)
            		::PluginStore.set("final2_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
               
