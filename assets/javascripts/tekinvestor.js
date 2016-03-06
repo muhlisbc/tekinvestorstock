@@ -105,7 +105,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
           },500);
       });
 
-  }, 100);
+  }, 500);
 
     setInterval(function(){
       
