@@ -160,7 +160,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
           if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); } 
             else { $('#user-favorite-stocks .notice-no-favorites').show(); }
           
-          //if(forceRefresh) { $('#user-favorite-stocks .number-animate').numberAnimate('init'); }
+          $('#user-favorite-stocks .number-animate').numberAnimate('init');
 
           
         });
@@ -188,7 +188,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
           $('#tekindex .spinner').hide();
           $('#tekindex').append(stock_html);              
           
-          //if(forceRefresh) { $('#tekindex .number-animate').numberAnimate('init'); }
+          $('#tekindex .number-animate').numberAnimate('init');
           
 
         });
