@@ -109,7 +109,12 @@ after_initialize do
         if !current_user.nil? 
           
           #loop through users favorite stocks
+          
           @stock_data = []
+          @stocks_symbol = []
+          @stocks_last_updated = []
+          @stocks_price = []
+          @stocks_change_percent = []
 
           current_favorite_stocks_array = current_user.custom_fields["favorite_stocks"]
           
@@ -117,20 +122,21 @@ after_initialize do
 
             current_user.custom_fields["favorite_stocks"].split(',').each do |ticker|
 
-              stock_last_updated = ::PluginStore.get("final2_stock_data_last_values_last_updated", ticker)
+              #stock_last_updated = ::PluginStore.get("final2_stock_data_last_values_last_updated", ticker)
               
               # if no data, update now
-              if stock_last_updated.nil? || stock_last_updated == ''
+              #if stock_last_updated.nil? || stock_last_updated == ''
                 #set_stock_data(ticker) 
                 # todo: trigger sidekiq job to update one stock!
-              end
+              #end
               
-              @stock = ::PluginStore.get("final2_stock_data_last_values", ticker)
-              
-              unless @stock.nil? || @stock == ''
-                @stock = @stock.to_s
-                @stock_data = @stock_data << @stock
-              end
+              @stock_price = ::PluginStore.get("stock_price", ticker)
+              @stock_change_percent = ::PluginStore.get("stock_change_percent", ticker)
+              @stock_last_updated = ::PluginStore.get("stock_last_updated", ticker)
+
+              @stock_data = @stock_data << [ticker, @stock_price, @stock_change_percent, @stock_last_updated]
+
+              #puts @stocks_data
 
             end
           end
@@ -150,11 +156,12 @@ after_initialize do
 
           @tekindex.reverse.each do |ticker|
 
-            stock_last_updated = ::PluginStore.get("final2_stock_data_last_values_last_updated", ticker.downcase)
-            
-            @stock = ::PluginStore.get("final2_stock_data_last_values", ticker.downcase)
-            @stock = @stock.to_s
-            @stock_data = @stock_data << @stock
+            ticker = ticker.downcase
+            @stock_price = ::PluginStore.get("stock_price", ticker)
+            @stock_change_percent = ::PluginStore.get("stock_change_percent", ticker)
+            @stock_last_updated = ::PluginStore.get("stock_last_updated", ticker)
+
+            @stock_data = @stock_data << [ticker, @stock_price, @stock_change_percent, @stock_last_updated]
 
           end
           
@@ -165,14 +172,14 @@ after_initialize do
       def set_stock_data (ticker)
 
         # TODO: rewrite as sidekiq job
-        if !ticker.nil? 
+        #if !ticker.nil? 
 
-          stock = StockQuote::Stock.quote(ticker).to_json
+         # stock = StockQuote::Stock.quote(ticker).to_json
         
-          ::PluginStore.set("final2_stock_data_last_values", ticker.downcase, stock)
-          ::PluginStore.set("final2_stock_data_last_values_last_updated", ticker.downcase, Time.now.to_i)
+          #::PluginStore.set("final2_stock_data_last_values", ticker.downcase, stock)
+          #::PluginStore.set("final2_stock_data_last_values_last_updated", ticker.downcase, Time.now.to_i)
 
-        end
+        #end
 
       end
 

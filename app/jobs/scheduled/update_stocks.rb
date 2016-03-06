@@ -50,8 +50,16 @@ module Jobs
           tickers = tickers.uniq
 		      puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
         
-          #tickers = ["FUNCOM.OL", "STAR-A.ST", ""]
-          stocks = StockQuote::Stock.quote(tickers)
+          #tickers = ["FUNCOM.OL", "STAR-A.ST"]
+          #stocks = StockQuote::Stock.quote(tickers) #old unreliable method, but ok for historical data
+
+          tickers = tickers.join(",")
+          source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail'
+          resp = Net::HTTP.get_response(URI.parse(source))
+          data = resp.body
+          result = JSON.parse(data)
+
+          stocks = result["list"]["resources"]
 
           puts "processing.."
           puts stocks.size
@@ -61,12 +69,21 @@ module Jobs
 
       		  puts "-- Processing: #{index}"
 
-            unless stocks[index].symbol.nil? || stocks[index].symbol == ""
+            symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase
 
-              puts "#{stocks[index].symbol} last: #{stocks[index].last_trade_price_only}"
+            unless symbol.nil? || symbol == ""
 
-      		  	::PluginStore.set("final2_stock_data_last_values", stocks[index].symbol.downcase, stocks[index].to_json)
-           		::PluginStore.set("final2_stock_data_last_values_last_updated", stocks[index].symbol.to_json, Time.now.to_i)
+              symbol = symbol.downcase
+              
+              price = result["list"]["resources"][index]["resource"]["fields"]["price"]
+              last_updated = result["list"]["resources"][index]["resource"]["fields"]["utctime"]
+              change_percent = result["list"]["resources"][index]["resource"]["fields"]["chg_percent"]
+
+              puts "#{symbol} / #{price} / #{change_percent} / #{last_updated}"
+
+      		  	::PluginStore.set("stock_price", symbol, price)
+              ::PluginStore.set("stock_change_percent", symbol, change_percent)
+           		::PluginStore.set("stock_last_updated", symbol, last_updated)
               
             end 
 
