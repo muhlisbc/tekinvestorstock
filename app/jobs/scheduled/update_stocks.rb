@@ -88,7 +88,7 @@ module Jobs
               
               price = result["query"]["results"]["row"][index]["symbol"]["price"]
               #last_updated = result["query"]["results"]["row"][index]["symbol"]["utctime"]
-              change_percent = ["query"]result["results"]["row"][index]["symbol"]["chg_percent"]
+              change_percent = result["query"]["results"]["row"][index]["symbol"]["chg_percent"]
 
               puts "#{symbol} / #{price} / #{change_percent}"
 
