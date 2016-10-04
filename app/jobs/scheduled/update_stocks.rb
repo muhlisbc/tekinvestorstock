@@ -86,9 +86,9 @@ module Jobs
 
               symbol = symbol.downcase
               
-              price = result["query"]["results"]["row"][index]["symbol"]["price"]
-              #last_updated = result["query"]["results"]["row"][index]["symbol"]["utctime"]
-              change_percent = result["query"]["results"]["row"][index]["symbol"]["chg_percent"]
+              price = result["query"]["results"]["row"][index]["price"]
+              #last_updated = result["query"]["results"]["row"][index]["utctime"]
+              change_percent = result["query"]["results"]["row"][index]["chg_percent"]
 
               puts "#{symbol} / #{price} / #{change_percent}"
 
