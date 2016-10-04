@@ -60,7 +60,7 @@ module Jobs
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
-              sleep(2 * batch_index) # add a 5 second delay between fetching stock data to not get blocked by yahoo
+              #sleep(2 * batch_index) # add a 5 second delay between fetching stock data to not get blocked by yahoo
 
 
               tickers = ticker_batch.compact.join(",") #compact removes nil values
@@ -83,6 +83,8 @@ module Jobs
               puts "processing.."
               puts stocks.size
               puts "stocks"
+
+              puts stocks
 
               for index in 0 ... stocks.size
 
