@@ -50,16 +50,23 @@ module Jobs
           tickers = tickers.uniq
 		      puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
         
-          #tickers = ["FUNCOM.OL", "STAR-A.ST"]
+          #tickers = ["aapl", "aga.ol", "akso.ol", "amd", "apcl.ol", "asetek.ol", "avm.ol", "axa.ol", "bionor.ol", "biotec.ol", "bird.ol", "bitcoin-xbt.st", "btcusd=x", "dno.ol", "fro.ol", "funcom.ol", "gig.ol", "hugo.ol", "idex.ol", "iox.ol", "kit.ol", "nano.ol", "nas.ol", "natto.ol", "natto.st", "nel.ol", "next.ol", "nod.ol", "nom.ol", "nor.ol", "ocy.ol", "opera.ol", "ork.ol", "pho.ol", "seam.st", "sf.st", "star-a.st", "star-b.st", "tel.ol", "thin.ol", "til.ol"]
+
           #stocks = StockQuote::Stock.quote(tickers) #old unreliable method, but ok for historical data
 
           tickers = tickers.join(",")
-          source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail'
+          #source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail' #old way
+          source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D'http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgvt1d1%26e%3D.csv'%20and%20columns%3D'symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%2Clast_trade_time'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+          puts source
+          
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
           result = JSON.parse(data)
 
-          stocks = result["list"]["resources"]
+          puts result
+
+          #stocks = result["list"]["resources"] #old way
+          stocks = result["results"]["row"]
 
           puts "processing.."
           puts stocks.size
@@ -69,21 +76,23 @@ module Jobs
 
       		  puts "-- Processing: #{index}"
 
-            symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase
+            symbol = result["results"]["row"][index]["symbol"].downcase
+
+            #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
 
             unless symbol.nil? || symbol == ""
 
               symbol = symbol.downcase
               
-              price = result["list"]["resources"][index]["resource"]["fields"]["price"]
-              last_updated = result["list"]["resources"][index]["resource"]["fields"]["utctime"]
-              change_percent = result["list"]["resources"][index]["resource"]["fields"]["chg_percent"]
+              price = result["results"]["row"][index]["symbol"]["price"]
+              #last_updated = result["results"]["row"][index]["symbol"]["utctime"]
+              change_percent = result["results"]["row"][index]["symbol"]["chg_percent"]
 
-              puts "#{symbol} / #{price} / #{change_percent} / #{last_updated}"
+              puts "#{symbol} / #{price} / #{change_percent}"
 
       		  	::PluginStore.set("stock_price", symbol, price)
               ::PluginStore.set("stock_change_percent", symbol, change_percent)
-           		::PluginStore.set("stock_last_updated", symbol, last_updated)
+           		#::PluginStore.set("stock_last_updated", symbol, last_updated)
               
             end 
 

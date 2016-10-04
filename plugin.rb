@@ -134,6 +134,13 @@ after_initialize do
               @stock_change_percent = ::PluginStore.get("stock_change_percent", ticker)
               @stock_last_updated = ::PluginStore.get("stock_last_updated", ticker)
 
+              # if stock not yet has data (not retrieved by scheduled job yet)
+              if @stock_price.nil?
+                @stock_price = "0"
+                @stock_change_percent = "0"
+                @stock_last_updated = "0"
+              end
+
               @stock_data = @stock_data << [ticker, @stock_price, @stock_change_percent, @stock_last_updated]
 
               #puts @stocks_data
