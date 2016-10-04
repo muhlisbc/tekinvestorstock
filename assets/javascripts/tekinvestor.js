@@ -27,7 +27,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             url: function(phrase) {
               return "/stock/symbol_search?ticker=" + phrase;
             },
-            placeholder: "Legg til dine favoritter",
+            placeholder: "Søk etter aksje",
             getValue: "name",
             requestDelay: 100,
             template: {
