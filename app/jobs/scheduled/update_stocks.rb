@@ -97,7 +97,7 @@ module Jobs
                   
                   price = result["query"]["results"]["row"][index]["price"]
 
-                  if price = "N/A" 
+                  if price == "N/A" 
                     price = "-" # something the numberanimator can handle
                   end
 
