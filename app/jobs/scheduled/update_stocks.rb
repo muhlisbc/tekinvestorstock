@@ -3,7 +3,7 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 5.minutes
+    every 10.minutes
 
     def execute(args)
       
@@ -60,9 +60,10 @@ module Jobs
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
-              sleep(5 * batch_index) # add a 5 second delay between fetching stock data to not get blocked by yahoo
+              sleep(2 * batch_index) # add a 5 second delay between fetching stock data to not get blocked by yahoo
 
-              tickers = ticker_batch.join(",")
+
+              tickers = ticker_batch.compact.join(",") #compact removes nil values
 
               #source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail' #old way
               
