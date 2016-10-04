@@ -68,7 +68,7 @@ module Jobs
           puts result
 
           #stocks = result["list"]["resources"] #old way
-          stocks = result["results"]["row"]
+          stocks = result["query"]["results"]["row"]
 
           puts "processing.."
           puts stocks.size
@@ -78,7 +78,7 @@ module Jobs
 
       		  puts "-- Processing: #{index}"
 
-            symbol = result["results"]["row"][index]["symbol"].downcase
+            symbol = result["query"]["results"]["row"][index]["symbol"].downcase
 
             #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
 
@@ -86,9 +86,9 @@ module Jobs
 
               symbol = symbol.downcase
               
-              price = result["results"]["row"][index]["symbol"]["price"]
-              #last_updated = result["results"]["row"][index]["symbol"]["utctime"]
-              change_percent = result["results"]["row"][index]["symbol"]["chg_percent"]
+              price = result["query"]["results"]["row"][index]["symbol"]["price"]
+              #last_updated = result["query"]["results"]["row"][index]["symbol"]["utctime"]
+              change_percent = ["query"]result["results"]["row"][index]["symbol"]["chg_percent"]
 
               puts "#{symbol} / #{price} / #{change_percent}"
 
