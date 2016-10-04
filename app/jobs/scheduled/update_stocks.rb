@@ -103,7 +103,7 @@ module Jobs
                   price = result["query"]["results"]["row"][index]["price"]
 
                   if price == "N/A" 
-                    price = "-" # something the numberanimator can handle
+                    price = "0" # something the numberanimator can handle
                   end
 
                   #last_updated = result["query"]["results"]["row"][index]["utctime"]
