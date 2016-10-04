@@ -96,6 +96,11 @@ module Jobs
                   symbol = symbol.downcase
                   
                   price = result["query"]["results"]["row"][index]["price"]
+
+                  if price = "N/A" 
+                    price = "-" # something the numberanimator can handle
+                  end
+
                   #last_updated = result["query"]["results"]["row"][index]["utctime"]
                   change_percent = result["query"]["results"]["row"][index]["chg_percent"]
 
