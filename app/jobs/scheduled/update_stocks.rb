@@ -3,7 +3,7 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 10.minutes
+    every 15.minutes
 
     def execute(args)
       
@@ -56,7 +56,7 @@ module Jobs
 
           # since we only get accurate data from Yahoo when we ask for a few stocks at a time, process everything in batches
 
-          ticker_batches = tickers.each_slice(8).to_a
+          ticker_batches = tickers.each_slice(15).to_a
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
@@ -73,6 +73,8 @@ module Jobs
               
               resp = Net::HTTP.get_response(URI.parse(source))
               data = resp.body
+              puts "code: "
+              puts resp.code
               result = JSON.parse(data)
 
               puts result
