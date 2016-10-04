@@ -54,51 +54,61 @@ module Jobs
 
           #stocks = StockQuote::Stock.quote(tickers) #old unreliable method, but ok for historical data
 
-          tickers = tickers.join(",")
-          #source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail' #old way
-          
-         # source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D'http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgvt1d1%26e%3D.csv'%20and%20columns%3D'symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%2Clast_trade_time%2Clast_trade_date'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
-          source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%27&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
-          puts source
-          
-          resp = Net::HTTP.get_response(URI.parse(source))
-          data = resp.body
-          result = JSON.parse(data)
+          # since we only get accurate data from Yahoo when we ask for a few stocks at a time, process everything in batches
 
-          puts result
+          ticker_batches = tickers.each_slice(10).to_a
 
-          #stocks = result["list"]["resources"] #old way
-          stocks = result["query"]["results"]["row"]
-
-          puts "processing.."
-          puts stocks.size
-          puts "stocks"
-
-  	      for index in 0 ... stocks.size
-
-      		  puts "-- Processing: #{index}"
-
-            symbol = result["query"]["results"]["row"][index]["symbol"].downcase
-
-            #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
-
-            unless symbol.nil? || symbol == ""
-
-              symbol = symbol.downcase
+          ticker_batches.each_with_index do | ticker_batch, batch_index |
               
-              price = result["query"]["results"]["row"][index]["price"]
-              #last_updated = result["query"]["results"]["row"][index]["utctime"]
-              change_percent = result["query"]["results"]["row"][index]["chg_percent"]
+              tickers = ticker_batch.join(",")
 
-              puts "#{symbol} / #{price} / #{change_percent}"
-
-      		  	::PluginStore.set("stock_price", symbol, price)
-              ::PluginStore.set("stock_change_percent", symbol, change_percent)
-           		#::PluginStore.set("stock_last_updated", symbol, last_updated)
+              #source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail' #old way
               
-            end 
+              # source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D'http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgvt1d1%26e%3D.csv'%20and%20columns%3D'symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%2Clast_trade_time%2Clast_trade_date'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+              source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%27&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+              puts source
+              
+              resp = Net::HTTP.get_response(URI.parse(source))
+              data = resp.body
+              result = JSON.parse(data)
 
-            #puts "#{stocks[index].to_json}"
+              puts result
+
+              #stocks = result["list"]["resources"] #old way
+              stocks = result["query"]["results"]["row"]
+
+              puts "processing.."
+              puts stocks.size
+              puts "stocks"
+
+              for index in 0 ... stocks.size
+
+                puts "-- Processing: #{index} in batch #{batch_index}"
+
+                symbol = result["query"]["results"]["row"][index]["symbol"].downcase
+
+                #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
+
+                unless symbol.nil? || symbol == ""
+
+                  symbol = symbol.downcase
+                  
+                  price = result["query"]["results"]["row"][index]["price"]
+                  #last_updated = result["query"]["results"]["row"][index]["utctime"]
+                  change_percent = result["query"]["results"]["row"][index]["chg_percent"]
+
+                  puts "#{symbol} / #{price} / #{change_percent}"
+
+                  ::PluginStore.set("stock_price", symbol, price)
+                  ::PluginStore.set("stock_change_percent", symbol, change_percent)
+                  #::PluginStore.set("stock_last_updated", symbol, last_updated)
+                  
+                end 
+
+                #puts "#{stocks[index].to_json}"
+
+              end
+        
 
   		    end
 
