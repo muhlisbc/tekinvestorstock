@@ -77,6 +77,10 @@ after_initialize do
 
           current_user.custom_fields["favorite_stocks"] = stocks_array.join(",")
           current_user.save
+
+          # update this stock immediately so it can show in the list of stocks if its a new stock we havent seen before
+          Jobs::UpdateStocks.new.set_stock_data([params[:ticker]])
+
           render json: { message: stocks_array.join(",") }
           #render json: { message: "added OK" }
         else

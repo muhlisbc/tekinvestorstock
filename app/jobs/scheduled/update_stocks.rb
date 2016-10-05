@@ -83,31 +83,44 @@ module Jobs
               stocks = result["query"]["results"]["row"]
 
               puts "processing.."
-              puts stocks.size
+              puts result["query"]["count"]
               puts "stocks"
 
               puts stocks
 
-              for index in 0 ... stocks.size
+              for index in 0 ... result["query"]["count"]
 
                 puts "-- Processing: #{index} in batch #{batch_index}"
 
-                symbol = result["query"]["results"]["row"][index]["symbol"].downcase
+                if result["query"]["count"] > 1
+                  symbol = result["query"]["results"]["row"][index]["symbol"].downcase 
+                else
+                  symbol = result["query"]["results"]["row"]["symbol"].downcase 
+                end
 
                 #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
 
                 unless symbol.nil? || symbol == ""
 
                   symbol = symbol.downcase
-                  
-                  price = result["query"]["results"]["row"][index]["price"]
+
+                  if result["query"]["count"] > 1
+                    price = result["query"]["results"]["row"][index]["price"]
+                  else
+                    price = result["query"]["results"]["row"]["price"]
+                  end
 
                   if price == "N/A" 
                     price = "0" # something the numberanimator can handle
                   end
 
                   #last_updated = result["query"]["results"]["row"][index]["utctime"]
-                  change_percent = result["query"]["results"]["row"][index]["chg_percent"]
+                  
+                  if result["query"]["count"] > 1
+                    change_percent = result["query"]["results"]["row"][index]["chg_percent"]
+                  else
+                    change_percent = result["query"]["results"]["row"]["chg_percent"]
+                  end
 
                   puts "#{symbol} / #{price} / #{change_percent}"
 

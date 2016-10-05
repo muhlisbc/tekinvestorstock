@@ -27,7 +27,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             url: function(phrase) {
               return "/stock/symbol_search?ticker=" + phrase;
             },
-            placeholder: "Søk etter aksje",
+            placeholder: "Finn dine favorittaksjer...",
             getValue: "name",
             requestDelay: 100,
             template: {
@@ -35,6 +35,19 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
               method: function(value, item) {
                 return value + " (" + item.symbol + ")";
               }
+            },
+            list: {
+
+              
+              onChooseEvent: function() {
+                var value = $("#stock-search").getSelectedItemData().symbol;
+                addStockToUsersFavoriteStocks(value);
+                $('#stock-search').val('');
+
+
+
+              } 
+              
             }
           };
 
@@ -271,8 +284,14 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
   }
 
   function addStockToUsersFavoriteStocks(ticker) {
-    
-        Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=" + ticker, {
+        
+        // add to fav list before it has actually been added
+
+        prepend_row = '<tr data-symbol="' + ticker.toLowerCase() + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase() + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate"><div class="spinner spinner-mini"></div></span></td><td class="td-change"><span class="stock_change_percent"><span class="number-animate"><div class="spinner spinner-mini"></div></span></span></td></tr>';
+
+        $("#stock_data #stock_data_inner tbody").prepend(prepend_row);
+
+        Discourse.ajax("/stock/add_stock_to_users_favorite_stocks?ticker=" + ticker.toLowerCase(), {
         type: "GET"
         }).then(function(data) {
           displayUsersFavoriteStocks(true); // force refresh
@@ -281,7 +300,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
 
   function removeStockFromUsersFavoriteStocks(ticker) {
     
-        Discourse.ajax("/stock/remove_stock_from_users_favorite_stocks?ticker=" + ticker, {
+        Discourse.ajax("/stock/remove_stock_from_users_favorite_stocks?ticker=" + ticker.toLowerCase(), {
         type: "GET"
         }).then(function(data) {
           displayUsersFavoriteStocks(true); // force refresh
