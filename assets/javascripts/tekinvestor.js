@@ -1,3 +1,6 @@
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-61110015-1', 'auto');
+
 
 /*
  * easy-autocomplete
@@ -22,36 +25,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
         if(loggedIn){ 
           displayUsersFavoriteStocks(false); 
           checkIfUserIsInsider(); 
-
-          var options = {
-            url: function(phrase) {
-              return "/stock/symbol_search?ticker=" + phrase;
-            },
-            placeholder: "Finn dine favorittaksjer...",
-            getValue: "name",
-            requestDelay: 100,
-            template: {
-              type: "custom",
-              method: function(value, item) {
-                return value + " (" + item.symbol + ")";
-              }
-            },
-            list: {
-
-              
-              onChooseEvent: function() {
-                var value = $("#stock-search").getSelectedItemData().symbol;
-                addStockToUsersFavoriteStocks(value);
-                $('#stock-search').val('');
-
-
-
-              } 
-              
-            }
-          };
-
-          $("#stock-search").easyAutocomplete(options);
+          initSearchField();
 
         }
 
@@ -72,7 +46,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
       $(function() {
           setInterval(function() {
               if($('.topic-list tr').length!=oldTopicsCount) {
-                   if(loggedIn){ displayUsersFavoriteStocks(true); checkIfUserIsInsider(); } 
+                   if(loggedIn){ displayUsersFavoriteStocks(true); checkIfUserIsInsider(); initSearchField(); } 
                    displayTekIndex(true);
                    console.log('page changed, updating stocks');
                   
@@ -170,8 +144,8 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
           //console.log(data[0].length);
 
           $('#user-favorite-stocks .spinner').hide();
-          if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); } 
-            else { $('#user-favorite-stocks .notice-no-favorites').show(); }
+          if(data.stock.length > 0) { $('#user-favorite-stocks').append(stock_html); $('.easy-autocomplete').css('opacity', 1); } 
+            else { $('#user-favorite-stocks .notice-no-favorites').show(); $('.easy-autocomplete').css('opacity', 1); }
           
           $('#user-favorite-stocks .number-animate').numberAnimate('init');
 
@@ -245,7 +219,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; }
             
             if($("#" + divID).length == 0 || forceRefresh) { // stock data has not already been loaded
-              template = template + '<tr data-symbol="' + ticker + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase() + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + price + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td></tr>';
+              template = template + '<tr data-symbol="' + ticker + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase() + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + price + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td><td class="td-stock-unfavorite" onclick="removeStockFromUsersFavoriteStocks(&quot;' + ticker.toLowerCase() + '&quot;);"><span>&CircleMinus;</span></td></tr>';
             }
 
             if($("#" + divID).length > 0 && forceRefresh == false) { // stock data has been loaded, update existing stock numbers
@@ -275,7 +249,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             //console.log('removing stock data');
           }
 
-          stock_html = '<div id="'+ divID + '" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th></thead><tbody>' + template + '</tbody></table></div></div>';
+          stock_html = '<div id="'+ divID + '" class="stock_data"><div class="container"><table id="stock_data_inner"><thead><th class="th-symbol">Ticker</th><th class="th-last">Siste</th><th class="th-change">I dag</th><th></th></thead><tbody>' + template + '</tbody></table></div></div>';
           //console.log(stock_html);
           return stock_html;
         }
@@ -285,9 +259,9 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
 
   function addStockToUsersFavoriteStocks(ticker) {
         
-        // add to fav list before it has actually been added
+        // add to fav list UI before it has actually been added
 
-        prepend_row = '<tr data-symbol="' + ticker.toLowerCase() + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase() + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate"><div class="spinner spinner-mini"></div></span></td><td class="td-change"><span class="stock_change_percent"><span class="number-animate"><div class="spinner spinner-mini"></div></span></span></td></tr>';
+        prepend_row = '<tr data-symbol="' + ticker.toLowerCase() + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase() + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate"><div class="spinner spinner-mini"></div></span></td><td class="td-change"><span class="stock_change_percent"><span class="number-animate"><div class="spinner spinner-mini"></div></span></span></td><td class="td-stock-unfavorite"><span></span></td></tr>';
 
         $("#stock_data #stock_data_inner tbody").prepend(prepend_row);
 
@@ -296,15 +270,21 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
         }).then(function(data) {
           displayUsersFavoriteStocks(true); // force refresh
       });
+
+        ga('send', 'event', 'Favorites', 'Add stock', ticker.toLowerCase());
     }
 
   function removeStockFromUsersFavoriteStocks(ticker) {
-    
+        
+        $("#stock_data #stock_data_inner tbody [data-symbol='" + ticker + "']").remove();
+
         Discourse.ajax("/stock/remove_stock_from_users_favorite_stocks?ticker=" + ticker.toLowerCase(), {
         type: "GET"
         }).then(function(data) {
           displayUsersFavoriteStocks(true); // force refresh
       });
+
+        ga('send', 'event', 'Favorites', 'Remove stock', ticker.toLowerCase());
     }
 
     function isStockUsersFavorite(ticker) {
@@ -335,6 +315,39 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
       $('.btn.login-btn').trigger("click");
       console.log('trigger');
       return false;
+    }
+
+    function initSearchField() {
+        
+        var options = {
+            url: function(phrase) {
+              return "/stock/symbol_search?ticker=" + phrase;
+            },
+            placeholder: "Legg til aksjene du vil følge...",
+            getValue: "name",
+            requestDelay: 100,
+            template: {
+              type: "custom",
+              method: function(value, item) {
+                return "<span class='stock-search-symbol'>" + item.symbol + "</span><span class='stock-search-value'>" + value + '</span>';
+              }
+            },
+            list: {
+
+              onLoadEvent: function(){
+                ga('send', 'event', 'Favorites', 'Starting to search', $('#stock-search').val());
+              },
+              onChooseEvent: function() {
+                var value = $("#stock-search").getSelectedItemData().symbol;
+                addStockToUsersFavoriteStocks(value);
+                $('#stock-search').val('');
+
+              } 
+              
+            }
+          };
+
+          $("#stock-search").easyAutocomplete(options);
     }
 
     function formatNumber(number)
