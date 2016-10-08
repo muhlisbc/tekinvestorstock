@@ -212,13 +212,44 @@ after_initialize do
           # return name, symbol, equity or index, stock exchange
           # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
           
-          
           source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US'
+
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
           result = JSON.parse(data)
 
-          puts result["ResultSet"]["Result"]
+          # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
+          source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
+
+          resp2 = Net::HTTP.get_response(URI.parse(source2))
+          data2 = resp2.body
+          result2 = JSON.parse(data2)
+
+#          puts result["ResultSet"]["Result"]
+
+          # sort by putting norwegian stocks first
+          important_stocks = []
+          the_rest = []
+
+          result["ResultSet"]["Result"].each do |stock|
+
+            if stock['symbol'].include? ".OL"
+                important_stocks.push(stock)
+            else
+                the_rest.push(stock) unless stock['symbol'].include? "^" # ^ character break the stock data fetcher, so skip all indexes like ^DJI etc
+            end
+            
+          end
+
+          result2["ResultSet"]["Result"].each do |stock|
+
+            if stock['symbol'].include? ".OL"
+                important_stocks.push(stock)
+            end
+            
+          end
+
+          stocks = important_stocks + the_rest
 
           # todo, return results from yahoo in the below format (or else it won't work)
 
@@ -226,7 +257,7 @@ after_initialize do
             #{"name": "Funcom", "symbol": "FUNCOM.OL"}, 
             #{"name": "Tesla Motors", "symbol": "TSLA"}
           #]'
-          results = result["ResultSet"]["Result"].to_s.gsub! '=>', ':'
+          results = stocks.uniq.to_s.gsub! '=>', ':'
 
           render json: results
         

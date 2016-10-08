@@ -104,7 +104,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
         console.log('refreshing stocks, interval');
       }
 
-  }, 60000); // refresh stocks every minute
+  }, 120000); // refresh stocks every 2 minutes
 
   function checkIfUserIsInsider(){
       console.log('checkIfUserIsInsider');
@@ -329,7 +329,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             template: {
               type: "custom",
               method: function(value, item) {
-                return "<span class='stock-search-symbol'>" + item.symbol + "</span><span class='stock-search-value'>" + value + '</span>';
+                return "<span class='stock-search-symbol'>" + item.symbol + "</span><span class='stock-search-value'>" + value + "</span><span class='stock-search-exchange'>" + item.exchDisp + "</span>";
               }
             },
             list: {
