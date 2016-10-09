@@ -56,83 +56,123 @@ module Jobs
 
           # since we only get accurate data from Yahoo when we ask for a few stocks at a time, process everything in batches
 
-          ticker_batches = tickers.each_slice(15).to_a
+          ticker_batches = tickers.each_slice(1).to_a
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
-              sleep(5 * (1 + batch_index)) # add a 5 second delay between fetching stock data to not get blocked by yahoo
+              sleep(1 * (1 + batch_index)) # add a 5 second delay between fetching stock data to not get blocked by yahoo
 
 
               tickers = ticker_batch.compact.join(",") #compact removes nil values
 
               #source = 'http://finance.yahoo.com/webservice/v1/symbols/' + tickers + '/quote?format=json&view=detail' #old way
               
-              # source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D'http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgvt1d1%26e%3D.csv'%20and%20columns%3D'symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%2Clast_trade_time%2Clast_trade_date'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
-              source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%27&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+              source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D'http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgvt1d1%26e%3D.csv'%20and%20columns%3D'symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%2Clast_trade_time%2Clast_trade_date'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+              #source = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%27&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
               puts source
               
+             # conn = Faraday.new(:url => 'https://query.yahooapis.com') do |faraday|
+              #  faraday.request  :url_encoded             # form-encode POST params
+               # faraday.response :logger                  # log requests to STDOUT
+                #faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+              #end
+
+              #response = conn.get do |req|
+              #  req.url "/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27http%3A%2F%2Fdownload.finance.yahoo.com%2Fd%2Fquotes.csv%3Fs%3D" + tickers + "%26f%3Dsl1d1t1c1p2ohgv%26e%3D.csv%27%20and%20columns%3D%27symbol%2Cprice%2Cdate%2Ctime%2Cchange%2Cchg_percent%2Ccol1%2Chigh%2Clow%2Ccol2%27&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
+              ##  req.headers['User-Agent'] = '{
+               #   "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36",
+                #  "browser": {
+              #       "name": "Chrome",
+              #       "version": "53.0.2785.116",
+              #       "major": "53"
+              #     },
+              #     "engine": {
+              #       "version": "537.36",
+              #       "name": "WebKit"
+              #     },
+              #     "os": {
+              #       "name": "Mac OS",
+              #       "version": "10.10.5"
+              #     },
+              #     "device": {},
+              #     "cpu": {}
+              #   }'
+              # end
+
               resp = Net::HTTP.get_response(URI.parse(source))
-              data = resp.body
+              
               puts "code: "
               puts resp.code
-              result = JSON.parse(data)
 
-              puts result
+              if resp.code == "200" # skip next steps if any error (no stock data etc)
 
-              #stocks = result["list"]["resources"] #old way
-              stocks = result["query"]["results"]["row"]
 
-              puts "processing.."
-              puts result["query"]["count"]
-              puts "stocks"
+                data = resp.body
+                puts data
+                #result = JSON.parse(data)
+                result = JSON.parse(resp.body)
 
-              puts stocks
+                puts result
 
-              for index in 0 ... result["query"]["count"]
+                #stocks = result["list"]["resources"] #old way
+                
+                if !result["query"].nil? && !result["query"]["results"].nil? && !result["query"]["results"]["row"].nil?
+                
+                  stocks = result["query"]["results"]["row"]
 
-                puts "-- Processing: #{index} in batch #{batch_index}"
+                  puts "processing.."
+                  puts result["query"]["count"]
+                  puts "stocks"
 
-                if result["query"]["count"] > 1
-                  symbol = result["query"]["results"]["row"][index]["symbol"].downcase 
-                else
-                  symbol = result["query"]["results"]["row"]["symbol"].downcase 
+                  puts stocks
+
+                  for index in 0 ... result["query"]["count"]
+
+                    puts "-- Processing: #{index} in batch #{batch_index}"
+
+                    if result["query"]["count"] > 1
+                      symbol = result["query"]["results"]["row"][index]["symbol"].downcase 
+                    else
+                      symbol = result["query"]["results"]["row"]["symbol"].downcase 
+                    end
+
+                    #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
+
+                    unless symbol.nil? || symbol == ""
+
+                      symbol = symbol.downcase
+
+                      if result["query"]["count"] > 1
+                        price = result["query"]["results"]["row"][index]["price"]
+                      else
+                        price = result["query"]["results"]["row"]["price"]
+                      end
+
+                      if price == "N/A" 
+                        price = "0" # something the numberanimator can handle
+                      end
+
+                      #last_updated = result["query"]["results"]["row"][index]["utctime"]
+                      
+                      if result["query"]["count"] > 1
+                        change_percent = result["query"]["results"]["row"][index]["chg_percent"]
+                      else
+                        change_percent = result["query"]["results"]["row"]["chg_percent"]
+                      end
+
+                      puts "#{symbol} / #{price} / #{change_percent}"
+
+                      ::PluginStore.set("stock_price", symbol, price)
+                      ::PluginStore.set("stock_change_percent", symbol, change_percent)
+                      #::PluginStore.set("stock_last_updated", symbol, last_updated)
+                      
+                    end 
+
+                  #puts "#{stocks[index].to_json}"
                 end
-
-                #symbol = result["list"]["resources"][index]["resource"]["fields"]["symbol"].downcase # old way
-
-                unless symbol.nil? || symbol == ""
-
-                  symbol = symbol.downcase
-
-                  if result["query"]["count"] > 1
-                    price = result["query"]["results"]["row"][index]["price"]
-                  else
-                    price = result["query"]["results"]["row"]["price"]
-                  end
-
-                  if price == "N/A" 
-                    price = "0" # something the numberanimator can handle
-                  end
-
-                  #last_updated = result["query"]["results"]["row"][index]["utctime"]
-                  
-                  if result["query"]["count"] > 1
-                    change_percent = result["query"]["results"]["row"][index]["chg_percent"]
-                  else
-                    change_percent = result["query"]["results"]["row"]["chg_percent"]
-                  end
-
-                  puts "#{symbol} / #{price} / #{change_percent}"
-
-                  ::PluginStore.set("stock_price", symbol, price)
-                  ::PluginStore.set("stock_change_percent", symbol, change_percent)
-                  #::PluginStore.set("stock_last_updated", symbol, last_updated)
-                  
-                end 
-
-                #puts "#{stocks[index].to_json}"
-
               end
+            
+            end
         
 
   		    end
