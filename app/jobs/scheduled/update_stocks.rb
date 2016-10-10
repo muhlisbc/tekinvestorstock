@@ -3,13 +3,14 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 15.minutes
+    every 5.minutes
 
     def execute(args)
       
     	  # find all stocks in tekindex
           
         @tickers = ["FUNCOM.OL", "STAR-A.ST", "STAR-B.ST", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "NOM.OL", "BIRD.OL", "NEXT.OL"]
+        #todo remove above, not used anymore since .ol stocks are filtered out
 
         # find all favorited stocks
      	  puts "Finding all favorite stocks"
@@ -38,7 +39,44 @@ module Jobs
         @tickers = @tickers.sort_by { |ticker| ticker.downcase }
         @tickers.map!(&:downcase)
 
+        import_ose_stocks()
         set_stock_data(@tickers)  
+
+    end
+
+    def import_ose_stocks ()
+
+      # this is the way we get all Oslo stocks, direct from netfonds 15 min delayed
+      # get stocks from all on one page at http://www.netfonds.no/quotes/kurs.php?exchange=OSE&sec_types=&ticks=&table=tab&sort=alphabetic
+
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase + ".ol"
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+        end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=OSE&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
 
     end
 
@@ -48,6 +86,18 @@ module Jobs
         if !tickers.nil? 
 
           tickers = tickers.uniq
+
+          # don't processs OL stocks here anymore, that has a separate Job
+          tickers.each do |stock|
+
+            if !stock.include? ".OL"
+                to_be_processed.push(stock)
+            end
+            
+          end
+
+          tickers = to_be_processed
+
 		      puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
         
           #tickers = ["aapl", "aga.ol", "akso.ol", "amd", "apcl.ol", "asetek.ol", "avm.ol", "axa.ol", "bionor.ol", "biotec.ol", "bird.ol", "bitcoin-xbt.st", "btcusd=x", "dno.ol", "fro.ol", "funcom.ol", "gig.ol", "hugo.ol", "idex.ol", "iox.ol", "kit.ol", "nano.ol", "nas.ol", "natto.ol", "natto.st", "nel.ol", "next.ol", "nod.ol", "nom.ol", "nor.ol", "ocy.ol", "opera.ol", "ork.ol", "pho.ol", "seam.st", "sf.st", "star-a.st", "star-b.st", "tel.ol", "thin.ol", "til.ol"]
@@ -60,7 +110,7 @@ module Jobs
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
-              sleep(1 * (1 + batch_index)) # add a 5 second delay between fetching stock data to not get blocked by yahoo
+              #sleep(1 * (1 + batch_index)) # add a 5 second delay between fetching stock data to not get blocked by yahoo
 
 
               tickers = ticker_batch.compact.join(",") #compact removes nil values
