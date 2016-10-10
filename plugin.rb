@@ -251,6 +251,8 @@ after_initialize do
 
           stocks = important_stocks + the_rest
 
+          
+
           # todo, return results from yahoo in the below format (or else it won't work)
 
           #@results =   '[ 

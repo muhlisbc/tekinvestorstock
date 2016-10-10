@@ -86,12 +86,15 @@ module Jobs
         if !tickers.nil? 
 
           tickers = tickers.uniq
+          to_be_processed = []
 
           # don't processs OL stocks here anymore, that has a separate Job
           tickers.each do |stock|
 
-            if !stock.include? ".OL"
-                to_be_processed.push(stock)
+            if !stock.include? ".ol"
+                if !stock.include? ".OL"
+                  to_be_processed.push(stock)
+                end
             end
             
           end
