@@ -40,6 +40,8 @@ module Jobs
         @tickers.map!(&:downcase)
 
         import_ose_stocks()
+        import_oax_stocks()
+        import_st_stocks()
         set_stock_data(@tickers)  
 
     end
@@ -62,7 +64,7 @@ module Jobs
          if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
           percent_change = 0
           last = last_close # also do this so we have a price to show
-        end
+         end
 
          puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
          ::PluginStore.set("stock_price", symbol, last.to_s)
@@ -73,6 +75,81 @@ module Jobs
       end
 
       read("http://www.netfonds.no/quotes/kurs.php?exchange=OSE&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
+
+    end
+
+    def import_oax_stocks ()
+
+      # this is the way we get all Oslo Access stocks, direct from netfonds 15 min delayed
+      # get stocks from all on one page at http://www.netfonds.no/quotes/kurs.php?exchange=OAX&sec_types=&ticks=&table=tab&sort=alphabetic
+
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase + ".oax"
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+         
+         end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=OAX&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
+
+    end
+
+
+    def import_st_stocks ()
+
+      # this is the way we get all Stochholm stocks, direct from netfonds 15 min delayed
+      # get stocks from all on one page at http://www.netfonds.no/quotes/kurs.php?exchange=OAX&sec_types=&ticks=&table=tab&sort=alphabetic
+
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase + ".st"
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+         
+         end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=ST&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -91,10 +168,8 @@ module Jobs
           # don't processs OL stocks here anymore, that has a separate Job
           tickers.each do |stock|
 
-            if !stock.include? ".ol"
-                if !stock.include? ".OL"
-                  to_be_processed.push(stock)
-                end
+            if ![".ol", ".OL", ".oax", ".OAX", ".ST", ".st"].any? { |word| stock.include?(word) }
+                to_be_processed.push(stock)
             end
             
           end
