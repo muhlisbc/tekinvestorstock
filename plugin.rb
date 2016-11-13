@@ -163,7 +163,7 @@ after_initialize do
         
           #loop through users favorite stocks
           @stock_data = []
-          @tekindex = ["FUNCOM.OL", "AXA.OL", "SF.ST", "STAR-A.ST", "STAR-B.ST", "HUGO.OL", "KIT.OL", "NOM.OL", "NANO.OL", "BEO-SDB.ST", "QFR.OL", "IDEX.OL", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "BIRD.OL", "NEXT.OL"]
+          @tekindex = ["FUNCOM.OL", "AXA.OL", "SF.ST", "STAR-A.ST", "STAR-B.ST", "HUGO.OL", "KIT.OL", "NOM.OL", "NANO.OL", "BEO-SDB.ST", "QFR.OL", "IDEX.OL", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "BIOTEC.OL", "NAS.OL", "BIRD.OL", "NEXT.OL"]
 
           @tekindex.reverse.each do |ticker|
 
