@@ -1,6 +1,7 @@
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 ga('create', 'UA-61110015-1', 'auto');
 
+import { ajax } from 'discourse/lib/ajax';
 
 /*
  * easy-autocomplete
