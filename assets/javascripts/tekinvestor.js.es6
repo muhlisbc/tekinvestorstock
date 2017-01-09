@@ -105,7 +105,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
         console.log('refreshing stocks, interval');
       }
 
-  }, 120000); // refresh stocks every 2 minutes
+  }, 240000); // refresh stocks every 4 minutes
 
   function checkIfUserIsInsider(){
       console.log('checkIfUserIsInsider');
