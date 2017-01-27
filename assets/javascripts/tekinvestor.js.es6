@@ -220,7 +220,7 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
             if(percent_change.indexOf("-") != -1){ change_direction = 'negative'; } else { change_direction = 'positive'; }
             
             if($("#" + divID).length == 0 || forceRefresh) { // stock data has not already been loaded
-              template = template + '<tr data-symbol="' + ticker + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase().replace(".","-") + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + price + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td><td class="td-stock-unfavorite" onclick="removeStockFromUsersFavoriteStocks(&quot;' + ticker.toLowerCase() + '&quot;);"><span>&CircleMinus;</span></td></tr>';
+              template = template + '<tr data-symbol="' + ticker + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase().replace(".","_") + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate">' + price + '</span></td><td class="td-change"><span class="stock_change_percent ' + change_direction + '"><span class="number-animate">' + percent_change + '</span>%</span></td><td class="td-stock-unfavorite" onclick="removeStockFromUsersFavoriteStocks(&quot;' + ticker.toLowerCase() + '&quot;);"><span>&CircleMinus;</span></td></tr>';
             }
 
             if($("#" + divID).length > 0 && forceRefresh == false) { // stock data has been loaded, update existing stock numbers
@@ -262,7 +262,9 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
         
         // add to fav list UI before it has actually been added
 
-        prepend_row = '<tr data-symbol="' + ticker.toLowerCase() + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase().replace(".","-") + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate"><div class="spinner spinner-mini"></div></span></td><td class="td-change"><span class="stock_change_percent"><span class="number-animate"><div class="spinner spinner-mini"></div></span></span></td><td class="td-stock-unfavorite"><span></span></td></tr>';
+        prepend_row = '<tr data-symbol="' + ticker.toLowerCase() + '"><td class="td-ticker"><a href="/tags/' + ticker.toLowerCase().replace(".","_") + '"><span class="stock_symbol">' + ticker.toUpperCase() + '</span></a></td><td class="td-last"><span class="stock_last number-animate"><div class="spinner spinner-mini"></div></span></td><td class="td-change"><span class="stock_change_percent"><span class="number-animate"><div class="spinner spinner-mini"></div></span></span></td><td class="td-stock-unfavorite"><span></span></td></tr>';
+
+
 
         $("#stock_data #stock_data_inner tbody").prepend(prepend_row);
 
