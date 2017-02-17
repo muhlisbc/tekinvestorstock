@@ -43,7 +43,13 @@ module Jobs
 
         @tickers = @tickers.sort_by { |ticker| ticker.downcase }
         @tickers.map!(&:downcase)
+        
+        # remove duplicates
+        @tickers = @tickers.uniq
+        
         puts @tickers
+
+
         puts long_string_of_all_favorited_tickers
 
         # find how many users have faved each stock, add to array as [ticker, count]
