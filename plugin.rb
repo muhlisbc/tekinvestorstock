@@ -166,7 +166,7 @@ after_initialize do
         
           #loop through users favorite stocks
           @stock_data = []
-          @tekindex = ::PluginStore.get("tekinvestor", "tekindex_stocks").split(",") #created in update_tekindex_job
+          @tekindex = ::PluginStore.get("tekinvestor", "tekindex_stocks").split(",").uniq #created in update_tekindex_job
 
           @tekindex[0...29].reverse.each do |ticker|
 
