@@ -16,11 +16,14 @@ load File.expand_path("../stock.rb", __FILE__)
 StockPlugin = StockPlugin
     
 gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for prod
+#gem 'drip'
+#gem 'drip-ruby'
 
 after_initialize do
 
   # load jobs
   load File.expand_path("../app/jobs/scheduled/update_stocks.rb", __FILE__)
+  load File.expand_path("../app/jobs/scheduled/update_tekindex.rb", __FILE__)
 
   module StockPlugin
 
@@ -163,9 +166,9 @@ after_initialize do
         
           #loop through users favorite stocks
           @stock_data = []
-          @tekindex = ["FUNCOM.OL", "AXA.OL", "SF.ST", "STAR-A.ST", "STAR-B.ST", "HUGO.OL", "KIT.OL", "NOM.OL", "NANO.OL", "BEO-SDB.ST", "QFR.OL", "IDEX.OL", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "BIOTEC.OL", "NAS.OL", "BIRD.OL", "NEXT.OL"]
+          @tekindex = ::PluginStore.get("tekinvestor", "tekindex_stocks").split(",").uniq #created in update_tekindex_job
 
-          @tekindex.reverse.each do |ticker|
+          @tekindex[0...29].reverse.each do |ticker|
 
             ticker = ticker.downcase
             @stock_price = ::PluginStore.get("stock_price", ticker)
