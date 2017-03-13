@@ -9,8 +9,7 @@ module Jobs
       
     	  # find all stocks in tekindex
           
-        @tickers = ["FUNCOM.OL", "STAR-A.ST", "STAR-B.ST", "GIG.OL", "BTCUSD=X", "NEL.OL", "THIN.OL", "OPERA.OL", "AGA.OL", "KIT.OL", "BIOTEC.OL", "NAS.OL", "NOM.OL", "BIRD.OL", "NEXT.OL"]
-        #todo remove above, not used anymore since .ol stocks are filtered out
+        @tickers = []
 
         # find all favorited stocks
      	  puts "Finding all favorite stocks"
@@ -39,11 +38,13 @@ module Jobs
         @tickers = @tickers.sort_by { |ticker| ticker.downcase }
         @tickers.map!(&:downcase)
 
+        set_stock_data(@tickers) # import all stocks favorited by users #TODO: also, those added to portfolios when that feature is added
+
+        # then fetch all norwegian/swedish stocks from netfonds which has much better data quality
         import_ose_stocks()
         import_oax_stocks()
         import_st_stocks()
-        set_stock_data(@tickers)  
-
+        
     end
 
     def import_ose_stocks ()
@@ -90,7 +91,7 @@ module Jobs
       def read(url)
        CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
 
-         symbol = line[1].downcase + ".oax"
+         symbol = line[1].downcase + ".ol" # oax stocks are stored in yahoo as .ol, not .oax, so we need to be handle them manually and store them
          last = line[2].to_f
          change = line[5].to_f
          last_close = line[9].to_f
