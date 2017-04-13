@@ -20,7 +20,7 @@ gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for
 #gem 'drip-ruby'
 
 after_initialize do
-
+  load File.expand_path("../app/controllers/topics_controller.rb", __FILE__)
   # load jobs
   load File.expand_path("../app/jobs/scheduled/update_stocks.rb", __FILE__)
   load File.expand_path("../app/jobs/scheduled/update_tekindex.rb", __FILE__)
