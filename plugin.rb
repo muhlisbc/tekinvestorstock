@@ -16,7 +16,15 @@ load File.expand_path("../stock.rb", __FILE__)
 
 StockPlugin = StockPlugin
     
-gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for prod
+  gem 'rspec', '~> 3.4'
+  gem 'vcr', '~> 3.0.1'
+  gem 'webmock', '~> 1.24.6'
+  gem 'rubocop', '~> 0.40'
+  gem 'byebug', '~> 9.0.5'
+  gem 'rest-client', '~> 1.8'
+  gem 'json'
+  gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for prod. gems above are dependencies for this gem
+  
 #gem 'drip'
 #gem 'drip-ruby'
 
