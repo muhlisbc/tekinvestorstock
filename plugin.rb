@@ -33,6 +33,7 @@ after_initialize do
   # load jobs
   load File.expand_path("../app/jobs/scheduled/update_stocks.rb", __FILE__)
   load File.expand_path("../app/jobs/scheduled/update_tekindex.rb", __FILE__)
+  load File.expand_path("../app/jobs/scheduled/generate_chat_tokens.rb", __FILE__)
 
   module StockPlugin
 
@@ -282,8 +283,14 @@ after_initialize do
           
           group = Group.find_by("lower(name) = ?", "insider")
           
+          # find chat token set for this user
+          # token is used in js to load chat with proper username and avatar
+
+          chat_token = nil
+          chat_token = current_user.custom_fields["iflychat_token"]
+
           if group && GroupUser.where(user_id: current_user.id, group_id: group.id).exists? 
-            render json: { insider: true }
+            render json: { insider: true, chat_token: chat_token }
           else
             render json: { insider: false }
           end
