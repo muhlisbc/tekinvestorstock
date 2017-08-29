@@ -21,6 +21,7 @@ StockPlugin = StockPlugin
   #gem 'webmock', '~> 1.24.6'
   #gem 'rubocop', '~> 0.40'
   #gem 'byebug', '~> 9.0.5'
+  gem 'domain_name', '0.5'
   gem 'http-cookie', '1.0.3'
   gem 'rest-client', '2.0.2'
   gem 'json', '2.0.4'
