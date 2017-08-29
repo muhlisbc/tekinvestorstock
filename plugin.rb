@@ -21,11 +21,11 @@ StockPlugin = StockPlugin
   #gem 'webmock', '~> 1.24.6'
   #gem 'rubocop', '~> 0.40'
   #gem 'byebug', '~> 9.0.5'
-  gem 'domain_name', '0.5', {require: false }
-  gem 'http-cookie', '1.0.3', {require: false }
-  gem 'rest-client', '2.0.2', {require: false }
-  gem 'json', '2.0.4', {require: false }
-  gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for prod. gems above are dependencies for this gem
+  #gem 'domain_name', '0.5', {require: false }
+  #gem 'http-cookie', '1.0.3', {require: false }
+  #gem 'rest-client', '2.0.2', {require: false }
+  #gem 'json', '2.0.4', {require: false }
+  #gem 'stock_quote', '1.1.2' ## comment this out on local, but should be there for prod. gems above are dependencies for this gem
 
 #gem 'drip'
 #gem 'drip-ruby'
