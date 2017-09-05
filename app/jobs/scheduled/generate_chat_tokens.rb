@@ -3,13 +3,13 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 6.hours
+    every 2.hours
 
     def execute(args)
                 
         puts "Finding all users"
 
-        users = User.order(created_at: :asc)
+        users = User.order(last_seen_at: :desc)
 
         users.each do |user|
 	  	
