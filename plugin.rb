@@ -4,7 +4,6 @@
 # authors: JT
 
 register_asset "javascripts/tekinvestor.js.es6"
-register_asset "javascripts/numberanimate.js"
 register_asset "javascripts/jquery.easy-autocomplete.min.js"
 register_asset "javascripts/charting_library/datafeed/udf/datafeed.js"
 register_asset "javascripts/charting_library/charting_library.min.js"
