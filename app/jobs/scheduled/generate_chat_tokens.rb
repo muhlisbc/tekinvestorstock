@@ -3,14 +3,15 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 2.hours
+    every 6.hours
 
     def execute(args)
                 
         puts "Finding all users"
 
         users = User.order(last_seen_at: :desc)
-
+	group = Group.find_by("lower(name) = ?", "insider")
+	    
         users.each do |user|
 	  	
   		  	puts "processing: " + user.username
@@ -18,10 +19,10 @@ module Jobs
           # we give tokens to all users, not just insiders, so one is already available when they become insiders
           #isInsider = false
 
-          #group = Group.find_by("lower(name) = ?", "insider")
+
           
-          #if group && GroupUser.where(user_id: user.id, group_id: group.id).exists? 
-          #  isInsider = true
+          if group && GroupUser.where(user_id: user.id, group_id: group.id).exists? 
+            isInsider = true
 
             # data we need to generate token
 
@@ -79,9 +80,9 @@ module Jobs
               end
           #end
 
-          #else
-          #  isInsider = false
-          #end
+          else
+            isInsider = false
+          end
   		  	
   		  end
 
