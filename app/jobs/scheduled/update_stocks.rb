@@ -38,12 +38,17 @@ module Jobs
         @tickers = @tickers.sort_by { |ticker| ticker.downcase }
         @tickers.map!(&:downcase)
 
-        set_stock_data(@tickers) # import all stocks favorited by users #TODO: also, those added to portfolios when that feature is added
+        #set_stock_data(@tickers) # yahoo api no longer works # import all stocks favorited by users #TODO: also, those added to portfolios when that feature is added
 
-        # then fetch all norwegian/swedish stocks from netfonds which has much better data quality
+        #  fetch all norwegian/swedish/US stocks from netfonds 
         import_ose_stocks()
         import_oax_stocks()
         import_st_stocks()
+        import_nyse_stocks()
+	import_amex_stocks()
+        import_nasdaq_stocks()
+	    
+
         
     end
 
@@ -157,7 +162,108 @@ module Jobs
       puts "Done!"
 
     end
+	  
+def import_nyse_stocks ()
 
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+         
+         end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=N&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
+
+    end
+	  
+def import_amex_stocks ()
+
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+         
+         end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=A&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
+
+    end
+	  
+def import_nasdaq_stocks ()
+
+      def read(url)
+       CSV.new(open(url), :headers => :first_row, col_sep: "\t").each do |line|
+
+         symbol = line[1].downcase
+         last = line[2].to_f
+         change = line[5].to_f
+         last_close = line[9].to_f
+         
+         percent_change = (((last - last_close)/last_close)*100).round(2).to_s + "%"
+         
+         if last == 0 # if no trades in stock today, last will be 0 and therefore change should be 0 also
+          percent_change = 0
+          last = last_close # also do this so we have a price to show
+         
+         end
+
+         puts symbol + " last: " + last.to_s + " change: " + change.to_s + " yesterday: " + last_close.to_s + " change %: "  + percent_change.to_s
+         ::PluginStore.set("stock_price", symbol, last.to_s)
+         ::PluginStore.set("stock_change_percent", symbol, percent_change.to_s)
+         #::PluginStore.set("stock_last_updated", symbol, last_updated) #todo: add
+        
+       end
+      end
+
+      read("http://www.netfonds.no/quotes/kurs.php?exchange=O&sec_types=&ticks=&table=tab&sort=alphabetic")
+
+      #puts "#{symbol} / #{price} / #{change_percent}"
+
+      puts "Done!"
+
+    end	  
   	def set_stock_data (tickers)
 
   		# handles multiple stocks in one request
