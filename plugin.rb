@@ -287,10 +287,63 @@ after_initialize do
           # find chat token set for this user
           # token is used in js to load chat with proper username and avatar
 
-          chat_token = nil
-          chat_token = current_user.custom_fields["iflychat_token"]
-
           if group && GroupUser.where(user_id: current_user.id, group_id: group.id).exists? 
+            
+            # generate new iflychat token on every page load
+
+            # data we need to generate token
+
+            userID = current_user.id
+            username = current_user.username
+
+            chat_role = "participant"
+            
+            if userID == 1 || current_user.username == "pdx" # if pdx
+              chat_role = "admin"
+            end
+
+            user_profile_url = "https://tekinvestor.no/users/" + current_user.username
+            avatarURL = current_user.small_avatar_url
+
+            data = { 
+              api_key: "6nbB6SkMfI09ZGnX8raYQDB4Gae414GS8Hbezx2lJR4W53860", 
+              app_id: "28df8c16-d97d-4a2a-8819-167d07c4f3b5",
+              user_name: username,
+              user_id: userID.to_s,
+              chat_role: chat_role,
+              user_profile_url: user_profile_url,
+              user_avatar_url: avatarURL
+            }
+
+#            puts data
+
+            # generate token
+
+              url = URI.parse('https://api.iflychat.com/api/1.1/token/generate')
+              http = Net::HTTP.new(url.host, url.port)
+              http.use_ssl = true
+
+              request = Net::HTTP::Post.new(url, {'Content-Type' => 'application/json'})
+              request.set_form_data(data)
+
+              response = http.request(request)
+
+              # assign token to user
+              unless response.body == nil 
+#                puts response.body
+                hash = JSON.parse response.body
+
+                unless hash["key"] == nil || hash["key"] == ""
+#                  puts "assigning token " + hash["key"]
+                  current_user.custom_fields["iflychat_token"] = hash["key"]
+                  current_user.save
+                end
+              end
+
+              chat_token = nil
+              chat_token = current_user.custom_fields["iflychat_token"]
+              
+              
             render json: { insider: true, chat_token: chat_token }
           else
             render json: { insider: false }
