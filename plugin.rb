@@ -226,15 +226,17 @@ after_initialize do
           # return name, symbol, equity or index, stock exchange
           # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
           
-          source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US'
-
+          # source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
+          
+          source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker]
+          
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
           result = JSON.parse(data)
 
           # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
-          source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
-
+          #source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
+          source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker] + '.OL'
           resp2 = Net::HTTP.get_response(URI.parse(source2))
           data2 = resp2.body
           result2 = JSON.parse(data2)
@@ -245,7 +247,7 @@ after_initialize do
           important_stocks = []
           the_rest = []
 
-          result["ResultSet"]["Result"].each do |stock|
+          result["items"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
@@ -255,7 +257,7 @@ after_initialize do
             
           end
 
-          result2["ResultSet"]["Result"].each do |stock|
+          result2["items"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
