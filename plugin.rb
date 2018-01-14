@@ -4,7 +4,6 @@
 # authors: JT
 
 register_asset "javascripts/tekinvestor.js.es6"
-register_asset "javascripts/numberanimate.js"
 register_asset "javascripts/jquery.easy-autocomplete.min.js"
 register_asset "javascripts/charting_library/datafeed/udf/datafeed.js"
 register_asset "javascripts/charting_library/charting_library.min.js"
@@ -22,6 +21,7 @@ after_initialize do
   load File.expand_path("../app/jobs/scheduled/update_stocks.rb", __FILE__)
   load File.expand_path("../app/jobs/scheduled/update_cryptocurrencies.rb", __FILE__)
   load File.expand_path("../app/jobs/scheduled/update_tekindex.rb", __FILE__)
+  load File.expand_path("../app/jobs/scheduled/generate_chat_tokens.rb", __FILE__)
 
   module StockPlugin
 
@@ -213,15 +213,17 @@ after_initialize do
           # return name, symbol, equity or index, stock exchange
           # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
           
-          source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US'
-
+          # source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
+          
+          source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker]
+          
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
           result = JSON.parse(data)
 
           # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
-          source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
-
+          #source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
+          source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker] + '.OL'
           resp2 = Net::HTTP.get_response(URI.parse(source2))
           data2 = resp2.body
           result2 = JSON.parse(data2)
@@ -232,7 +234,7 @@ after_initialize do
           important_stocks = []
           the_rest = []
 
-          result["ResultSet"]["Result"].each do |stock|
+          result["items"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
@@ -242,7 +244,7 @@ after_initialize do
             
           end
 
-          result2["ResultSet"]["Result"].each do |stock|
+          result2["items"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
@@ -271,8 +273,67 @@ after_initialize do
           
           group = Group.find_by("lower(name) = ?", "insider")
           
+          # find chat token set for this user
+          # token is used in js to load chat with proper username and avatar
+
           if group && GroupUser.where(user_id: current_user.id, group_id: group.id).exists? 
-            render json: { insider: true }
+            
+            # generate new iflychat token on every page load
+
+            # data we need to generate token
+
+            userID = current_user.id
+            username = current_user.username
+
+            chat_role = "participant"
+            
+            if userID == 1 || current_user.username == "pdx" # if pdx
+              chat_role = "admin"
+            end
+
+            user_profile_url = "https://tekinvestor.no/users/" + current_user.username
+            avatarURL = current_user.small_avatar_url
+
+            data = { 
+              api_key: "6nbB6SkMfI09ZGnX8raYQDB4Gae414GS8Hbezx2lJR4W53860", 
+              app_id: "28df8c16-d97d-4a2a-8819-167d07c4f3b5",
+              user_name: username,
+              user_id: userID.to_s,
+              chat_role: chat_role,
+              user_profile_url: user_profile_url,
+              user_avatar_url: avatarURL
+            }
+
+#            puts data
+
+            # generate token
+
+              url = URI.parse('https://api.iflychat.com/api/1.1/token/generate')
+              http = Net::HTTP.new(url.host, url.port)
+              http.use_ssl = true
+
+              request = Net::HTTP::Post.new(url, {'Content-Type' => 'application/json'})
+              request.set_form_data(data)
+
+              response = http.request(request)
+
+              # assign token to user
+              unless response.body == nil 
+#                puts response.body
+                hash = JSON.parse response.body
+
+                unless hash["key"] == nil || hash["key"] == ""
+#                  puts "assigning token " + hash["key"]
+                  current_user.custom_fields["iflychat_token"] = hash["key"]
+                  current_user.save
+                end
+              end
+
+              chat_token = nil
+              chat_token = current_user.custom_fields["iflychat_token"]
+              
+              
+            render json: { insider: true, chat_token: chat_token }
           else
             render json: { insider: false }
           end

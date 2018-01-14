@@ -15,7 +15,7 @@ module Jobs
         # find all favorited stocks
      	  puts "Tekindex: Finding all favorited stocks by active users"
 
-        User.where("last_seen_at > ?", 3.months.ago).each do |user|
+        User.where("last_seen_at > ?", 4.weeks.ago).each do |user|
 	  	
   		  	puts "finding favorites for user id: #{user.id}"
   		  	
@@ -60,8 +60,10 @@ module Jobs
           count = long_string_of_all_favorited_tickers.downcase.scan(ticker.downcase).size
           puts ticker + ":" + count.to_s + " have faved"
           new_array = [ticker, count]
-          ticker_with_count_array.push(new_array)
-
+	  # sometimes erroneous tickers get added (not sure why, but lets remove them)
+	  unless ticker.downcase == "nan" || ticker.downcase == "b"
+        	  ticker_with_count_array.push(new_array)
+	  end
         end
 
         # sort by count
