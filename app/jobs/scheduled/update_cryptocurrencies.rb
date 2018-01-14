@@ -49,13 +49,13 @@ module Jobs
 
             # store USD prices
             
-            ::PluginStore.set("stock_price", ticker + "-usd", price)
-            ::PluginStore.set("stock_change_percent", ticker + "-usd", change_percent) 
-            ::PluginStore.set("stock_last_updated", ticker + "-usd", last_updated)
+            ::PluginStore.set("stock_price", ticker.downcase + "-usd", price.to_s)
+            ::PluginStore.set("stock_change_percent", ticker.downcase + "-usd", change_percent.to_s) 
+            ::PluginStore.set("stock_last_updated", ticker.downcase + "-usd", last_updated.to_s)
 
-            ::PluginStore.set("stock_price", ticker + "-btc", price_btc)
-            ::PluginStore.set("stock_change_percent", ticker + "-btc", change_percent) 
-            ::PluginStore.set("stock_last_updated", ticker + "-btc", last_updated)
+            ::PluginStore.set("stock_price", ticker.downcase + "-btc", price_btc.to_s)
+            ::PluginStore.set("stock_change_percent", ticker.downcase + "-btc", change_percent.to_s) 
+            ::PluginStore.set("stock_last_updated", ticker.downcase + "-btc", last_updated.to_s)
 
             #puts "stored data"
             #puts ::PluginStore.get("stock_price", ticker + "-USD")
