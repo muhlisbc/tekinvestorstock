@@ -45,17 +45,17 @@ module Jobs
 
             change_percent = row["percent_change_24h"] + "%" unless row["percent_change_24h"].nil?
 
-            puts "storing: #{ticker}-USD & #{ticker}-BTC / #{price} / #{change_percent}"
+            puts "storing: #{ticker}-usd & #{ticker}-btc / #{price} / #{change_percent}"
 
             # store USD prices
             
-            ::PluginStore.set("stock_price", ticker + "-USD", price)
-            ::PluginStore.set("stock_change_percent", ticker + "-USD", change_percent) 
-            ::PluginStore.set("stock_last_updated", ticker + "-USD", last_updated)
+            ::PluginStore.set("stock_price", ticker + "-usd", price)
+            ::PluginStore.set("stock_change_percent", ticker + "-usd", change_percent) 
+            ::PluginStore.set("stock_last_updated", ticker + "-usd", last_updated)
 
-            ::PluginStore.set("stock_price", ticker + "-BTC", price_btc)
-            ::PluginStore.set("stock_change_percent", ticker + "-BTC", change_percent) 
-            ::PluginStore.set("stock_last_updated", ticker + "-BTC", last_updated)
+            ::PluginStore.set("stock_price", ticker + "-btc", price_btc)
+            ::PluginStore.set("stock_change_percent", ticker + "-btc", change_percent) 
+            ::PluginStore.set("stock_last_updated", ticker + "-btc", last_updated)
 
             #puts "stored data"
             #puts ::PluginStore.get("stock_price", ticker + "-USD")
