@@ -3,7 +3,7 @@ module Jobs
 
   	include Sidekiq::Worker
 
-    every 5.minutes
+    every 10.minutes
 
     def execute(args)
 	     
