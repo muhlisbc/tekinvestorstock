@@ -284,6 +284,9 @@ after_initialize do
 
             userID = current_user.id
             username = current_user.username
+            userEmail = UserEmail.find_by_user_id(userID).email
+
+            
 
             chat_role = "participant"
             
@@ -333,9 +336,9 @@ after_initialize do
               chat_token = current_user.custom_fields["iflychat_token"]
               
               
-            render json: { insider: true, chat_token: chat_token }
+            render json: { insider: true, chat_token: chat_token, email: userEmail }
           else
-            render json: { insider: false }
+            render json: { insider: false, email: userEmail }
           end
 
         else 
