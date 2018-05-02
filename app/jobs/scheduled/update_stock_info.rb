@@ -58,9 +58,12 @@ module Jobs
       
       @tickers.each do |investment|
 
-        #if ::PluginStore.get("investment_name", investment.downcase).nil?
+        if ::PluginStore.get("investment_name", investment.downcase).nil?
 
           puts "processing: " + investment
+          investment.gsub! "USD=X", "-USD"
+          investment.gsub! "EUR=X", "-EUR"
+
           resp = Net::HTTP.get_response(URI.parse(source + investment.upcase))
           
           puts "code: "
@@ -120,9 +123,9 @@ module Jobs
             puts "error retrieving page"
           end
           puts "done"
-        #else
-        #  puts investment + " already stored, skipping"
-        #end
+        else
+          puts investment + " already stored, skipping"
+        end
     end
 end
 
