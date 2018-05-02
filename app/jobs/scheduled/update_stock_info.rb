@@ -61,8 +61,8 @@ module Jobs
         if ::PluginStore.get("investment_name", investment.downcase).nil?
 
           puts "processing: " + investment
-          investment.gsub! "USD=X", "-USD"
-          investment.gsub! "EUR=X", "-EUR"
+          investment.gsub! "usd=x", "-usd"
+          investment.gsub! "eur=x", "-eur"
 
           resp = Net::HTTP.get_response(URI.parse(source + investment.upcase))
           
@@ -90,7 +90,7 @@ module Jobs
 
             puts "investment_name: " + investment_name
 
-            unless investment_name.nil?
+            unless investment_name.nil? || investment_name == ''
               puts "storing.."
               ::PluginStore.set("investment_name", investment.downcase, investment_name) 
 
