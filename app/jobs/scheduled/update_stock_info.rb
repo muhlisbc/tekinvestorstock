@@ -58,7 +58,7 @@ module Jobs
       
       @tickers.each do |investment|
 
-        if ::PluginStore.get("investment_name", investment.downcase).nil?
+        #if ::PluginStore.get("investment_name", investment.downcase).nil?
 
           puts "processing: " + investment
           resp = Net::HTTP.get_response(URI.parse(source + investment.upcase))
@@ -83,6 +83,7 @@ module Jobs
             investment_name.slice! " USD"
             investment_name.slice! " EUR"
             investment_name.slice! " NOK"
+            investment_name.slice! "=" # wont work with = in name
 
             puts "investment_name: " + investment_name
 
@@ -98,7 +99,7 @@ module Jobs
               investment_description = data[/#{str1_markerstring}(.*?)#{str2_markerstring}/m, 1]
               
               unless investment_description.nil?
-
+                investment_description.gsub! '\u002F', '/'
                 puts "investment_description: " + investment_description
 
                 ::PluginStore.set("investment_description", investment.downcase, investment_description)
@@ -119,9 +120,9 @@ module Jobs
             puts "error retrieving page"
           end
           puts "done"
-        else
-          puts investment + " already stored, skipping"
-        end
+        #else
+        #  puts investment + " already stored, skipping"
+        #end
     end
 end
 
