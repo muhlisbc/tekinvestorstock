@@ -167,7 +167,7 @@ after_initialize do
           @stock_data = []
           @tekindex = ::PluginStore.get("tekinvestor", "tekindex_stocks").split(",").uniq #created in update_tekindex_job
 
-          @tekindex[0...32].reverse.each do |ticker|
+          @tekindex[0...99].reverse.each do |ticker|
 
             ticker = ticker.downcase
             @stock_price = ::PluginStore.get("stock_price", ticker)
