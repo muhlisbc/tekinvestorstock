@@ -271,7 +271,12 @@ after_initialize do
 
       def is_user_insider
         if !current_user.nil? 
-          
+
+          # data we need to generate token
+          userID = current_user.id
+          username = current_user.username
+          userEmail = UserEmail.find_by_user_id(userID).email
+
           group = Group.find_by("lower(name) = ?", "insider")
           
           # find chat token set for this user
@@ -280,14 +285,6 @@ after_initialize do
           if group && GroupUser.where(user_id: current_user.id, group_id: group.id).exists? 
             
             # generate new iflychat token on every page load
-
-            # data we need to generate token
-
-            userID = current_user.id
-            username = current_user.username
-            userEmail = UserEmail.find_by_user_id(userID).email
-
-            
 
             chat_role = "participant"
             
@@ -337,9 +334,9 @@ after_initialize do
               chat_token = current_user.custom_fields["iflychat_token"]
               
               
-            render json: { insider: true, chat_token: chat_token, email: userEmail }
+            render json: { insider: true, chat_token: chat_token, email: userEmail, username: username }
           else
-            render json: { insider: false, email: userEmail }
+            render json: { insider: false, email: userEmail, username: username }
           end
 
         else 
