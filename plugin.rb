@@ -334,9 +334,9 @@ after_initialize do
               chat_token = current_user.custom_fields["iflychat_token"]
               
               
-            render json: { insider: true, chat_token: chat_token, email: userEmail, username: username }
+            render json: { insider: true, chat_token: chat_token, email: userEmail, username: username, userid: userID }
           else
-            render json: { insider: false, email: userEmail, username: username }
+            render json: { insider: false, email: userEmail, username: username, userid: userID }
           end
 
         else 
