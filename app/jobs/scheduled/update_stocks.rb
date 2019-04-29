@@ -65,7 +65,7 @@ module Jobs
 
         unless trade_symbols.values.nil?
           # add to array
-            @tickers.concat trade_symbols.values
+        #    @tickers.concat trade_symbols.values # TODO REMOVE COMMENT
         end
 
          ose_tickers = 
