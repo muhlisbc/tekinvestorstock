@@ -6,7 +6,7 @@ module Jobs
     require "net/http"
     require "uri"
 
-    every 5.minutes
+    every 10.minutes
     
     def execute(args)
       
@@ -24,7 +24,7 @@ module Jobs
   		  	unless user.custom_fields["favorite_stocks"].nil? || user.custom_fields["favorite_stocks"].empty?
   		  		
     		  	users_favorite_stocks = user.custom_fields["favorite_stocks"].split(',')
-    				puts users_favorite_stocks
+    				# puts users_favorite_stocks
 
     				# add to array
     				@tickers.concat users_favorite_stocks
