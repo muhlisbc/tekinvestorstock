@@ -10,26 +10,27 @@ module Jobs
     
     def execute(args)
       
-    	  # find all stocks in tekindex
+        # find all stocks in tekindex
           
         @tickers = []
 
         # find all favorited stocks
-     	  puts "Finding all favorite stocks"
+        puts "Finding all favorite stocks"
 
         User.find_each do |user|
-	  	
-  		  	puts "finding favorites for user id: #{user.id}"
-  		  	
-  		  	unless user.custom_fields["favorite_stocks"].nil? || user.custom_fields["favorite_stocks"].empty?
-  		  		
-    		  	users_favorite_stocks = user.custom_fields["favorite_stocks"].split(',')
-    				# puts users_favorite_stocks
+      
+          puts "finding favorites for user id: #{user.id}"
+          
+          unless user.custom_fields["favorite_stocks"].nil? || user.custom_fields["favorite_stocks"].empty?
+            
+            users_favorite_stocks = user.custom_fields["favorite_stocks"].split(',')
+            # puts users_favorite_stocks
 
-    				# add to array
-    				@tickers.concat users_favorite_stocks
+            # add to array
+            @tickers.concat users_favorite_stocks
 
-    			end
+          end
+        end
 
         # find all stocks ever used in trades (ever in a portfolio) as well
 
@@ -56,6 +57,7 @@ module Jobs
                 SELECT distinct lower(symbol)
                 FROM data
                 where symbol is not null"
+
         trade_symbols = ActiveRecord::Base.connection.execute(sql)
 
         puts "found stocks ever used in trades/portfolio: "
@@ -65,8 +67,6 @@ module Jobs
           # add to array
             @tickers.concat trade_symbols.values
         end
-  		  	
-  		  end
 
          ose_tickers = 
           ['ASC.OL',
@@ -3697,14 +3697,13 @@ module Jobs
         import_st_stocks()
         import_ngm_stocks() # since this is not covered by yahoo api
         import_nyse_stocks()
-	      import_amex_stocks()
+        import_amex_stocks()
         import_nasdaq_stocks()
 
         #@tickers = ["nhy.ol", "tsla", "funcom.ol"]
 
-	      import_all_stocks_from_rapidapi(@tickers)
+        import_all_stocks_from_rapidapi(@tickers)
 
-        
     end
 
     def import_ose_stocks ()
@@ -3854,7 +3853,7 @@ module Jobs
       puts "Done!"
 
     end
-	  
+    
 def import_nyse_stocks ()
 
       def read(url)
@@ -3888,7 +3887,7 @@ def import_nyse_stocks ()
       puts "Done!"
 
     end
-	  
+    
 def import_amex_stocks ()
 
       def read(url)
@@ -3922,7 +3921,7 @@ def import_amex_stocks ()
       puts "Done!"
 
     end
-	  
+    
 def import_nasdaq_stocks ()
 
       def read(url)
@@ -3955,10 +3954,10 @@ def import_nasdaq_stocks ()
 
       puts "Done!"
 
-    end	  
-  	def set_stock_data (tickers)
+    end   
+    def set_stock_data (tickers)
 
-  		# handles multiple stocks in one request
+      # handles multiple stocks in one request
         if !tickers.nil? 
 
           tickers = tickers.uniq
@@ -3975,7 +3974,7 @@ def import_nasdaq_stocks ()
 
           tickers = to_be_processed
 
-		      puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
+          puts "Fetching stock data for #{tickers.size} stocks: #{tickers}"
         
           #tickers = ["aapl", "aga.ol", "akso.ol", "amd", "apcl.ol", "asetek.ol", "avm.ol", "axa.ol", "bionor.ol", "biotec.ol", "bird.ol", "bitcoin-xbt.st", "btcusd=x", "dno.ol", "fro.ol", "funcom.ol", "gig.ol", "hugo.ol", "idex.ol", "iox.ol", "kit.ol", "nano.ol", "nas.ol", "natto.ol", "natto.st", "nel.ol", "next.ol", "nod.ol", "nom.ol", "nor.ol", "ocy.ol", "opera.ol", "ork.ol", "pho.ol", "seam.st", "sf.st", "star-a.st", "star-b.st", "tel.ol", "thin.ol", "til.ol"]
 
@@ -4102,13 +4101,13 @@ def import_nasdaq_stocks ()
             end
         
 
-  		    end
+          end
 
-  		    puts "Done!"
+          puts "Done!"
 
         end
 
-  	end
+    end
 
     def import_all_stocks_from_rapidapi(tickers)
 
