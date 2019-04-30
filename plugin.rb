@@ -81,7 +81,7 @@ after_initialize do
           current_user.save
 
           # update this stock immediately so it can show in the list of stocks if its a new stock we havent seen before
-          Jobs::UpdateStocks.new.set_stock_data([params[:ticker]]) if ::PluginStore.get("stock_price", params[:ticker]).nil?
+          Jobs::UpdateStocks.new.import_all_stocks_from_rapidapi([params[:ticker]]) if ::PluginStore.get("stock_price", params[:ticker]).nil?
 
           render json: { message: stocks_array.join(",") }
           #render json: { message: "added OK" }
