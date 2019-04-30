@@ -240,7 +240,7 @@ after_initialize do
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
             else
-                the_rest.push(stock) unless stock['symbol'].include? "^" # ^ character break the stock data fetcher, so skip all indexes like ^DJI etc
+                the_rest.push(stock) #unless stock['symbol'].include? "^" # ^ character break the stock data fetcher, so skip all indexes like ^DJI etc
             end
             
           end
