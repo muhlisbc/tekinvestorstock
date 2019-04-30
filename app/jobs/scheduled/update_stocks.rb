@@ -6,7 +6,7 @@ module Jobs
     require "net/http"
     require "uri"
 
-    every 10.minutes
+    every 5.minutes
     
     def execute(args)
       
