@@ -59,13 +59,20 @@ module Jobs
                 where symbol is not null"
 
         trade_symbols = ActiveRecord::Base.connection.execute(sql)
-
+  
         puts "found stocks ever used in trades/portfolio: "
         puts trade_symbols.values
-
-        unless trade_symbols.values.nil?
+        
+        @list_of_strings = []
+        trade_symbols.values.each do |trade_symbol|
+           @list_of_strings.push(trade_symbol[0]) # adds string in array to list, silly workaround
+#          puts trade_symbol[0]
+        end
+ #       puts @list_of_strings
+      
+        unless @list_of_strings.nil?
           # add to array
-        #    @tickers.concat trade_symbols.values # TODO REMOVE COMMENT
+            @tickers.concat @list_of_strings
         end
 
          ose_tickers = 
