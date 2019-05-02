@@ -4170,7 +4170,7 @@ def import_nasdaq_stocks ()
               result = http.request(request)
 
               #puts response
-              puts result.body
+              #puts result.body
 
                 #stocks = result["list"]["resources"] #old way
 
@@ -4184,7 +4184,7 @@ def import_nasdaq_stocks ()
                   puts stocks.count                  
                   puts "stocks"
 
-                  puts stocks
+                  #puts stocks
 
                   stocks.each_with_index do |stock, index|
 
