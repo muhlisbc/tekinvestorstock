@@ -4207,7 +4207,8 @@ def import_nasdaq_stocks ()
                       symbol = symbol.downcase
 
                       price = stock["regularMarketPrice"]
-
+                      last_updated = stock["regularMarketTime"]
+                     
                       if price == "N/A" 
                         price = "0" # something the numberanimator can handle
                       end
@@ -4221,7 +4222,7 @@ def import_nasdaq_stocks ()
 
                       ::PluginStore.set("stock_price", symbol, price)
                       ::PluginStore.set("stock_change_percent", symbol, change_percent)
-                      #::PluginStore.set("stock_last_updated", symbol, last_updated)
+                      ::PluginStore.set("stock_last_updated", symbol, last_updated)
                       
                     end 
 
