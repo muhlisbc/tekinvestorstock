@@ -4149,7 +4149,7 @@ def import_nasdaq_stocks ()
 
           # since we only get accurate data from Yahoo when we ask for a few stocks at a time, process everything in batches
 
-          ticker_batches = tickers_to_import.each_slice(500).to_a
+          ticker_batches = tickers_to_import.each_slice(80).to_a # doesn't work well after 80 at a time
 
           ticker_batches.each_with_index do | ticker_batch, batch_index |
               
