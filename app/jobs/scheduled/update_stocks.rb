@@ -3675,14 +3675,14 @@ module Jobs
 
         # uncomment below when switching
         # todo, all all norwegian stocks here automatically
-        #@tickers.concat ose_tickers
-        #@tickers.concat oax_tickers
-        #@tickers.concat st_tickers
+        @tickers.concat ose_tickers
+        @tickers.concat oax_tickers
+        @tickers.concat st_tickers
         # # @tickers.concat ngm_tickers # does not appear to be covered by API
 
-        #@tickers.concat nyse_tickers
-        #@tickers.concat amex_tickers
-        #@tickers.concat nasdaq_tickers
+        @tickers.concat nyse_tickers
+        @tickers.concat amex_tickers
+        @tickers.concat nasdaq_tickers
 
 
         # remove duplicates
