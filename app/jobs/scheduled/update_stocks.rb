@@ -3698,14 +3698,14 @@ module Jobs
 
         #set_stock_data(@tickers) # yahoo api no longer works # import all stocks favorited by users #TODO: also, those added to portfolios when that feature is added
 
-        #  fetch all norwegian/swedish/US stocks from netfonds 
-        import_ose_stocks()
-        import_oax_stocks()
-        import_st_stocks()
-        import_ngm_stocks() # since this is not covered by yahoo api
-        import_nyse_stocks()
-        import_amex_stocks()
-        import_nasdaq_stocks()
+        #  fetch all norwegian/swedish/US stocks from netfonds  (these no longer work since netfonds has closed)
+#        import_ose_stocks()
+#        import_oax_stocks()
+#        import_st_stocks()
+#        import_ngm_stocks() # since this is not covered by yahoo api
+#        import_nyse_stocks()
+#        import_amex_stocks()
+#        import_nasdaq_stocks()
 
         #@tickers = ["nhy.ol", "tsla", "funcom.ol"]
 
