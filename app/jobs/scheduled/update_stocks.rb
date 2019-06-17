@@ -3818,7 +3818,7 @@ module Jobs
 
       read("http://quotes.hegnar.no/quotes/kurs.php?exchange=ST&sec_types=&ticks=&table=tab&sort=alphabetic")
 
-      puts "#{symbol} / #{price} / #{change_percent}"
+#      puts "#{symbol} / #{price} / #{change_percent}"
 
       puts "Done!"
 
