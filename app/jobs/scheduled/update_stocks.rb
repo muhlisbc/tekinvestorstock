@@ -3677,7 +3677,7 @@ module Jobs
         # todo, all all norwegian stocks here automatically
         @tickers.concat ose_tickers
         @tickers.concat oax_tickers
-        @tickers.concat st_tickers
+#        @tickers.concat st_tickers ## removed these as we can fetch them from the netfonds/hegn. api below
         # # @tickers.concat ngm_tickers # does not appear to be covered by API
   
 #        @tickers.concat nyse_tickers # removed us stocks as it was leading to way too many stocks to fetch (pricey)
@@ -3701,7 +3701,7 @@ module Jobs
         #  fetch all norwegian/swedish/US stocks from netfonds  (these no longer work since netfonds has closed)
 #        import_ose_stocks()
 #        import_oax_stocks()
-#        import_st_stocks()
+         import_st_stocks()
 #        import_ngm_stocks() # since this is not covered by yahoo api
 #        import_nyse_stocks()
 #        import_amex_stocks()
@@ -3816,9 +3816,9 @@ module Jobs
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=ST&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=ST&sec_types=&ticks=&table=tab&sort=alphabetic")
 
-      #puts "#{symbol} / #{price} / #{change_percent}"
+      puts "#{symbol} / #{price} / #{change_percent}"
 
       puts "Done!"
 
