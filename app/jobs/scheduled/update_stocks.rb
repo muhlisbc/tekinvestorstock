@@ -3699,16 +3699,22 @@ module Jobs
         #set_stock_data(@tickers) # yahoo api no longer works # import all stocks favorited by users #TODO: also, those added to portfolios when that feature is added
 
         #  fetch all norwegian/swedish/US stocks from netfonds  (these no longer work since netfonds has closed)
-#        import_ose_stocks()
-#        import_oax_stocks()
-         import_st_stocks()
+
 #        import_ngm_stocks() # since this is not covered by yahoo api
 #        import_nyse_stocks()
 #        import_amex_stocks()
 #        import_nasdaq_stocks()
 
         #@tickers = ["nhy.ol", "tsla", "funcom.ol"]
-
+        
+        # filter out all scand st tickers so we can fetch them from netfonds/heg instead (remove if switching away from this way of fetching)
+        @tickers = @tickers.reject {|item| item.include?(".st")}
+        @tickers = @tickers.reject {|item| item.include?(".ol")}
+      
+        import_st_stocks()
+        import_ose_stocks()
+        import_oax_stocks()
+        # fetch the rest
         import_all_stocks_from_rapidapi(@tickers)
 
     end
@@ -3741,7 +3747,7 @@ module Jobs
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=OSE&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=OSE&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -3778,7 +3784,7 @@ module Jobs
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=OAX&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=OAX&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -3853,7 +3859,7 @@ module Jobs
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=NGM&sec_types=S&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=NGM&sec_types=S&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -3887,7 +3893,7 @@ def import_nyse_stocks ()
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=N&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=N&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -3921,7 +3927,7 @@ def import_amex_stocks ()
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=A&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=A&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
@@ -3955,7 +3961,7 @@ def import_nasdaq_stocks ()
        end
       end
 
-      read("http://www.netfonds.no/quotes/kurs.php?exchange=O&sec_types=&ticks=&table=tab&sort=alphabetic")
+      read("http://quotes.hegnar.no/quotes/kurs.php?exchange=O&sec_types=&ticks=&table=tab&sort=alphabetic")
 
       #puts "#{symbol} / #{price} / #{change_percent}"
 
