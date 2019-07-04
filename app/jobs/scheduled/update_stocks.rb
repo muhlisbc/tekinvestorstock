@@ -3677,7 +3677,7 @@ module Jobs
         # todo, all all norwegian stocks here automatically
         @tickers.concat ose_tickers
         @tickers.concat oax_tickers
-#        @tickers.concat st_tickers ## removed these as we can fetch them from the netfonds/hegn. api below
+        @tickers.concat st_tickers ## removed these as we can fetch them from the netfonds/hegn. api below
         # # @tickers.concat ngm_tickers # does not appear to be covered by API
   
 #        @tickers.concat nyse_tickers # removed us stocks as it was leading to way too many stocks to fetch (pricey)
@@ -3708,8 +3708,8 @@ module Jobs
         #@tickers = ["nhy.ol", "tsla", "funcom.ol"]
         
         # filter out all scand st tickers so we can fetch them from netfonds/heg instead (remove if switching away from this way of fetching)
-        @tickers = @tickers.reject {|item| item.include?(".st")}
-        @tickers = @tickers.reject {|item| item.include?(".ol")}
+#        @tickers = @tickers.reject {|item| item.include?(".st")}
+ #       @tickers = @tickers.reject {|item| item.include?(".ol")}
       
         import_st_stocks()
         import_ose_stocks()
