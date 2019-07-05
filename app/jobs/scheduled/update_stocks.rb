@@ -3711,9 +3711,9 @@ module Jobs
 #        @tickers = @tickers.reject {|item| item.include?(".st")}
  #       @tickers = @tickers.reject {|item| item.include?(".ol")}
       
-        import_st_stocks()
-        import_ose_stocks()
-        import_oax_stocks()
+#        import_st_stocks()
+ #       import_ose_stocks()
+  #      import_oax_stocks()
         # fetch the rest
         import_all_stocks_from_rapidapi(@tickers)
 
