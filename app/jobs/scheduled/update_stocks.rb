@@ -4220,8 +4220,11 @@ def import_nasdaq_stocks ()
                       end
 
                       #last_updated = result["query"]["results"]["row"][index]["utctime"]
-                      
-                      change_percent = stock["regularMarketChangePercent"].round(2).to_s + "%"
+                      if stock["regularMarketChangePercent"] == "Infinity"
+                        change_percent = "∞%"
+                      else
+                        change_percent = stock["regularMarketChangePercent"].round(2).to_s + "%"
+                      end
 #                      change_percent = (change_percent.to_f * 100) + "%"
                       
                       puts "#{symbol} / #{price} / #{change_percent}"
