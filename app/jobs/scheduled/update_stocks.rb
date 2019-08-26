@@ -42,6 +42,7 @@ module Jobs
                     SELECT psr.key as key, CAST(psr.value as JSON) as value
                     FROM plugin_store_rows psr
                     WHERE plugin_name = 'tekportfolio'
+                    AND key != 'popular_posts'
                 ),
                 data AS(
                     SELECT  
