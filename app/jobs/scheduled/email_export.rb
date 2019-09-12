@@ -43,12 +43,12 @@ module Jobs
                 "email": "' + user.email + '",
                 "time_zone": "Europe/Copenhagen",
                 "custom_fields": {
-                  "insider": "' + isInsider + '",
+                  "insider": "' + isInsider.to_s + '",
                   "username": "' + user.username + '",
-                  "users_posts_read_x_times": "' + results[0]["sum_reads"] + '",
-                  "post_count": "' + results[0]["post_count"] + '",
-                  "likes_received_per_post": "' + results[0]["like_avg"] + '",
-                  "total_likes_received": "' + results[0]["total_likes_received"] + '",
+                  "users_posts_read_x_times": "' + results[0]["sum_reads"].to_s + '",
+                  "post_count": "' + results[0]["post_count"].to_s + '",
+                  "likes_received_per_post": "' + results[0]["like_avg"].to_s + '",
+                  "total_likes_received": "' + results[0]["total_likes_received"].to_s + '",
                   "created_at": "' + user.created_at.to_s + '",
                   "last_seen_at": "' + user.last_seen_at.to_s + '"
                 }
