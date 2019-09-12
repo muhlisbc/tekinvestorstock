@@ -36,7 +36,7 @@ module Jobs
 		
 	   # find stats for this user
 	   results = nil
-	   sql = "SELECT SUM(reads) as sum_reads, count(id) as post_count, avg(like_count) AS like_avg, sum(like_count) as total_likes_received, user_id from posts Where user_id = " + user.id + " group by user_id"
+	   sql = "SELECT SUM(reads) as sum_reads, count(id) as post_count, avg(like_count) AS like_avg, sum(like_count) as total_likes_received, user_id from posts Where user_id = " + user.id.to_s + " group by user_id"
 	   results = ActiveRecord::Base.connection.execute(sql)
   		  	
           subscriberInfo = '{
