@@ -10,6 +10,8 @@ register_asset "javascripts/charting_library/charting_library.min.js"
 
 require 'net/http'
 
+gem 'drip-ruby', '3.3.1', {require: false}
+
 load File.expand_path("../stock.rb", __FILE__)
 
 
