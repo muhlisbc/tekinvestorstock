@@ -38,6 +38,18 @@ module Jobs
 	   results = nil
 	   sql = "SELECT SUM(reads) as sum_reads, count(id) as post_count, avg(like_count) AS like_avg, sum(like_count) as total_likes_received, user_id from posts Where user_id = " + user.id.to_s + " group by user_id"
 	   results = ActiveRecord::Base.connection.execute(sql)
+		
+		sum_reads = 0
+		post_count = 0
+		like_avg = 0
+		total_likes_received = 0
+		
+		unless results[0].nil? 
+			sum_reads = results[0]["sum_reads"]
+			post_count = results[0]["post_count"]
+			like_avg = results[0]["like_avg"]
+			total_likes_received = results[0]["total_likes_received"]
+		end
   		  	
           subscriberInfo = '{
                 "email": "' + user.email + '",
@@ -45,10 +57,10 @@ module Jobs
                 "custom_fields": {
                   "insider": "' + isInsider.to_s + '",
                   "username": "' + user.username + '",
-                  "users_posts_read_x_times": "' + results[0]["sum_reads"].to_s + '",
-                  "post_count": "' + results[0]["post_count"].to_s + '",
-                  "likes_received_per_post": "' + results[0]["like_avg"].to_s + '",
-                  "total_likes_received": "' + results[0]["total_likes_received"].to_s + '",
+                  "users_posts_read_x_times": "' + sum_reads.to_s + '",
+                  "post_count": "' + post_count.to_s + '",
+                  "likes_received_per_post": "' + like_avg.to_s + '",
+                  "total_likes_received": "' + total_likes_received.to_s + '",
                   "created_at": "' + user.created_at.to_s + '",
                   "last_seen_at": "' + user.last_seen_at.to_s + '"
                 }
