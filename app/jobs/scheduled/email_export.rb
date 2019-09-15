@@ -38,13 +38,13 @@ module Jobs
 	   results = nil
 	   sql = "SELECT SUM(reads) as sum_reads, count(id) as post_count, avg(like_count) AS like_avg, sum(like_count) as total_likes_received, user_id from posts Where user_id = " + user.id.to_s + " group by user_id"
 	   results = ActiveRecord::Base.connection.execute(sql)
-		
+
 		sum_reads = 0
 		post_count = 0
 		like_avg = 0
 		total_likes_received = 0
-		
-		if !results.empty? 
+
+		if !results.nil? 
 			sum_reads = results[0]["sum_reads"]
 			post_count = results[0]["post_count"]
 			like_avg = results[0]["like_avg"]
