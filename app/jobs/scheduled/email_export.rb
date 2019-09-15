@@ -66,6 +66,8 @@ module Jobs
                 }
           },'
 
+	  puts subscriberInfo
+		
           subscribersListStart = subscribersListStart + subscriberInfo
 
   		  end
