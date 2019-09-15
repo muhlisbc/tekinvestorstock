@@ -44,7 +44,7 @@ module Jobs
 		like_avg = 0
 		total_likes_received = 0
 
-		if !results.nil? 
+		if results.length > 0
 			sum_reads = results[0]["sum_reads"]
 			post_count = results[0]["post_count"]
 			like_avg = results[0]["like_avg"]
