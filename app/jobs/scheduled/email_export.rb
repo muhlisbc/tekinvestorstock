@@ -19,7 +19,7 @@ module Jobs
 
         puts "Finding all users"
 
-        users = User.order(last_seen_at: :desc).limit(10) # Drip has 1000 element limit in batches
+        users = User.where.not(last_posted_at: [nil, ""]).order(last_seen_at: :desc).limit(10) # Drip has 1000 element limit in batches
 
         users.each do |user|
 	  	
