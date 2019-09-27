@@ -19,7 +19,7 @@ module Jobs
 
         puts "Finding all users"
 
-        users = User.where.not(last_posted_at: [nil, ""]).order(last_seen_at: :desc).limit(10) # Drip has 1000 element limit in batches
+        users = User.order(last_seen_at: :desc).limit(10) # Drip has 1000 element limit in batches
 
         users.each do |user|
 	  	
@@ -49,6 +49,9 @@ module Jobs
 			post_count = results[0]["post_count"]
 			like_avg = results[0]["like_avg"]
 			total_likes_received = results[0]["total_likes_received"]
+			
+			puts sum_reads + " / " + post_count + " / " + like_avg + " / " + total_likes_received
+			
 		end
   		  	
           subscriberInfo = '{
