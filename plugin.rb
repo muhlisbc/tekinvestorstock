@@ -210,6 +210,8 @@ after_initialize do
           
           puts "searching for symbol.."
           puts params[:ticker]
+        
+          ticker = params[:ticker].gsub!(' ', '%20') # sanitize string for yahoo search
           #@stocks = 
           # perform symbol search from yahoo 
 
@@ -220,7 +222,7 @@ after_initialize do
           
           # source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
           
-          source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker]
+          source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + ticker
           
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
@@ -228,7 +230,7 @@ after_initialize do
 
           # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
           #source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
-          source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker] + '.OL'
+          source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + ticker + '.OL'
           resp2 = Net::HTTP.get_response(URI.parse(source2))
           data2 = resp2.body
           result2 = JSON.parse(data2)
