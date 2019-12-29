@@ -38,7 +38,8 @@ module Jobs
 
         # remove duplicates
         @tickers = @tickers.uniq
-
+	@tickers = @tickers.flatten
+	    
         # sort alphabetically
 
         @tickers = @tickers.sort_by { |ticker| ticker.downcase }
