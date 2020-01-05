@@ -6,6 +6,7 @@ module Jobs
     every 12.hours
 
     def execute(args)
+	    
       
     	  # find all stocks for tekindex
           
