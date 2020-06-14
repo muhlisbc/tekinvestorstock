@@ -63,7 +63,7 @@ module Jobs
           puts ticker + ":" + count.to_s + " have faved"
           new_array = [ticker, count]
 	  # sometimes erroneous tickers get added (not sure why, but lets remove them)
-	  unless ticker.downcase == "nan" || ticker.downcase == "b" || ticker.downcase == "pci" || ticker.downcase == "nano" || ticker.downcase == "t"
+	  unless ticker.downcase == "nan" || ticker.downcase == "b" || ticker.downcase == "pci" || ticker.downcase == "nano" || ticker.downcase == "t"  || ticker.downcase == "o"  || ticker.downcase == "bg"
         	  ticker_with_count_array.push(new_array)
 	  end
         end
