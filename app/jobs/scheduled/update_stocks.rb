@@ -4165,7 +4165,7 @@ def import_nasdaq_stocks ()
 
               tickers = ticker_batch.compact.join(",") #compact removes nil values
               puts tickers
-              source = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes?region=US&lang=en&symbols=" + tickers
+              source = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&lang=en&symbols=" + tickers
 
               uri = URI.parse(source)
               http = Net::HTTP.new(uri.host, uri.port)
