@@ -15,11 +15,6 @@ module Jobs
         end
         
 	group = Group.find_by("lower(name) = ?", "insider")
-	    
-	    Person.find_each(finish: 9_999) do |person|
-		  person.party_all_night!
-		end
-
 
         puts "Finding all users"
 
