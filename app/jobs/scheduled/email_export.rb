@@ -50,7 +50,7 @@ module Jobs
 				like_avg = results[0]["like_avg"]
 				total_likes_received = results[0]["total_likes_received"]
 
-				puts sum_reads + " / " + post_count + " / " + like_avg + " / " + total_likes_received
+				puts sum_reads.to_s + " / " + post_count.to_s + " / " + like_avg.to_s + " / " + total_likes_received.to_s
 
 			end
 
