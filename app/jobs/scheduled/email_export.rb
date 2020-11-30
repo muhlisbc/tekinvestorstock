@@ -5,7 +5,7 @@ module Jobs
 
     # export email addyes to email sender (drip)
 
-    every 1.hour
+    every 15.minutes
 
     def execute(args)
         
@@ -19,7 +19,7 @@ module Jobs
 
         puts "Finding all users"
 
-        users = User.order(last_seen_at: :desc).limit(10) # Drip has 1000 element limit in batches
+        users = User.order(last_seen_at: :desc).limit(999) # Drip has 1000 element limit in batches
 
         users.each do |user|
 	  	
