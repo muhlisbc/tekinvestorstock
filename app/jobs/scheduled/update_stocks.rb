@@ -3819,7 +3819,7 @@ module Jobs
   #      import_oax_stocks()
         # fetch the rest
         import_all_stocks_from_rapidapi(@tickers)
-        #import_ob_stocks_from_euronext() # fetches only oslo stocks via euron. public api
+        import_ob_stocks_from_euronext() # fetches only oslo stocks via euron. public api
 
     end
 
@@ -4626,7 +4626,7 @@ def import_nasdaq_stocks ()
               change_percent = 0 # until we have a better solution
 
               ::PluginStore.set("stock_price", symbol, result["rows"][0]["price"])
-              ::PluginStore.set("stock_change_percent", symbol, change_percent)
+#              ::PluginStore.set("stock_change_percent", symbol, change_percent)
 
            end
 
