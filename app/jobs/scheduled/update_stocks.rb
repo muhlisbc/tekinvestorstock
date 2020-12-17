@@ -3819,7 +3819,7 @@ module Jobs
   #      import_oax_stocks()
         # fetch the rest
         import_all_stocks_from_rapidapi(@tickers)
-        import_ob_stocks_from_euronext() # fetches only oslo stocks via euron. public api
+        #import_ob_stocks_from_euronext() # fetches only oslo stocks via euron. public api
 
     end
 
