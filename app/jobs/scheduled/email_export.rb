@@ -25,7 +25,11 @@ module Jobs
 
 		users.each do |user|
 
-		 # puts "processing:" + user.email
+		user_email = ""
+	        user_email = UserEmail.where(user_id: user.ids[0])
+			
+		puts "processing:" + user_email
+			
 		  isInsider = false
 
 		  if group && GroupUser.where(user_id: user.ids[0], group_id: group.id).exists? 
@@ -53,8 +57,6 @@ module Jobs
 				puts sum_reads.to_s + " / " + post_count.to_s + " / " + like_avg.to_s + " / " + total_likes_received.to_s
 
 			end
-			
-		  user_email = UserEmail.where(user_id: user.ids[0])
 			
 		  subscriberInfo = '{
 			"email": "' + user_email + '",
