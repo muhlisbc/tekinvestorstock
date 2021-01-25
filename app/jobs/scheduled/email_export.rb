@@ -25,7 +25,7 @@ module Jobs
 
 		users.each do |user|
 
-	        user_email = ::UserEmail.find_by(user_id: user.id, primary: true)
+	        user_email = ::UserEmail.find_by(user_id: user.id, primary: true).email
 
 		if user_email == nil
 			user_email = ""
