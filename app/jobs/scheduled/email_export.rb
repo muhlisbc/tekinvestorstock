@@ -18,7 +18,7 @@ module Jobs
 
         puts "Finding all users"
 
-        users_all = User.find_in_batches(batch_size: 1000) do |users| # Drip has 1000 element limit in batches
+        users_all = User.order(id: :desc).find_in_batches(batch_size: 1000) do |users| # Drip has 1000 element limit in batches
 
 		subscribersListStart = '{"batches": [{"subscribers": ['
 		subscribersListEnd = '}]}]}'
