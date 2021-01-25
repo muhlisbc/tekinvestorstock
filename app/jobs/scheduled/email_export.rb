@@ -53,9 +53,11 @@ module Jobs
 				puts sum_reads.to_s + " / " + post_count.to_s + " / " + like_avg.to_s + " / " + total_likes_received.to_s
 
 			end
-
+			
+		  user_email = UserEmail.where(user_id: user.ids[0])
+			
 		  subscriberInfo = '{
-			"email": "' + user.email + '",
+			"email": "' + user_email + '",
 			"time_zone": "Europe/Copenhagen",
 			"custom_fields": {
 			  "insider": "' + isInsider.to_s + '",
