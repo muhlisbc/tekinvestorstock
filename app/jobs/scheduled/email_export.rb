@@ -25,10 +25,15 @@ module Jobs
 
 		users.each do |user|
 
-		user_email = ""
 	        user_email = UserEmail.where(user_id: user.ids[0])
-			
-		puts "processing:" + user_email
+
+		if user_email == nil
+			user_email = ""
+			puts user.ids[0]
+			puts "user_email nil"
+		end
+
+		puts "processing: ID: " + user.ids[0] + " " + user_email
 			
 		  isInsider = false
 
