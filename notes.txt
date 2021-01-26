@@ -1,6 +1,6 @@
 notes
 
-in stock.rb:
+in stock.rb: 
 
 - loop through all tagged stocks, find tickers
 - see if data for stock at yahoo
