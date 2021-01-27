@@ -15,14 +15,16 @@ module Jobs
         end
         
 	group = Group.find_by("lower(name) = ?", "insider")
-	subscribersListStart = '{"batches": [{"subscribers": ['
-	subscribersListEnd = '}]}]}'
+
 	    
         puts "Finding all users"
 
         users_all = User.order(id: :desc).find_in_batches(batch_size: 1000) do |users| # Drip has 1000 element limit in batches
 		
 #		puts "collection size: " + users.size.to_s
+		
+		subscribersListStart = '{"batches": [{"subscribers": ['
+		subscribersListEnd = '}]}]}'
 
 		users.each do |user|
 
@@ -79,14 +81,17 @@ module Jobs
 				}
 			  },'
 
-			  #puts subscriberInfo
+			  puts subscriberInfo
 
 			  subscribersListStart = subscribersListStart + subscriberInfo
 
 		end
+		
+		puts "subscribersListStart: " + subscribersListStart
 
 		subscribers = subscribersListStart.slice!(subscribersListStart.length-1,subscribersListStart.length) + subscribersListEnd #remove trailing ,
 		puts subscribers
+		
 		puts "submitting to drip.."
 		resp = client.create_or_update_subscribers(subscribers)
 		puts resp.inspect
