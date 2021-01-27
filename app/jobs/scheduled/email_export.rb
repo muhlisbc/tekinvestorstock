@@ -90,7 +90,7 @@ module Jobs
 		puts subscribers
 		puts "submitting to drip.."
 		resp = client.create_or_update_subscribers(subscribers)
-		puts resp
+		puts resp.inspect
 	end
 	    
         puts "import complete"
