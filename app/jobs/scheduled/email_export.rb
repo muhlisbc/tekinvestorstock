@@ -90,7 +90,7 @@ module Jobs
 		#puts "subscribersListStart: " + subscribersListStart
 
 		subscribers = subscribersListStart.chop + subscribersListEnd #remove trailing ,
-		#puts subscribers
+		puts subscribers
 		
 		puts "submitting to drip.."
 		resp = client.create_or_update_subscribers(subscribers)
