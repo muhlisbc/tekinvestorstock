@@ -24,7 +24,7 @@ module Jobs
 #		puts "collection size: " + users.size.to_s
 		
 		subscribersListStart = '{"batches": [{"subscribers": ['
-		subscribersListEnd = '}]}]}'
+		subscribersListEnd = ']}]}'
 
 		users.each do |user|
 
