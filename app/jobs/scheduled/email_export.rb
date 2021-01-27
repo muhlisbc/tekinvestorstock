@@ -31,8 +31,8 @@ module Jobs
 
 			if user_email == nil
 				user_email = ""
-				puts user.id.to_s
-				puts "user_email nil"
+				#puts user.id.to_s
+				#puts "user_email nil"
 			end
 
 			puts "processing: ID: " + user.id.to_s + " " + user_email.to_s
@@ -61,7 +61,7 @@ module Jobs
 					like_avg = results[0]["like_avg"]
 					total_likes_received = results[0]["total_likes_received"]
 
-					puts sum_reads.to_s + " / " + post_count.to_s + " / " + like_avg.to_s + " / " + total_likes_received.to_s
+					# puts sum_reads.to_s + " / " + post_count.to_s + " / " + like_avg.to_s + " / " + total_likes_received.to_s
 
 				end
 
