@@ -81,16 +81,16 @@ module Jobs
 				}
 			  },'
 
-			  puts subscriberInfo
+			  #puts subscriberInfo
 
 			  subscribersListStart = subscribersListStart + subscriberInfo
 
 		end
 		
-		puts "subscribersListStart: " + subscribersListStart
+		#puts "subscribersListStart: " + subscribersListStart
 
-		subscribers = subscribersListStart.slice!(subscribersListStart.length-1,subscribersListStart.length) + subscribersListEnd #remove trailing ,
-		puts subscribers
+		subscribers = subscribersListStart.chop + subscribersListEnd #remove trailing ,
+		#puts subscribers
 		
 		puts "submitting to drip.."
 		resp = client.create_or_update_subscribers(subscribers)
