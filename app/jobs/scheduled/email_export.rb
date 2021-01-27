@@ -15,15 +15,14 @@ module Jobs
         end
         
 	group = Group.find_by("lower(name) = ?", "insider")
-
+	subscribersListStart = '{"batches": [{"subscribers": ['
+	subscribersListEnd = '}]}]}'
+	    
         puts "Finding all users"
 
         users_all = User.order(id: :desc).find_in_batches(batch_size: 1000) do |users| # Drip has 1000 element limit in batches
 		
-		puts "collection size: " + users.size.to_s
-		
-		subscribersListStart = '{"batches": [{"subscribers": ['
-		subscribersListEnd = '}]}]}'
+#		puts "collection size: " + users.size.to_s
 
 		users.each do |user|
 
