@@ -90,10 +90,10 @@ module Jobs
 		#puts "subscribersListStart: " + subscribersListStart
 
 		subscribers = subscribersListStart.chop + subscribersListEnd #remove trailing ,
-		puts subscribers
+#		puts JSON.parse(subscribers)
 		
 		puts "submitting to drip.."
-		resp = client.create_or_update_subscribers(subscribers)
+		resp = client.create_or_update_subscribers(JSON.parse(subscribers))
 		puts resp.inspect
 	end
 	    
