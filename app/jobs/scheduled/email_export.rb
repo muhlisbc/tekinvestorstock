@@ -82,7 +82,7 @@ module Jobs
 			  },'
 				
 			  subscriber_array = 
-			  { 
+			  [ 
 				"email": "' + user_email + '",
 				"time_zone": "Europe/Copenhagen",
 				"custom_fields": {
@@ -94,7 +94,7 @@ module Jobs
 				  "total_likes_received": "' + total_likes_received.to_s + '",
 				  "created_at": "' + user.created_at.to_s + '",
 				  "last_seen_at": "' + user.last_seen_at.to_s + '"
-			  }
+			  ]
 
 			# An array of subscribers
 			subscribers_array = subscribers_array.push(subscriber_array)
