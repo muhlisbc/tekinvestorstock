@@ -22,7 +22,7 @@ module Jobs
         users_all = User.order(id: :desc).find_in_batches(batch_size: 1000) do |users| # Drip has 1000 element limit in batches
 		
 #		puts "collection size: " + users.size.to_s
-		
+		subscribers_array = []
 		subscribersListStart = '{"batches": [{"subscribers": ['
 		subscribersListEnd = ']}]}'
 
@@ -80,7 +80,25 @@ module Jobs
 				  "last_seen_at": "' + user.last_seen_at.to_s + '"
 				}
 			  },'
+				
+			  subscriber_array = 
+			  { 
+				"email": "' + user_email + '",
+				"time_zone": "Europe/Copenhagen",
+				"custom_fields": {
+				  "insider": "' + isInsider.to_s + '",
+				  "username": "' + user.username + '",
+				  "users_posts_read_x_times": "' + sum_reads.to_s + '",
+				  "post_count": "' + post_count.to_s + '",
+				  "likes_received_per_post": "' + like_avg.to_s + '",
+				  "total_likes_received": "' + total_likes_received.to_s + '",
+				  "created_at": "' + user.created_at.to_s + '",
+				  "last_seen_at": "' + user.last_seen_at.to_s + '"
+			  }
 
+			# An array of subscribers
+			subscribers_array = subscribers_array.push(subscriber_array)
+				  
 			  #puts subscriberInfo
 
 			  subscribersListStart = subscribersListStart + subscriberInfo
@@ -93,7 +111,8 @@ module Jobs
 #		puts JSON.parse(subscribers)
 		
 		puts "submitting to drip.."
-		resp = client.create_or_update_subscribers(JSON.parse(subscribers))
+#		resp = client.create_or_update_subscribers(JSON.parse(subscribers))
+		resp = client.create_or_update_subscribers(subscribers_array)
 		puts resp.inspect
 	end
 	    
