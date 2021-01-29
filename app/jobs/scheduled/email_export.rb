@@ -92,7 +92,7 @@ module Jobs
 			
 			  subscriber_hash = {
 				"email":  user_email,
-				"active": user.active,
+				"active": user.active.to_s,
 				"user_id": user.id, 
 				"time_zone": "Europe/Copenhagen",
 				"custom_fields": {
