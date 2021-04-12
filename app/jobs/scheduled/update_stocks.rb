@@ -4611,7 +4611,7 @@ def import_nasdaq_stocks ()
 
         uri = URI.parse("https://live.euronext.com/en/ajax/getIntradayPriceFilteredData/" + stock[1] + "-XOSL" + "?nbitems=1")
         http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
+        http.use_ssl = false
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
         request = Net::HTTP::Get.new(uri.request_uri)
