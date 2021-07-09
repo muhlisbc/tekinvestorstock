@@ -219,17 +219,17 @@ after_initialize do
           # return name, symbol, equity or index, stock exchange
           # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
           
-          # source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
+          source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
           
-          source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20')
+          # source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20')
           
           resp = Net::HTTP.get_response(URI.parse(source))
           data = resp.body
           result = JSON.parse(data)
 
           # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
-          #source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
-          source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20') + '.OL'
+          source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
+          #source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20') + '.OL'
           resp2 = Net::HTTP.get_response(URI.parse(source2))
           data2 = resp2.body
           result2 = JSON.parse(data2)
