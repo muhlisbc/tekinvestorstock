@@ -265,12 +265,12 @@ after_initialize do
             end
 
           end
-
+          
           stocks = important_stocks + the_rest
 
           #puts stocks
 
-          render json: stocks
+          render json: stocks[0]
 
       end
 
