@@ -270,7 +270,7 @@ after_initialize do
 
           #puts stocks
 
-          render json: results
+          render json: stocks
 
       end
 
