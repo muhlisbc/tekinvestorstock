@@ -327,12 +327,12 @@ var EasyAutocomplete=function(a){return a.Configuration=function(a){function b()
               return "/stock/symbol_search?ticker=" + phrase;
             },
             placeholder: "Legg til aksjene du vil følge...",
-            getValue: "name",
+            getValue: "longname",
             requestDelay: 100,
             template: {
               type: "custom",
               method: function(value, item) {
-                return "<span class='stock-search-symbol'>" + item.symbol + "</span><span class='stock-search-value'>" + value + "</span><span class='stock-search-exchange'>" + item.exchDisp + "</span>";
+                return "<span class='stock-search-symbol'>" + item.symbol + "</span><span class='stock-search-value'>" + value + "</span><span class='stock-search-exchange'>" + item.exchange + "</span>";
               }
             },
             list: {
