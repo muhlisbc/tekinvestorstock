@@ -228,7 +228,7 @@ after_initialize do
 
           # do it again to get Oslo stocks
 
-          source2 = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete?region=US&q=" + text + ".OL"
+          source2 = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete?region=US&q=" + params[:ticker] + ".OL"
 
           uri = URI.parse(source2)
           http = Net::HTTP.new(uri.host, uri.port)
