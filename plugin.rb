@@ -211,67 +211,67 @@ after_initialize do
           puts "searching for symbol.."
           puts params[:ticker]
         
-          #@stocks = 
-          # perform symbol search from yahoo 
+          source = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete?region=US&q=" + params[:ticker]
 
-          # http://d.yimg.com/aq/autoc?query=" + phrase + "&region=US&lang=en-US;
+          uri = URI.parse(source)
+          http = Net::HTTP.new(uri.host, uri.port)
+           #= "Authorization: key=34750c705518e0927e0e16f87f65ee60";
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          request_header = { "X-RapidAPI-Host" => "apidojo-yahoo-finance-v1.p.rapidapi.com", "X-RapidAPI-Key" => "ee6e3e1f1dmshe3286ace2bfae9ap12f657jsn9c02a0696281" }
+          request = Net::HTTP::Get.new(uri.request_uri, request_header)
+          result = http.request(request)
 
-          # return name, symbol, equity or index, stock exchange
-          # use stock exchange to generate country, show flags in dropdown (norway, swe, den, fin, uk, usa, germany, most common countries)
-          
-          source = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '&region=US&lang=en-US' # old way of doing it
-          
-          # source = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20')
-          
-          resp = Net::HTTP.get_response(URI.parse(source))
-          data = resp.body
-          result = JSON.parse(data)
+#         puts response
+          #puts result.body
+          result = JSON.parse(result.body)
 
-          # do another search with .OL as extension to force getting norwegian stocks (may not get hits in first try)
-          source2 = 'http://d.yimg.com/aq/autoc?query=' + params[:ticker] + '.OL&region=US&lang=en-US'
-          #source2 = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=' + params[:ticker].gsub(' ', '%20') + '.OL'
-          resp2 = Net::HTTP.get_response(URI.parse(source2))
-          data2 = resp2.body
-          result2 = JSON.parse(data2)
+          # do it again to get Oslo stocks
 
-#          puts result["ResultSet"]["Result"]
+          source2 = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/auto-complete?region=US&q=" + text + ".OL"
+
+          uri = URI.parse(source2)
+          http = Net::HTTP.new(uri.host, uri.port)
+           #= "Authorization: key=34750c705518e0927e0e16f87f65ee60";
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          request_header = { "X-RapidAPI-Host" => "apidojo-yahoo-finance-v1.p.rapidapi.com", "X-RapidAPI-Key" => "ee6e3e1f1dmshe3286ace2bfae9ap12f657jsn9c02a0696281" }
+          request = Net::HTTP::Get.new(uri.request_uri, request_header)
+          result2 = http.request(request)              
+          #puts result2.body
+
+
+          result2 = JSON.parse(result2.body)
+
 
           # sort by putting norwegian stocks first
           important_stocks = []
           the_rest = []
 
-          result["items"].each do |stock|
+          result["quotes"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
             else
-                the_rest.push(stock) #unless stock['symbol'].include? "^" # ^ character break the stock data fetcher, so skip all indexes like ^DJI etc
+                the_rest.push(stock)
             end
-            
+
           end
 
-          result2["items"].each do |stock|
+          result2["quotes"].each do |stock|
 
             if stock['symbol'].include? ".OL"
                 important_stocks.push(stock)
             end
-            
+
           end
 
           stocks = important_stocks + the_rest
 
-          
-
-          # todo, return results from yahoo in the below format (or else it won't work)
-
-          #@results =   '[ 
-            #{"name": "Funcom", "symbol": "FUNCOM.OL"}, 
-            #{"name": "Tesla Motors", "symbol": "TSLA"}
-          #]'
-          results = stocks.uniq.to_s.gsub! '=>', ':'
+          #puts stocks
 
           render json: results
-        
+
       end
 
       def is_user_insider
